@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="Bridge digital twin">
+	<meta name="author" content="Federica Gaspari">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>Bridge name</title>
+	<link rel="stylesheet" type="text/css" href="./libs/potree/potree.css">
+	<link rel="stylesheet" type="text/css" href="./libs/jquery-ui/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="./libs/openlayers3/ol.css">
+	<link rel="stylesheet" type="text/css" href="./libs/spectrum/spectrum.css">
+	<link rel="stylesheet" type="text/css" href="./libs/jstree/themes/mixed/style.css">
+</head>
+<body>
+	<script src="./libs/jquery/jquery-3.1.1.min.js"></script>
+	<script src="./libs/spectrum/spectrum.js"></script>
+	<script src="./libs/jquery-ui/jquery-ui.min.js"></script>
+	<script src="./libs/other/BinaryHeap.js"></script>
+	<script src="./libs/tween/tween.min.js"></script>
+	<script src="./libs/d3/d3.js"></script>
+	<script src="./libs/proj4/proj4.js"></script>
+	<script src="./libs/openlayers3/ol.js"></script>
+	<script src="./libs/i18next/i18next.js"></script>
+	<script src="./libs/jstree/jstree.js"></script>
+	<script src="./libs/potree/potree.js"></script>
+	<script src="./libs/plasio/js/laslaz.js"></script>
+	<!-- INCLUDE ADDITIONAL DEPENDENCIES HERE -->
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+	<!-- Defining header with title -->
+	<div id="header_panel">
+		<div id="header_title">
+			Protree Template - Example of a Bridge 3D data exploration
+		</div>
+	</div>
+	<!--Loading settings for Potree viewer-->
+	<div class="potree_container" style="position: relative; height:100%; width: 100%;">
+		<div id="potree_render_area" style="background-image: url('./build/potree/resources/images/background.jpg');">
+		</div>
+		<div id="potree_sidebar_container" style="width: 50%; height: 100%;"> </div>
+	</div>
+	<!-- Import POINTCLOUD-->
+	<script src="assets/js/pointcloud.js"></script>
+	<!-- Import ANNOTATIONS-->
+	<script src="assets/js/annotations.js"></script>
+	<!--Import ORIENTED IMAGES-->
+	<script src="assets/js/orientedcameras.js"></script>
+</body>
+</html>
