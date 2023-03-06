@@ -14,6 +14,8 @@ The repository and template has been defined for implementing the following feat
 * **Oriented images** on the model for direct exploration of drone images used for the reconstruction;
 * **Annotations** definition to highlight specific bridge elements, possibly embedding multimedia or actions in their descriptions.
 
+------------------------
+
 ## **Getting started**
 
 To start, sign in [Github](https://github.com/login)
@@ -67,6 +69,42 @@ Converted point clouds and ancillary files should be saved in this folder to pre
 ## **GUI definition**
 
 [TO DO]
+
+To style the header banner, in the [assets/css/style.css](https://github.com/Tars4815/protree/blob/main/assets/css/style.css) file the following CSS code is defined:
+
+```
+#header_panel {
+    width: 100%;
+    height: 5%;
+    background-color: #19282C;
+}
+
+#header_title {
+    color: #FFFFFF;
+    font-size: 80%;
+    font-weight: bold;
+    position: relative;
+    left: 100px;
+    Top: 20px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+```
+The *#* simbol before each name allows to define a specific style for specific div elements (through the so called *id*) in the viewer page definition. In particular:
+
+* **header_panel** is set by default as a dark blue-grey (*background-color*) banner whose *width* is always equal to the entire width of a web page in which the viewer is loaded, while its *height* correspond to the 5% of the web page height.
+
+* **header_title** is by default defining a white bold Georgia text (*color*, *font-weight*, *font-family*) whose position always refers to the div element in which it is contained. 
+
+In the [index.html](https://github.com/Tars4815/protree/blob/main/index.html) file the previously styled header banner is defined in the body section. To change the title to be displayed on the top of the page, simply change the text included within the div *header_title* element. 
+
+```
+<!-- Defining header with title -->
+	<div id="header_panel">
+		<div id="header_title">
+			Protree Template - Example of a Bridge 3D data exploration
+		</div>
+	</div>
+```
 
 ## **Pointcloud integration**
 
