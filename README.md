@@ -40,7 +40,29 @@ This will be the homepage of the Protree viewer. It contains the basic settings 
 
 ***assets***
 
-[TO DO]
+Decorative images and icons are collected in this folder. Additionally, two others subfolders contain files that are important to define the appearance and the custom functionalities of the viewer:
+
+* *CSS* with the stylesheet in CSS language defined for including in the GUI a header with a description and/or logo.
+
+* *JS* that includes JavaScript files for loading 3D products in the viewer.
+
+***img_selected***
+
+This folder is used to store and collect the oriented images that the viewer developer is willing to integrate on the platform. Together with the picture files, camera certificates and images orientation parameters are saved in this space.
+
+***libs***
+
+All libraries' dependencies for making functionable the viewer are saved in the sub-folders.
+
+***licenses***
+
+License specifications for the used libraries are descripted here.
+
+***pointclouds***
+
+Converted point clouds and ancillary files should be saved in this folder to preserve the template structure.
+
+---------------------
 
 ## **GUI definition**
 
