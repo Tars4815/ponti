@@ -30,6 +30,8 @@ After that, click on the green **Create repository from template** button,
 which will generate a new repository on your personal account
 (or the one of your choosing).
 
+To work locally on the project before loading it to a server, instead click on the **Code** button and then select the *Download ZIP* option. After unzipping the downloaded folder, copy everything in the htdocs folder of the xampp directory of your device for working in your local development environment. 
+
 This repository contains the following files:
 
 ***README.md***
@@ -68,7 +70,29 @@ Converted point clouds and ancillary files should be saved in this folder to pre
 
 ## **GUI definition**
 
-[TO DO]
+The [index.html](https://github.com/Tars4815/protree/blob/main/index.html) file includes the main settings for the web page that contains the custom Potree viewer. For example, information contained in this file defines the **title** that will appear on the browser window when the page is loaded as well as other important **metadata** regarding the content and/or the author(s) of the page. These settings are defined in the first lines in the *head* element:
+
+```
+...
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="Bridge digital twin">
+	<meta name="author" content="Federica Gaspari">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>Bridge name</title>
+	<link rel="stylesheet" type="text/css" href="./libs/potree/potree.css">
+	<link rel="stylesheet" type="text/css" href="./libs/jquery-ui/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="./libs/openlayers3/ol.css">
+	<link rel="stylesheet" type="text/css" href="./libs/spectrum/spectrum.css">
+	<link rel="stylesheet" type="text/css" href="./libs/jstree/themes/mixed/style.css">
+</head>
+...
+```
+When creating a new custom Potree viewer, change the content description according to your need as well as the content author. Then, change the text between the *title* tag by putting the name and/or location of the surveyed bridge. Leave everything else unchanges.
+
+An additional decoration of the main page consist in a banner on the upper part of the window with a custom text and, optionally, a logo. This element require a simple addition to the HTML and CSS page codes to define its content and appearance.
+
+![Protree banner example](./assets/protree-banner-example.jpg "Protree banner example")
 
 To style the header banner, in the [assets/css/style.css](https://github.com/Tars4815/protree/blob/main/assets/css/style.css) file the following CSS code is defined:
 
