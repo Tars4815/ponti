@@ -197,8 +197,45 @@ viewer.loadGUI(() => {
 
 ## **Annotations integration**
 
+Once loaded the point cloud in the Web Viewer as described [here](#pointcloud-integration), it is possible to add custom annotations with simple tricks from the Potree sidebar. This functionality is particularly useful if it is needed to highlights particular parts of the structure or if it is necessary to integrate actions or media.
+
+Before working on the code, explore the point cloud in the viewer, activate the **[Point Measurement Tool](https://potree-templates.readthedocs.io/en/latest/pages/getting-started.html#measurements)** and double-click in correspondence of the point where you'd like to locate the annotation. Hence, explore the *Scene* section in the Potree Sidebar and select the point measurement element. In the lower part of the section now you see the details of the measurement as well as the clicked point coordinates. Click on the copy icon next to the coordinates values: you will need this data to position your new annotation.
+
+<video src="./assets/point-measurement-coords.mp4" controls="controls" style="max-width: 400px;">
+</video>
+
+Then, it's time to open the [annotations.js](https://github.com/Tars4815/protree/blob/main/assets/js/annotations.js) file with a text editor to modify the position of the first default annotation. In order to do so, paste the copied coords within the squared brackets after ***position:*** in the code snippet below:
+
+```
+/* Annotations definition */
+{// Annotation 1
+    let Title01 = $(`
+                <span>
+                    Annotation 1
+                </span>
+                `); //Substitute "Annotation 1" with the desired Title text for your annotation
+    let annotation01 = new Potree.Annotation({
+        position: [593673.870, 5089120.772, 910.538],
+        title: Title01,
+        cameraPosition: [593661.279, 5089117.043, 907.581],
+        cameraTarget: [593673.870, 5089120.772, 910.538],
+        description: 'Visualizza tutte le foto di questo elemento cliccando sul simbolo <img src="./libs/potree/resources/icons/orbit_controls.svg" name="pila1_foto" class="annotation-action-icon" /></a> '
+    })
+    annotation01.visible = true; // Change this to false if you want to hide the annotations at first loading
+    bridgescene.annotations.add(annotation01); 
+    Title01.toString = () => "Annotation 1"; //Substitute "Annotation 1" with the desired Title text for your annotation: this will be shown in the scene sidebar section
+}
+...
+```
+
+If you'd like to change the name or the description of the annotation, insert the desired texts according to the comment in the code.
+
 [TO DO]
 
 ## **Extra**
 
 [TO DO]
+
+## **Acknowledgements**
+
+This template and its functionalities are the results of the research activities conducted by the LabMGF group in the context of collaborations with Provincia di Piacenza and Provincia di Brescia.

@@ -10,7 +10,7 @@
         title: Title01,
         cameraPosition: [593661.279, 5089117.043, 907.581],
         cameraTarget: [593673.870, 5089120.772, 910.538],
-        description: 'Visualizza tutte le foto di questo elemento cliccando sul simbolo <img src="./libs/potree/resources/icons/orbit_controls.svg" name="pila1_foto" class="annotation-action-icon" /></a> '
+        description: 'INSERT DESCRIPTION HERE'
     })
     annotation01.visible = true; // Change this to false if you want to hide the annotations at first loading
     bridgescene.annotations.add(annotation01);

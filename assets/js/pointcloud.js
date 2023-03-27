@@ -16,7 +16,7 @@ viewer.loadGUI(() => {
     let content = section.last();
     content.html(`
     <div class="pv-menu-list">
-        <li>TEXT</li>
+        <li>INSERT TEXT HERE</li>
     </div>
     `);
     content.hide();
