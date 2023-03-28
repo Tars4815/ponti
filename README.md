@@ -201,9 +201,7 @@ Once loaded the point cloud in the Web Viewer as described [here](#pointcloud-in
 
 Before working on the code, explore the point cloud in the viewer, activate the **[Point Measurement Tool](https://potree-templates.readthedocs.io/en/latest/pages/getting-started.html#measurements)** and double-click in correspondence of the point where you'd like to locate the annotation. Hence, explore the *Scene* section in the Potree Sidebar and select the point measurement element. In the lower part of the section now you see the details of the measurement as well as the clicked point coordinates. Click on the copy icon next to the coordinates values: you will need this data to position your new annotation.
 
-![Point measurement coords](./assets/point-measurement-coords.mp4)
-
-<video src="./assets/point-measurement-coords.mp4" controls="controls" style="max-width: 400px;"></video>
+![Point measurement coords](./assets/point-measurement-coords.gif)
 
 Then, it's time to open the [annotations.js](https://github.com/Tars4815/protree/blob/main/assets/js/annotations.js) file with a text editor to modify the position of the first default annotation. In order to do so, paste the copied coords within the squared brackets after ***position:*** in the code snippet below:
 
