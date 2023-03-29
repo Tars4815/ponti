@@ -101,7 +101,7 @@ When creating a new custom Potree viewer, change the content description accordi
 
 An additional decoration of the main page consist in a banner on the upper part of the window with a custom text and, optionally, a logo. This element require a simple addition to the HTML and CSS page codes to define its content and appearance.
 
-![Protree banner example](./assets/protree-banner-example.jpg "Protree banner example")
+![PONTI banner example](./assets/protree-banner-example.jpg "PONTI banner example")
 
 To style the header banner, in the [assets/css/style.css](https://github.com/labmgf-polimi/ponti/blob/main/assets/css/style.css) file the following CSS code is defined:
 
@@ -214,6 +214,11 @@ Before working on the code, explore the point cloud in the viewer, activate the 
 
 Then, it's time to open the [annotations.js](https://github.com/labmgf-polimi/ponti/blob/main/assets/js/annotations.js) file with a text editor to modify the position of the first default annotation. In order to do so, paste the copied coords within the squared brackets after ***position:*** in the code snippet below:
 
+If you'd like to change the name or the description of the annotation, insert the desired texts according to the comment in the code.
+
+Hence, to complete the procedure, you need to define the camera view to be set when the annotation is clicked in Potree. In order to do this, rotate and move the model view and look for the desired perspective. Then, in the *scene* section of the sidebar, click on **Camera**: you will make visible a new Properties panel in which the coordinates linked to the camera *position* and camera *target* location that defines the actual view in the scene will be displayed. Copy and paste these values in the code according to the comment.
+
+
 ```
 /* Annotations definition */
 {// Annotation 1
@@ -225,9 +230,9 @@ Then, it's time to open the [annotations.js](https://github.com/labmgf-polimi/po
     let annotation01 = new Potree.Annotation({
         position: [593673.870, 5089120.772, 910.538],
         title: Title01,
-        cameraPosition: [593661.279, 5089117.043, 907.581],
-        cameraTarget: [593673.870, 5089120.772, 910.538],
-        description: 'Visualizza tutte le foto di questo elemento cliccando sul simbolo <img src="./libs/potree/resources/icons/orbit_controls.svg" name="pila1_foto" class="annotation-action-icon" /></a> '
+        cameraPosition: [593661.279, 5089117.043, 907.581], //Substitute these values with the position ones obtained by clicking on the camera object in the scene sidebar section
+        cameraTarget: [593673.870, 5089120.772, 910.538], //Substitute these values with the target ones obtained by clicking on the camera object in the scene sidebar section
+        description: 'INSERT DESCRIPTION HERE' //Change the content of this according to the desired description
     })
     annotation01.visible = true; // Change this to false if you want to hide the annotations at first loading
     bridgescene.annotations.add(annotation01); 
@@ -236,9 +241,9 @@ Then, it's time to open the [annotations.js](https://github.com/labmgf-polimi/po
 ...
 ```
 
-If you'd like to change the name or the description of the annotation, insert the desired texts according to the comment in the code.
+If you'd like to define another annotation, copy the entire code block of the first annotation and paste it right in first row below it in the js script. Then modify it according to your need.
 
-[⚠ Section under construction ⚠]
+N.B.: Variable names should be unique!
 
 ## **Extra** 🌟
 
