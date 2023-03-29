@@ -218,6 +218,8 @@ If you'd like to change the name or the description of the annotation, insert th
 
 Hence, to complete the procedure, you need to define the camera view to be set when the annotation is clicked in Potree. In order to do this, rotate and move the model view and look for the desired perspective. Then, in the *scene* section of the sidebar, click on **Camera**: you will make visible a new Properties panel in which the coordinates linked to the camera *position* and camera *target* location that defines the actual view in the scene will be displayed. Copy and paste these values in the code according to the comment.
 
+![Camera view coordinates](./assets/ponti-camera-view.jpg "Camera view coordinates")
+
 
 ```
 /* Annotations definition */
