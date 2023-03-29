@@ -1,10 +1,10 @@
-# **protree**
+# **PONTI Template**
 
-A custom Potree template for sharing survey products of provincial bridges.
+**Potree platfOrm for iNfrasTructure Inspection** (PONTI) is a custom Potree template for sharing survey products of provincial bridges.
 
-![Protree example](./assets/protree-cover-image.jpg "Protree example")
+![Ponti example](./assets/protree-cover-image.jpg "PONTI example")
 
-## **About**
+## **About** ℹ
 
 This template aims to simplify the procedure for building Potree-based platform for bridge survey data sharing.
 
@@ -14,12 +14,21 @@ The repository and template has been defined for implementing the following feat
 * **Oriented images** on the model for direct exploration of drone images used for the reconstruction;
 * **Annotations** definition to highlight specific bridge elements, possibly embedding multimedia or actions in their descriptions.
 
+## **Table of contents** 📋
+
+1. **[Getting started](#getting-started)**
+2. **[GUI Definition](#gui-definition)**
+3. **[Pointclouds integration](#pointcloud-integration)**
+4. **[Oriented cameras integration](#oriented-cameras-integration)**
+5. **[Annotations integration](#annotations-integration)**
+6. **[Extra features](#extra)**
+
 ------------------------
 
-## **Getting started**
+## **Getting started** 🛠
 
 To start, sign in [Github](https://github.com/login)
-and navigate to the [Protree GitHub template](https://github.com/Tars4815/protree),
+and navigate to the [PONTI GitHub template](https://github.com/labmgf-polimi/ponti),
 where you will see a green **Use this template** button.
 Click it to open a new page that will ask you for some details:
 
@@ -68,9 +77,9 @@ Converted point clouds and ancillary files should be saved in this folder to pre
 
 ---------------------
 
-## **GUI definition**
+## **GUI definition** 💻
 
-The [index.html](https://github.com/Tars4815/protree/blob/main/index.html) file includes the main settings for the web page that contains the custom Potree viewer. For example, information contained in this file defines the **title** that will appear on the browser window when the page is loaded as well as other important **metadata** regarding the content and/or the author(s) of the page. These settings are defined in the first lines in the *head* element:
+The [index.html](https://github.com/labmgf-polimi/ponti/blob/main/index.html) file includes the main settings for the web page that contains the custom Potree viewer. For example, information contained in this file defines the **title** that will appear on the browser window when the page is loaded as well as other important **metadata** regarding the content and/or the author(s) of the page. These settings are defined in the first lines in the *head* element:
 
 ```
 ...
@@ -94,7 +103,7 @@ An additional decoration of the main page consist in a banner on the upper part 
 
 ![Protree banner example](./assets/protree-banner-example.jpg "Protree banner example")
 
-To style the header banner, in the [assets/css/style.css](https://github.com/Tars4815/protree/blob/main/assets/css/style.css) file the following CSS code is defined:
+To style the header banner, in the [assets/css/style.css](https://github.com/labmgf-polimi/ponti/blob/main/assets/css/style.css) file the following CSS code is defined:
 
 ```
 #header_panel {
@@ -119,7 +128,7 @@ The *#* simbol before each name allows to define a specific style for specific d
 
 * **header_title** is by default defining a white bold Georgia text (*color*, *font-weight*, *font-family*) whose position always refers to the div element in which it is contained. 
 
-In the [index.html](https://github.com/Tars4815/protree/blob/main/index.html) file the previously styled header banner is defined in the body section. To change the title to be displayed on the top of the page, simply change the text included within the div *header_title* element. 
+In the [index.html](https://github.com/labmgf-polimi/ponti/blob/main/index.html) file the previously styled header banner is defined in the body section. To change the title to be displayed on the top of the page, simply change the text included within the div *header_title* element. 
 
 ```
 <!-- Defining header with title -->
@@ -130,7 +139,7 @@ In the [index.html](https://github.com/Tars4815/protree/blob/main/index.html) fi
 	</div>
 ```
 
-## **Pointcloud integration**
+## **Pointcloud integration** ☁
 
 Before proceeding with this step, make sure you have finished the reconstruction processing of the 3D model of the bridge and obtained a point cloud of the structure in .las format. Once this product is obtained, you could convert the .las cloud using one of the method described in [this documentation of Potree](https://potree-templates.readthedocs.io/en/latest/pages/potree.html#pointcloud-conversion).
 
@@ -145,7 +154,7 @@ converted_pointcloud_folder
 
 ```
 
-Copy the whole folder and paste it inside the *pointclouds* folder. Then, open the [pointcloud.js](https://github.com/Tars4815/protree/blob/main/assets/js/pointcloud.js) file with a text editor.
+Copy the whole folder and paste it inside the *pointclouds* folder. Then, open the [pointcloud.js](https://github.com/labmgf-polimi/ponti/blob/main/assets/js/pointcloud.js) file with a text editor.
 
 Now you need to refer to the newly converted file in this js code file, enabling its correct visualization in the Potree Viewer. In order to do so, look for the *Loading point cloud data and its setting for rendering in Potree Viewer* comment section in the script.
 This part of the file load the pointcloud in json format through the ***loadPointCloud*** function. In order to correctly refer to the newly converted cloud and visualise it in RGB mode, modify the code as below:
@@ -191,11 +200,11 @@ viewer.loadGUI(() => {
 });
 ```
 
-## **Oriented cameras integration**
+## **Oriented cameras integration** 📷
 
-[TO DO]
+[⚠ Section under construction ⚠]
 
-## **Annotations integration**
+## **Annotations integration** 📝
 
 Once loaded the point cloud in the Web Viewer as described [here](#pointcloud-integration), it is possible to add custom annotations with simple tricks from the Potree sidebar. This functionality is particularly useful if it is needed to highlights particular parts of the structure or if it is necessary to integrate actions or media.
 
@@ -203,7 +212,7 @@ Before working on the code, explore the point cloud in the viewer, activate the 
 
 ![Point measurement coords](./assets/point-measurement-coords.gif)
 
-Then, it's time to open the [annotations.js](https://github.com/Tars4815/protree/blob/main/assets/js/annotations.js) file with a text editor to modify the position of the first default annotation. In order to do so, paste the copied coords within the squared brackets after ***position:*** in the code snippet below:
+Then, it's time to open the [annotations.js](https://github.com/labmgf-polimi/ponti/blob/main/assets/js/annotations.js) file with a text editor to modify the position of the first default annotation. In order to do so, paste the copied coords within the squared brackets after ***position:*** in the code snippet below:
 
 ```
 /* Annotations definition */
@@ -229,12 +238,12 @@ Then, it's time to open the [annotations.js](https://github.com/Tars4815/protree
 
 If you'd like to change the name or the description of the annotation, insert the desired texts according to the comment in the code.
 
-[TO DO]
+[⚠ Section under construction ⚠]
 
-## **Extra**
+## **Extra** 🌟
 
-[TO DO]
+[⚠ Section under construction ⚠]
 
-## **Acknowledgements**
+## **Acknowledgements** 
 
 This template and its functionalities are the results of the research activities conducted by the LabMGF group in the context of collaborations with Provincia di Piacenza and Provincia di Brescia.
