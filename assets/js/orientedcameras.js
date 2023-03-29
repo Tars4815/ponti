@@ -1,8 +1,8 @@
 /* Loading oriented images chunks */
 /* First chunk of images */
 /* Setting the paths for camera parameters and images list */
-const cameraParamsPathPila1 = "./img_selected/chunk1/camera_P1.xml";
-const imageParamsPathPila1 = "./img_selected/chunk1/camera_P1.txt";
+const cameraParamsPathPila1 = "./img_selected/chunk1/camera_parameters.xml";
+const imageParamsPathPila1 = "./img_selected/chunk1/orientedimages.txt";
 
 Potree.OrientedImageLoader.load(cameraParamsPathPila1, imageParamsPathPila1, viewer).then(images => {
     images.visible = true;
