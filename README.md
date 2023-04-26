@@ -2,6 +2,8 @@
 
 **Potree platfOrm for iNfrasTructure Inspection** (PONTI) is a custom Potree template for sharing survey products of provincial bridges.
 
+The template is based on the open-source JavaScript library [Potree](https://github.com/potree/potree) by Markus Schütz.
+
 ![Ponti example](./assets/protree-cover-image.jpg "PONTI example")
 
 ## **About** ℹ
@@ -307,10 +309,15 @@ If you'd like to define another annotation, copy the entire code block of the fi
 
 N.B.: Variable names should be unique!
 
-## **Extra** 🌟
+ ## **Extra** 🌟
 
 [⚠ Section under construction ⚠]
 
 ## **Acknowledgements** 
 
 This template and its functionalities are the results of the research activities conducted by the LabMGF group in the context of collaborations with Provincia di Piacenza and Provincia di Brescia.
+
+## **References**
+
+* [Potree: Rendering Large Point Clouds in Web Browsers](https://www.cg.tuwien.ac.at/research/publications/2016/SCHUETZ-2016-POT/SCHUETZ-2016-POT-thesis.pdf) (2016)
+* [Fast Out-of-Core Octree Generation for Massive Point Clouds](https://www.cg.tuwien.ac.at/research/publications/2020/SCHUETZ-2020-MPC/) (2020)
