@@ -141,48 +141,6 @@
 		}
 	};
 
-	//Potree.Actions = {};
-	//
-	//Potree.Actions.ToggleAnnotationVisibility = class ToggleAnnotationVisibility extends Potree.Action {
-	//	constructor (args = {}) {
-	//		super(args);
-	//
-	//		this.icon = Potree.resourcePath + '/icons/eye.svg';
-	//		this.showIn = 'sidebar';
-	//		this.tooltip = 'toggle visibility';
-	//	}
-	//
-	//	pairWith (annotation) {
-	//		if (annotation.visible) {
-	//			this.setIcon(Potree.resourcePath + '/icons/eye.svg');
-	//		} else {
-	//			this.setIcon(Potree.resourcePath + '/icons/eye_crossed.svg');
-	//		}
-	//
-	//		annotation.addEventListener('visibility_changed', e => {
-	//			let annotation = e.annotation;
-	//
-	//			if (annotation.visible) {
-	//				this.setIcon(Potree.resourcePath + '/icons/eye.svg');
-	//			} else {
-	//				this.setIcon(Potree.resourcePath + '/icons/eye_crossed.svg');
-	//			}
-	//		});
-	//	}
-	//
-	//	onclick (event) {
-	//		let annotation = event.annotation;
-	//
-	//		annotation.visible = !annotation.visible;
-	//
-	//		if (annotation.visible) {
-	//			this.setIcon(Potree.resourcePath + '/icons/eye.svg');
-	//		} else {
-	//			this.setIcon(Potree.resourcePath + '/icons/eye_crossed.svg');
-	//		}
-	//	}
-	//};
-
 	// threejs.org/license
 	const REVISION = '124';
 	const MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
@@ -55702,7 +55660,7 @@
 			this.boundingBox = new Box3();
 
 			let iconClose = exports.resourcePath + '/icons/close.svg';
-
+			// Modifica bottone EDIT
 			this.domElement = $(`
 			<div class="annotation" oncontextmenu="return false;">
 				<div class="annotation-titlebar">
@@ -55711,6 +55669,7 @@
 				<div class="annotation-description">
 					<span class="annotation-description-close">
 						<img src="${iconClose}" width="16px">
+						<a href="edit.php?id=<?php echo $row['id'] ?>" class="btn btn-primary">Edit</a>
 					</span>
 					<span class="annotation-description-content">${this._description}</span>
 				</div>

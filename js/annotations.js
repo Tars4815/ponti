@@ -26,12 +26,3 @@ createAnnotation(
     [593673.870, 5089120.772, 910.538],
     'Insert description here!'
 )
-//Annotation example 2
-createAnnotation(
-    bridgescene,
-    "Annotation 2",
-    [593610.154, 5089104.605, 913.118],
-    [593618.588, 5089107.116, 910.433],
-    [593610.154, 5089104.605, 913.118],
-    'Insert description here!'
-)

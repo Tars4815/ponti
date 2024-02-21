@@ -28,7 +28,7 @@ let bridgescene = new Potree.Scene();
 /* Set scene to be loaded in the Potree Viewer */
 viewer.setScene(bridgescene);
 /* Loading point cloud data and its setting for rendering in Potree Viewer */
-Potree.loadPointCloud("./pointclouds/cloud01/metadata.json", "Bridge cloud", e => {
+Potree.loadPointCloud("./pointclouds/metadata.json", "Bridge cloud", e => {
     let pointcloud = e.pointcloud;
     let material = pointcloud.material;
     material.size = 0.6;
