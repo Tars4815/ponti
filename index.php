@@ -62,12 +62,38 @@
 	<!-- Import ANNOTATIONS-->
 	<script src="js/annotations.js"></script>
 	<!--Import ORIENTED IMAGES-->
-	<script src="js/orientedcameras.js"></script>
+	<!--<script src="js/orientedcameras.js"></script>-->
 	<!--Testing new annotation form-->
 	<!-- Your existing HTML structure -->
 	<button id="addAnnotationBtn">Add Annotation</button>
 	<!-- Add this script to handle the button click and show the form -->
 	<script>
+		// Load existing annotations from the server
+		$.ajax({
+			type: "GET",
+			url: "load_annotations.php", // Adjust the URL based on your file structure
+			dataType: "json",
+			success: function (existingAnnotations) {
+				// Assuming bridgescene is available globally, adjust if needed
+				let scene = bridgescene;
+
+				// Create Potree annotations for each existing record
+				existingAnnotations.forEach(annotation => {
+					createAnnotation(
+						scene,
+						annotation.title,
+						[annotation.pos_x, annotation.pos_y, annotation.pos_z],
+						[annotation.campos_x, annotation.campos_y, annotation.campos_z],
+						[annotation.tarpos_x, annotation.tarpos_y, annotation.tarpos_z],
+						annotation.description
+					);
+				});
+			},
+			error: function (error) {
+				console.error("Error loading existing annotations:", error);
+			}
+		});
+
 		$(document).ready(function () {
 			$("#addAnnotationBtn").click(function () {
 				// Display the annotation form panel
