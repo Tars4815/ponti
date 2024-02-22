@@ -118,17 +118,20 @@
 					try {
 						camPositionArray = window.viewer.scene.getActiveCamera().position.toArray();
 						console.log("Camera Position:", camPositionArray);
+						camTargetArray = window.viewer.scene.view.getPivot().toArray();
+						console.log("Target Position:", camTargetArray);
 					} catch (error) {
 						console.error("Error getting camera position:", error);
+						console.error("Error getting target position:", error);
 					}
 				} else {
 					console.error("Viewer not properly initialized. Make sure 'window.viewer' is defined.");
 				}
 
-				saveAnnotation(title, description, positionArray, camPositionArray);
+				saveAnnotation(title, description, positionArray, camPositionArray, camTargetArray);
 			}
 
-			function saveAnnotation(title, description, positionArray, camPositionArray) {
+			function saveAnnotation(title, description, positionArray, camPositionArray, camTargetArray) {
 				// Use AJAX to send data to the PHP script for insertion
 				$.ajax({
 					type: "POST",
@@ -142,9 +145,9 @@
 						campos_x: camPositionArray[0],
 						campos_y: camPositionArray[1],
 						campos_z: camPositionArray[2],
-						tarpos_x: positionArray[0],
-						tarpos_y: positionArray[1],
-						tarpos_z: positionArray[2],
+						tarpos_x: camTargetArray[0],
+						tarpos_y: camTargetArray[1],
+						tarpos_z: camTargetArray[2],
 						// Add additional parameters as needed
 					},
 					success: function (response) {
@@ -153,7 +156,7 @@
 							title,
 							positionArray,
 							camPositionArray,
-							positionArray,  // You can set camera target to camera position or adjust as needed
+							camTargetArray,  // You can set camera target to camera position or adjust as needed
 							description
 						);
 					},
