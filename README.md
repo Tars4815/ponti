@@ -311,6 +311,16 @@ N.B.: Variable names should be unique!
 
  ## **Extra** 🌟
 
+Features currently under development:
+
+- [x] Database connection
+- [ ] DB sync of new annotations
+- [ ] DB sync of modified annotations
+- [ ] DB sync of deleted annotations
+- [ ] DB sync for loading existing annotations
+- [ ] Definition of custom form for annoration creation/modification
+- [ ] Definition of different annoatation classes
+
 [⚠ Section under construction ⚠]
 
 ## **Acknowledgements** 
