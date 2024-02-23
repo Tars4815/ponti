@@ -314,8 +314,8 @@ N.B.: Variable names should be unique!
 Features currently under development:
 
 - [x] Database connection
-- [ ] DB sync of new annotations
-- [ ] DB sync of modified annotations
+- [x] DB sync of new annotations
+- [x] DB sync of modified annotations
 - [ ] DB sync of deleted annotations
 - [ ] DB sync for loading existing annotations
 - [ ] Definition of custom form for annoration creation/modification

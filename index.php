@@ -78,6 +78,7 @@
 				// Create Potree annotations for each existing record
 				existingAnnotations.forEach(annotation => {
 					createAnnotation(
+						annotation.id,
 						scene,
 						annotation.title,
 						[annotation.pos_x, annotation.pos_y, annotation.pos_z],
@@ -148,8 +149,10 @@
 						tarpos_z: camTargetArray[2],
 						// Add additional parameters as needed
 					},
-					success: function (response) {
+					success: function (id) {
+						// Use the returned ID to create the annotation
 						createAnnotation(
+							id,
 							bridgescene,  // Assuming bridgescene is accessible globally
 							title,
 							positionArray,
