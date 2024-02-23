@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tarpos_z = $_POST["tarpos_z"];
 
     // Insert data into the annotations table
-    $query = "INSERT INTO annotations (title, pos_x, pos_y, pos_z, campos_x, campos_y, campos_z, tarpos_x, tarpos_y, tarpos_z) VALUES ('$title', $pos_x, $pos_y, $pos_z, $campos_x, $campos_y, $campos_z, $tarpos_x, $tarpos_y, $tarpos_z)";
+    $query = "INSERT INTO annotations (title, description, pos_x, pos_y, pos_z, campos_x, campos_y, campos_z, tarpos_x, tarpos_y, tarpos_z) VALUES ('$title', '$description', $pos_x, $pos_y, $pos_z, $campos_x, $campos_y, $campos_z, $tarpos_x, $tarpos_y, $tarpos_z)";
     
     $result = pg_query($connection, $query);
 

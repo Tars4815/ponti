@@ -51,8 +51,6 @@
 		exit;
 	}
 
-
-
 	// Close the database connection
 	pg_close($connection);
 

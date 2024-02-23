@@ -14,15 +14,7 @@ function createAnnotation(scene, titleText, position, cameraPosition, cameraTarg
     annotation.visible = true;
     // Add the annotation to the scene
     scene.annotations.add(annotation);
-    // Override toString method for title element
+    // Override toString method for the title element
     titleElement.toString = () => titleText;
 }
-// Annotation example 1
-createAnnotation(
-    bridgescene,
-    "Annotation 1",
-    [593673.870, 5089120.772, 910.538],
-    [593661.279, 5089117.043, 907.581],
-    [593673.870, 5089120.772, 910.538],
-    'Insert description here!'
-)
+
