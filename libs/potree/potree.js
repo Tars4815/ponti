@@ -55660,7 +55660,8 @@
 			this.boundingBox = new Box3();
 
 			let iconClose = exports.resourcePath + '/icons/close.svg';
-			// Modifica bottone EDIT
+			// MODIFICA bottone EDIT
+			// Create Edit button
 			this.domElement = $(`
 			<div class="annotation" oncontextmenu="return false;">
 				<div class="annotation-titlebar">
@@ -55669,12 +55670,16 @@
 				<div class="annotation-description">
 					<span class="annotation-description-close">
 						<img src="${iconClose}" width="16px">
-						<a href="edit.php?id=<?php echo $row['id'] ?>" class="btn btn-primary">Edit</a>
+			
 					</span>
 					<span class="annotation-description-content">${this._description}</span>
+					<button class="annotation-edit-button">Edit</button>
 				</div>
 			</div>
 		`);
+			// Find the button after the element has been added to the DOM
+			let editButton = this.domElement.find('.annotation-edit-button');
+			editButton.click(() => showEditForm(this));
 
 			this.elTitlebar = this.domElement.find('.annotation-titlebar');
 			this.elTitle = this.elTitlebar.find('.annotation-label');

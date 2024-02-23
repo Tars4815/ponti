@@ -1,6 +1,6 @@
 /* Annotations definition */
-function createAnnotation(id, scene, titleText, position, cameraPosition, cameraTarget, description) {
-    // Create title element
+function createAnnotation(id, scene, titleText, position, cameraPosition, cameraTarget, descriptionText) {
+    // Create title and description elements
     let titleElement = $(`<span>${titleText}</span>`);
     // Create Potree.Annotation instance
     let annotation = new Potree.Annotation({
@@ -8,7 +8,7 @@ function createAnnotation(id, scene, titleText, position, cameraPosition, camera
         title: titleElement,
         cameraPosition: cameraPosition,
         cameraTarget: cameraTarget,
-        description: description
+        description: descriptionText
     });
     // Assigning unique ID from database
     annotation.customId = id;
@@ -18,16 +18,6 @@ function createAnnotation(id, scene, titleText, position, cameraPosition, camera
     scene.annotations.add(annotation);
     // Override toString method for the title element
     titleElement.toString = () => titleText;
-
-    //MODIFICA EDIT BBUTTON
-    // Create Edit button
-    let editButton = $(`<button>Edit</button>`);
-    editButton.click(() => showEditForm(annotation));
-
-    // Add the Edit button to the title element
-    titleElement.append(editButton);
-
-    // ... (existing code)
 }
 
 function showEditForm(annotation) {
