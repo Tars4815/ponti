@@ -55672,8 +55672,9 @@
 						<img src="${iconClose}" width="16px">
 			
 					</span>
-					<span class="annotation-description-content">${this._description}</span>
+					<span class="annotation-description-content">${this._description}</span><br>
 					<button class="annotation-edit-button">Edit</button>
+					<button class="annotation-delete-button">Delete</button>
 				</div>
 			</div>
 		`);

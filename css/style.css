@@ -44,3 +44,33 @@
     filter: invert(1);
     background-color: #FFFFFF;
 }
+
+/* Style for the Edit button */
+.annotation-edit-button {
+    background-color: black;
+    color: white;
+    border: 1px solid white; /* Border color when not hovered */
+    padding: 5px 10px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+}
+
+/* Hover effect for the Edit button */
+.annotation-edit-button:hover {
+    border: 1px solid yellow; /* Border color on hover */
+}
+
+/* Style for the Edit button */
+.annotation-delete-button {
+    background-color: red;
+    color: white;
+    border: 1px solid white; /* Border color when not hovered */
+    padding: 5px 10px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+}
+
+/* Hover effect for the Edit button */
+.annotation-delete-button:hover {
+    border: 1px solid yellow; /* Border color on hover */
+}

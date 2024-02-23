@@ -317,8 +317,8 @@ Features currently under development:
 - [x] DB sync of new annotations
 - [x] DB sync of modified annotations
 - [ ] DB sync of deleted annotations
-- [ ] DB sync for loading existing annotations
-- [ ] Definition of custom form for annoration creation/modification
+- [x] DB sync for loading existing annotations
+- [ ] Definition of custom form for annotation creation/modification
 - [ ] Definition of different annoatation classes
 
 [⚠ Section under construction ⚠]
@@ -331,3 +331,4 @@ This template and its functionalities are the results of the research activities
 
 * [Potree: Rendering Large Point Clouds in Web Browsers](https://www.cg.tuwien.ac.at/research/publications/2016/SCHUETZ-2016-POT/SCHUETZ-2016-POT-thesis.pdf) (2016)
 * [Fast Out-of-Core Octree Generation for Massive Point Clouds](https://www.cg.tuwien.ac.at/research/publications/2020/SCHUETZ-2020-MPC/) (2020)
+* Gaspari, F., Barbieri, F., Duque, J. P., Fascia, R., Ioli, F., Zani, G., Carrion, D., and Pinto, L.: A GEO-DATABASE FOR 3D-AIDED MULTI-EPOCH DOCUMENTATION OF BRIDGE INSPECTIONS, *Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci.*, XLVIII-1/W2-2023, 299–306, https://doi.org/10.5194/isprs-archives-XLVIII-1-W2-2023-299-2023, 2023
