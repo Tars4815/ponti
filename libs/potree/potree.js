@@ -55681,6 +55681,9 @@
 			// Find the button after the element has been added to the DOM
 			let editButton = this.domElement.find('.annotation-edit-button');
 			editButton.click(() => showEditForm(this));
+			// Find the button after the element has been added to the DOM
+			let deleteButton = this.domElement.find('.annotation-delete-button');
+			deleteButton.click(() => deleteAnnotation(this));
 
 			this.elTitlebar = this.domElement.find('.annotation-titlebar');
 			this.elTitle = this.elTitlebar.find('.annotation-label');

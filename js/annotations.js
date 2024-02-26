@@ -53,3 +53,40 @@ function updateAnnotationInDatabase(id, newTitle, newDescription) {
         }
     });
 }
+
+function deleteAnnotation(annotation) {
+    let confirmation = confirm("Are you sure you want to delete this annotation?");
+    
+    if (confirmation) {
+        // Assuming you have an 'id' property assigned to the annotation
+        let annotationId = annotation.customId;
+
+        // Call a function to remove the annotation from the scene
+        removeAnnotationFromScene(annotation);
+
+        // Call a function to delete the record from the database
+        deleteAnnotationFromDatabase(annotationId);
+    }
+}
+
+function removeAnnotationFromScene(annotation) {
+    // Code to remove the annotation from the Potree scene
+    viewer.scene.annotations.remove(annotation);
+}
+
+function deleteAnnotationFromDatabase(annotationId) {
+    // Use AJAX to send a request to delete the record from the database
+    $.ajax({
+        type: "POST",
+        url: "delete_annotation.php",
+        data: {
+            id: annotationId,
+        },
+        success: function (response) {
+            console.log("Annotation deleted from the database");
+        },
+        error: function (error) {
+            console.error("Error deleting annotation:", error);
+        }
+    });
+}
