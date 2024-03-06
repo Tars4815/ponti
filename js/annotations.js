@@ -1,4 +1,15 @@
-/* Annotations definition */
+/**
+ * Create and add a Potree annotation to the scene with the provided information.
+ *
+ * @param {number} id - Unique identifier for the annotation.
+ * @param {object} scene - The Potree scene in which the annotation will be added.
+ * @param {string} titleText - Text for the title of the annotation.
+ * @param {number[]} position - Array containing x, y, z coordinates of the annotation position.
+ * @param {number[]} cameraPosition - Array containing x, y, z coordinates of the camera position.
+ * @param {number[]} cameraTarget - Array containing x, y, z coordinates of the camera target.
+ * @param {string} descriptionText - Text for the description of the annotation.
+ * @throws {Error} Will throw an error if there's an issue creating or adding the annotation to the scene.
+ */
 function createAnnotation(
   id,
   scene,
@@ -28,6 +39,16 @@ function createAnnotation(
   titleElement.toString = () => titleText;
 }
 
+/**
+ * Save annotation in the database and create a corresponding annotation in the scene.
+ *
+ * @param {string} title - Title of the annotation.
+ * @param {string} description - Description of the annotation.
+ * @param {number[]} positionArray - Array containing x, y, z coordinates of the annotation position.
+ * @param {number[]} camPositionArray - Array containing x, y, z coordinates of the camera position.
+ * @param {number[]} camTargetArray - Array containing x, y, z coordinates of the camera target.
+ * @throws {Error} Will throw an error if there's an issue saving the annotation.
+ */
 function saveAnnotation(
   title,
   description,
@@ -71,8 +92,14 @@ function saveAnnotation(
   });
 
   console.log("Annotation created");
-}
+} 
 
+/**
+ * Display the custom form for editing an existing annotation and update the annotation in the scene and database.
+ *
+ * @param {object} annotation - The annotation object containing information to be edited.
+ * @throws {Error} Will throw an error if there's an issue updating the annotation in the scene or database.
+ */
 function showEditForm(annotation) {
   // Populate the custom form fields with existing annotation data
   document.getElementById("title").value = annotation.title;
@@ -151,6 +178,17 @@ function showEditForm(annotation) {
     });
 }
 
+/**
+ * Update an existing annotation in the database and create a corresponding annotation in the scene.
+ *
+ * @param {number} id - Unique identifier of the annotation to be updated.
+ * @param {string} newTitle - New title for the updated annotation.
+ * @param {string} newDescription - New description for the updated annotation.
+ * @param {number[]} newPositionArray - Array containing x, y, z coordinates of the updated annotation position.
+ * @param {number[]} camPositionArray - Array containing x, y, z coordinates of the camera position.
+ * @param {number[]} camTargetArray - Array containing x, y, z coordinates of the camera target.
+ * @throws {Error} Will throw an error if there's an issue updating the annotation in the database or creating it in the scene.
+ */
 function updateAnnotationInDatabase(
   id,
   newTitle,
@@ -191,6 +229,12 @@ function updateAnnotationInDatabase(
   });
 }
 
+/**
+ * Prompt the user for confirmation and delete an annotation from the scene and database if confirmed.
+ *
+ * @param {object} annotation - The annotation object to be deleted.
+ * @throws {Error} Will throw an error if there's an issue removing the annotation from the scene or deleting it from the database.
+ */
 function deleteAnnotation(annotation) {
   let confirmation = confirm(
     "Are you sure you want to delete this annotation?"
@@ -205,11 +249,23 @@ function deleteAnnotation(annotation) {
   }
 }
 
+/**
+ * Remove an annotation from the Potree scene.
+ *
+ * @param {object} annotation - The annotation object to be removed from the scene.
+ * @throws {Error} Will throw an error if there's an issue removing the annotation from the scene.
+ */
 function removeAnnotationFromScene(annotation) {
   // Code to remove the annotation from the Potree scene
   viewer.scene.annotations.remove(annotation);
 }
 
+/**
+ * Delete an annotation record from the database using AJAX.
+ *
+ * @param {number} annotationId - The unique identifier of the annotation record to be deleted.
+ * @throws {Error} Will throw an error if there's an issue deleting the annotation record from the database.
+ */
 function deleteAnnotationFromDatabase(annotationId) {
   // Use AJAX to send a request to delete the record from the database
   $.ajax({
@@ -320,7 +376,14 @@ $("#submitAnnotation").click(function () {
   submitButton.style.display = "none";
 });
 
-// Add a click event handler to the #pickPointButton button
+/**
+ * Add a click event handler to the #pickPointButton button to pick a point in the Potree viewer.
+ *
+ * The handler initiates the measuring tool to pick a single point and updates the input box with the selected point's coordinates.
+ *
+ * @listens click
+ * @throws {Error} Will throw an error if there's an issue initiating the measuring tool or updating the input box.
+ */
 $("#pickPointButton").click(function () {
   const measurement = viewer.measuringTool.startInsertion({
     showDistances: false,
