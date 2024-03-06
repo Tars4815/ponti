@@ -17,7 +17,8 @@ function createAnnotation(
   position,
   cameraPosition,
   cameraTarget,
-  descriptionText
+  descriptionText,
+  annotationType
 ) {
   // Create title and description elements
   let titleElement = $(`<span>${titleText}</span>`);
@@ -31,12 +32,50 @@ function createAnnotation(
   });
   // Assigning unique ID from database
   annotation.customId = id;
+  // Set the annotation type-specific styles
+  setAnnotationStyles(annotation, annotationType);
   // Set the annotation to be visible
   annotation.visible = true;
   // Add the annotation to the scene
   scene.annotations.add(annotation);
   // Override toString method for the title element
   titleElement.toString = () => titleText;
+}
+
+function setAnnotationStyles(annotation, annotationType) {
+  // Define styles for different annotation types
+  let styles = {};
+
+  switch (annotationType) {
+    case 'comments':
+      styles = {
+        backgroundColor: 'lightblue',
+        titleColor: 'blue',
+      };
+      break;
+    case 'structural element':
+      styles = {
+        backgroundColor: 'lightgreen',
+        titleColor: 'green',
+      };
+      break;
+    case 'defect':
+      styles = {
+        backgroundColor: 'lightcoral',
+        titleColor: 'red',
+      };
+      break;
+    default:
+      // Default styles for unknown types
+      styles = {
+        backgroundColor: 'lightgray',
+        titleColor: 'black',
+      };
+  }
+
+  // Apply styles to the annotation
+  annotation.title.css('background-color', styles.backgroundColor);
+  annotation.title.css('color', styles.titleColor);
 }
 
 /**
@@ -54,7 +93,8 @@ function saveAnnotation(
   description,
   positionArray,
   camPositionArray,
-  camTargetArray
+  camTargetArray,
+  annotationType
 ) {
   // Use AJAX to send data to the PHP script for insertion
   $.ajax({
@@ -72,6 +112,7 @@ function saveAnnotation(
       tarpos_x: camTargetArray[0],
       tarpos_y: camTargetArray[1],
       tarpos_z: camTargetArray[2],
+      typology: annotationType,
       // Add additional parameters as needed
     },
     success: function (id) {
@@ -83,7 +124,8 @@ function saveAnnotation(
         positionArray,
         camPositionArray,
         camTargetArray, // You can set camera target to camera position or adjust as needed
-        description
+        description,
+        annotationType
       );
     },
     error: function (error) {
@@ -107,16 +149,29 @@ function showEditForm(annotation) {
   document.getElementById("position").value = annotation.position
     .toArray()
     .join(", ");
+  // Display the type selection panel
+  typeSelectionPanel = document.getElementById("annotationTypeSelection");
+  typeSelectionPanel.style.display = "flex";
+   // Add a click event handler to the #submitTypeBtn button
+   $("#submitTypeBtn").click(function () {
+    // Get the selected annotation type
+    const selectedType = $("#annotationTypeDropdown").val();
 
-  // Show the custom form
-  document.getElementById("customAnnotationForm").style.display = "flex";
-  // Show edit button
-  editButton = document.getElementById("editAnnotation");
-  editButton.style.display = "flex";
+    // Hide the type selection panel
+    typeSelectionPanel.style.display = "none";
 
-  // Attach an event listener to the edit button
-  document
-    .getElementById("editAnnotation")
+    // Display the custom form panel
+    annoForm = document.getElementById("customAnnotationForm");
+    annoForm.style.display = "flex";
+
+    // Set the selected type in a hidden field or variable for later use
+    // You can use this information when creating the annotation
+    selectedAnnotationType = selectedType;
+    // Show edit button
+    editButton = document.getElementById("editAnnotation");
+    editButton.style.display = "flex";
+    // Attach an event listener to the edit button
+    document.getElementById("editAnnotation")
     .addEventListener("click", function () {
       // Retrieve values from the form
       let newTitle = document.getElementById("title").value;
@@ -170,12 +225,14 @@ function showEditForm(annotation) {
         newDescription,
         positionArray,
         camPositionArray,
-        camTargetArray
+        camTargetArray,
+        selectedAnnotationType
       );
 
       // Hide the custom form after submission
       document.getElementById("customAnnotationForm").style.display = "none";
     });
+  });
 }
 
 /**
@@ -195,7 +252,8 @@ function updateAnnotationInDatabase(
   newDescription,
   newPositionArray,
   camPositionArray,
-  camTargetArray
+  camTargetArray,
+  annotationType
 ) {
   // Use AJAX to send data to the PHP script for updating
   $.ajax({
@@ -205,9 +263,10 @@ function updateAnnotationInDatabase(
       id: id,
       newTitle: newTitle,
       newDescription: newDescription,
-      newPositionArray: newPositionArray.join(","), // Send as a comma-separated string
-      camPositionArray: camPositionArray.join(","), // Send as a comma-separated string
-      camTargetArray: camTargetArray.join(","), // Send as a comma-separated string
+      newPositionArray: newPositionArray.join(","),
+      camPositionArray: camPositionArray.join(","),
+      camTargetArray: camTargetArray.join(","),
+      typology: annotationType,
     },
     success: function (response) {
       console.log("Annotation id: ", id);
@@ -219,8 +278,9 @@ function updateAnnotationInDatabase(
         newTitle,
         newPositionArray,
         camPositionArray,
-        camTargetArray, // You can set camera target to camera position or adjust as needed
-        newDescription
+        camTargetArray,
+        newDescription,
+        annotationType
       );
     },
     error: function (error) {
@@ -301,7 +361,8 @@ $.ajax({
         [annotation.pos_x, annotation.pos_y, annotation.pos_z],
         [annotation.campos_x, annotation.campos_y, annotation.campos_z],
         [annotation.tarpos_x, annotation.tarpos_y, annotation.tarpos_z],
-        annotation.description
+        annotation.description,
+        annotation.typology
       );
     });
   },
@@ -314,11 +375,30 @@ $.ajax({
 $(document).ready(function () {
   // Add a click event handler to the #addAnnotationBtn button
   $("#addAnnotationBtn").click(function () {
-    // Display the custom form panel
-    annoForm = document.getElementById("customAnnotationForm");
-    annoForm.style.display = "flex";
-    submitButton = document.getElementById("submitAnnotation");
-    submitButton.style.display = "flex";
+    // Display the type selection panel
+    typeSelectionPanel = document.getElementById("annotationTypeSelection");
+    typeSelectionPanel.style.display = "flex";
+
+    // Add a click event handler to the #submitTypeBtn button
+    $("#submitTypeBtn").click(function () {
+      // Get the selected annotation type
+      const selectedType = $("#annotationTypeDropdown").val();
+
+      // Hide the type selection panel
+      typeSelectionPanel.style.display = "none";
+
+      // Display the custom form panel
+      annoForm = document.getElementById("customAnnotationForm");
+      annoForm.style.display = "flex";
+
+      // Set the selected type in a hidden field or variable for later use
+      // You can use this information when creating the annotation
+      selectedAnnotationType = selectedType;
+
+      // Display the submit button
+      submitButton = document.getElementById("submitAnnotation");
+      submitButton.style.display = "flex";
+    });
   });
 });
 
@@ -328,6 +408,7 @@ $("#submitAnnotation").click(function () {
   let title = $("#title").val();
   let description = $("#description").val();
   let positionInput = $("#position").val();
+  let selectedType = $("#annotationTypeDropdown").val();
 
   // Split position input into an array
   let positionArray = positionInput
@@ -366,7 +447,8 @@ $("#submitAnnotation").click(function () {
     description,
     positionArray,
     camPositionArray,
-    camTargetArray
+    camTargetArray,
+    selectedType
   );
 
   // Hide the custom form panel

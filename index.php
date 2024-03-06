@@ -43,9 +43,20 @@
 		</div>
 		<div id="potree_sidebar_container" style="width: 50%; height: 100%;"> </div>
 		<!-- Custom form panel -->
-		<div id="customAnnotationForm">
+		<!--Annotation type selection-->
+		<div id="annotationTypeSelection" class="custom-form">
+			<div><b>Select Annotation Type</b></div>
+			<label for="annotationTypeDropdown">Choose type:</label>
+			<select id="annotationTypeDropdown">
+				<option value="comments">Comments</option>
+				<option value="structural element">Structural Element</option>
+				<option value="defect">Defect</option>
+			</select>
+			<button id="submitTypeBtn">Next</button>
+		</div>
+		<div id="customAnnotationForm" class="custom-form">
 			<div><b>Create/Edit annotation</b></div>
-
+			<!--Annotation details-->
 			<label for="title">Title:</label>
 			<input type="text" id="title" name="title">
 
