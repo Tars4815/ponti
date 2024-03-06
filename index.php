@@ -44,7 +44,7 @@
 		<div id="potree_sidebar_container" style="width: 50%; height: 100%;"> </div>
 		<!-- Custom form panel -->
 		<div id="customAnnotationForm">
-			<div><b>Create new annotation</b></div>
+			<div><b>Create/Edit annotation</b></div>
 
 			<label for="title">Title:</label>
 			<input type="text" id="title" name="title">
@@ -59,6 +59,7 @@
 			</div>
 
 			<button id="submitAnnotation">Submit</button>
+			<button id="editAnnotation">Edit</button>
 		</div>
 	</div>
 	<!--- Connect to Database -->
