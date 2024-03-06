@@ -55660,8 +55660,8 @@
 			this.boundingBox = new Box3();
 
 			let iconClose = exports.resourcePath + '/icons/close.svg';
-			// MODIFICA bottone EDIT
-			// Create Edit button
+			// MODIFICA bottone EDIT e DELETE
+			// Create Edit & Delete buttons
 			this.domElement = $(`
 			<div class="annotation" oncontextmenu="return false;">
 				<div class="annotation-titlebar">

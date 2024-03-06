@@ -76,7 +76,7 @@
 }
 
 /* Styling custom form for new annotation */
-#customAnnotationForm {
+.custom-form {
     position: absolute;
     display: none;
     flex-direction: column;

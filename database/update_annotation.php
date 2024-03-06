@@ -12,7 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $newDescription = $_POST["newDescription"];
     $newPosition = $_POST["newPositionArray"];
     $camPosition = $_POST["camPositionArray"];
-    $camTarget = $_POST["camTargetArray"];
+    $camTarget = $_POST["camTargetArray"]; 
+    $typology = $_POST["typology"];
 
     // Update data in the annotations table
     $query = "UPDATE annotations SET 
@@ -26,7 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     campos_z = " . explode(',', $camPosition)[2] . ",
     tarpos_x = " . explode(',', $camTarget)[0] . ",
     tarpos_y = " . explode(',', $camTarget)[1] . ",
-    tarpos_z = " . explode(',', $camTarget)[2] . "
+    tarpos_z = " . explode(',', $camTarget)[2] . ",
+    typology = '$typology'
     WHERE id = $id";
 
     $result = pg_query($connection, $query);
@@ -39,10 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $insertedId = $insertedRow['id'];
         echo $insertedId;
     }
-
-    /*if (!$result) {
-        echo "Error updating data: " . pg_last_error($connection);
-    }*/
 }
 
 pg_close($connection);
