@@ -352,21 +352,76 @@ If you'd like to define another annotation, copy the entire code block of the fi
 
 N.B.: Variable names should be unique!
 
-### Database connected annotations
+### Database-connected annotations
+
+The workflow described in the previous section describes in details how to implement *a-priori* annotations but limits the possibility of updating the viewer with users-provided information. Indeed, with such a setting, it is not possible to consistently store, update or delete existing annotations, as ny user interactions is resetted when a new web session in the web viewer is initialised.
+
+In order to have *dynamic* annotations that can be easily created, edited and delated by any user and whose modification are "remembered" by the viewer, it is needed to introduce a connection to a database. For this application, it has been used *PostgreSQL*. In particular, an *annotations* table has to be defined inside the database schema having the following minimal structure made with SQL language:
+
+```
+
+-- Table: public.annotations
+
+CREATE TABLE IF NOT EXISTS public.annotations
+(
+    id integer NOT NULL DEFAULT nextval('annotations_id_seq'::regclass),
+    title character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    pos_x numeric,
+    pos_y numeric,
+    pos_z numeric,
+    campos_x numeric,
+    campos_y numeric,
+    campos_z numeric,
+    tarpos_x numeric,
+    tarpos_y numeric,
+    tarpos_z numeric,
+    description character varying(255) COLLATE pg_catalog."default",
+    typology character varying(50) COLLATE pg_catalog."default",
+    CONSTRAINT annotations_pkey PRIMARY KEY (id)
+)
+
+```
+
+Such table will contain all the needed information to define an annotation in a Potree scene. In particular:
+* *title*
+* *position*
+* *camera position*
+* *target position*
+* *description*
+
+Such fields of the table will be filled, read, edited or deleted according to any operations conducted on annotations by any users of P.O.N.T.I.. In particular, specific routine operation are linked to annotation objects:
+* [Loading existing annotations](#loading-existing-annotations), dedicated to first look for existing records in the *annotations* table and then loading of record found in the PONTI scene
+* [Creating new annotations](#creating-new-annotations) to insert a new annotation object in the scene as well as on the dedicated table of the database
+* [Updating existing annotations](#updating-existing-annotations) for updating annotations in the PONTI viewer and saving user edits in the database
+* [Deleting annotations](#deleting-annotations), focused on aligning removal of annotations in the viewer with deletion of records in the database
+
+#### Loading existing annotations
 
 [TESTO]
 
- ## **Extra** 🌟
+#### Creating new annotations
+
+[TESTO]
+
+#### Updating existing annotations
+
+[TESTO]
+
+#### Deleting annotations
+
+[TESTO]
+
+## **Extra** 🌟
 
 Features currently under development:
 
 - [x] Database connection
 - [x] DB sync of new annotations
 - [x] DB sync of modified annotations
-- [ ] DB sync of deleted annotations
+- [x] DB sync of deleted annotations
 - [x] DB sync for loading existing annotations
-- [ ] Definition of custom form for annotation creation/modification
-- [ ] Definition of different annoatation classes
+- [x] Definition of custom form for annotation creation/modification
+- [ ] Definition of different annotation classes
 
 [⚠ Section under construction ⚠]
 
