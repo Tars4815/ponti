@@ -4,7 +4,7 @@
 
 The template is based on the open-source JavaScript library [Potree](https://github.com/potree/potree) by Markus Schütz.
 
-![Ponti example](./assets/protree-cover-image.jpg "PONTI example")
+![Ponti example](./assets/PONTI-cover-image.jpg "PONTI example")
 
 ## **About** ℹ
 
@@ -27,7 +27,7 @@ The repository and template has been defined for implementing the following feat
 
 ------------------------
 
-## **Getting started** 🛠
+## Getting started
 
 To start, sign in [Github](https://github.com/login)
 and navigate to the [PONTI GitHub template](https://github.com/labmgf-polimi/ponti),
@@ -43,19 +43,57 @@ which will generate a new repository on your personal account
 
 To work locally on the project before loading it to a server, instead click on the **Code** button and then select the *Download ZIP* option. After unzipping the downloaded folder, copy everything in the htdocs folder of the xampp directory of your device for working in your local development environment. 
 
-This repository contains the following files:
+This repository is structured as follows:
+
+```
+ponti
+|
+│   assets
+    |   [images and samples for README]
+    css
+    |   style.css
+    database
+    |   delete_annotation.php
+    |   insert_annotation.php
+    |   load_annotations.php
+    |   update_annotation.php
+│   img_selected
+    |   chunk1
+        |   camera_parameters.xml
+        |   oientedimages.txt
+        chunk2
+        |   camera_P1.txt
+        |   camera_P1.xml
+    js
+    |   annotation.js
+    |   orientedcameras.js
+    |   pointcloud.js
+    libs
+    |   [dependencies' libs for Potree]
+    licenses
+    |   license_brotli.txt
+    |   license_json.txt
+    |   license_laszip.txt
+    |   license_potree_converter.txt
+    poinclouds (files not included in GitHub. Folder that needs to be filled with output of pointcloud conversion as follows)
+    |   hierarchy.bin
+    |   metadata.json
+    |   octree.bin
+|	index.php
+|   LICENSE
+|   README.md   
+
+```
+
+Important files:
 
 ***README.md***
 
-Basic description of the repository with instructions on how to replicate the Protree template.
+Basic description of the repository with instructions on how to replicate the PONTI template.
 
-***index.html***
+***[index.php](index.php)***
 
-This will be the homepage of the Protree viewer. It contains the basic settings for the GUI and includes the paths to all the style and js files.
-
-***assets***
-
-Decorative images and icons are collected in this folder. Additionally, two others subfolders contain files that are important to define the appearance and the custom functionalities of the viewer:
+This will be the homepage of the PONTI viewer. It contains the basic settings for the GUI and includes the paths to all the style and js files.
 
 * *CSS* with the stylesheet in CSS language defined for including in the GUI a header with a description and/or logo.
 
@@ -77,11 +115,14 @@ License specifications for the used libraries are descripted here.
 
 Converted point clouds and ancillary files should be saved in this folder to preserve the template structure.
 
+***database***
+It contains .php files that allow for the interaction between the platform and a PostgreSQL database. In particular, saving annotations
+
 ---------------------
 
-## **GUI definition** 💻
+## GUI definition
 
-The [index.html](https://github.com/labmgf-polimi/ponti/blob/main/index.html) file includes the main settings for the web page that contains the custom Potree viewer. For example, information contained in this file defines the **title** that will appear on the browser window when the page is loaded as well as other important **metadata** regarding the content and/or the author(s) of the page. These settings are defined in the first lines in the *head* element:
+The [index.php](index.php) file includes the main settings for the web page that contains the custom Potree viewer. For example, information contained in this file defines the **title** that will appear on the browser window when the page is loaded as well as other important **metadata** regarding the content and/or the author(s) of the page. These settings are defined in the first lines in the *head* element:
 
 ```
 ...
@@ -103,7 +144,7 @@ When creating a new custom Potree viewer, change the content description accordi
 
 An additional decoration of the main page consist in a banner on the upper part of the window with a custom text and, optionally, a logo. This element require a simple addition to the HTML and CSS page codes to define its content and appearance.
 
-![PONTI banner example](./assets/protree-banner-example.jpg "PONTI banner example")
+![PONTI banner example](./assets/PONTI-banner-example.jpg "PONTI banner example")
 
 To style the header banner, in the [assets/css/style.css](https://github.com/labmgf-polimi/ponti/blob/main/assets/css/style.css) file the following CSS code is defined:
 
@@ -130,18 +171,18 @@ The *#* simbol before each name allows to define a specific style for specific d
 
 * **header_title** is by default defining a white bold Georgia text (*color*, *font-weight*, *font-family*) whose position always refers to the div element in which it is contained. 
 
-In the [index.html](https://github.com/labmgf-polimi/ponti/blob/main/index.html) file the previously styled header banner is defined in the body section. To change the title to be displayed on the top of the page, simply change the text included within the div *header_title* element. 
+In the [index.php](https://github.com/labmgf-polimi/ponti/blob/main/index.php) file the previously styled header banner is defined in the body section. To change the title to be displayed on the top of the page, simply change the text included within the div *header_title* element. 
 
 ```
 <!-- Defining header with title -->
 	<div id="header_panel">
 		<div id="header_title">
-			Protree Template - Example of a Bridge 3D data exploration
+			PONTI Template - Example of a Bridge 3D data exploration
 		</div>
 	</div>
 ```
 
-## **Pointcloud integration** ☁
+## Pointcloud integration
 
 Before proceeding with this step, make sure you have finished the reconstruction processing of the 3D model of the bridge and obtained a point cloud of the structure in .las format. Once this product is obtained, you could convert the .las cloud using one of the method described in [this documentation of Potree](https://potree-templates.readthedocs.io/en/latest/pages/potree.html#pointcloud-conversion).
 
@@ -156,7 +197,7 @@ converted_pointcloud_folder
 
 ```
 
-Copy the whole folder and paste it inside the *pointclouds* folder. Then, open the [pointcloud.js](https://github.com/labmgf-polimi/ponti/blob/main/assets/js/pointcloud.js) file with a text editor.
+Copy the whole folder and paste it inside the *pointclouds* folder. Then, open the [pointcloud.js](https://github.com/labmgf-polimi/ponti/blob/main/js/pointcloud.js) file with a text editor.
 
 Now you need to refer to the newly converted file in this js code file, enabling its correct visualization in the Potree Viewer. In order to do so, look for the *Loading point cloud data and its setting for rendering in Potree Viewer* comment section in the script.
 This part of the file load the pointcloud in json format through the ***loadPointCloud*** function. In order to correctly refer to the newly converted cloud and visualise it in RGB mode, modify the code as below:
@@ -202,7 +243,7 @@ viewer.loadGUI(() => {
 });
 ```
 
-## **Oriented cameras integration** 📷
+## Oriented cameras integration
 
 Once loaded the point cloud in the Web Viewer as described [here](#pointcloud-integration), it is possible to include in the Viewer oriented cameras. This is particularly useful for showing particular portions of the structure and highlighting details on pictures taken from the drone and used for the reconstruction of the 3D model.
 
@@ -241,7 +282,7 @@ DJI_20221123144437_0284.jpg       593667.208196 5089110.605787 904.912258 116.93
 DJI_20221123142343_0084.jpg       593661.475374 5089132.074970 917.423793 -52.683726 25.008452 161.764827
 ```
 
-Once the files are copied in the target folder - in this example *img_selected/chunk* - it's time to modify the dedicated [orientedcameras.js](https://github.com/labmgf-polimi/ponti/blob/main/assets/js/orientedcameras.js) file according to the need of the case.
+Once the files are copied in the target folder - in this example *img_selected/chunk* - it's time to modify the dedicated [orientedcameras.js](https://github.com/labmgf-polimi/ponti/blob/main/js/orientedcameras.js) file according to the need of the case.
 
 In the first lines of the script it is needed to declare the paths of both the camera parameters and oriented images files.
 
@@ -266,15 +307,17 @@ If you'd like to define another oriented images chunk, copy the entire code bloc
 
 N.B.: Variable and constant names should be unique!
 
-## **Annotations integration** 📝
+## Annotations integration
 
 Once loaded the point cloud in the Web Viewer as described [here](#pointcloud-integration), it is possible to add custom annotations with simple tricks from the Potree sidebar. This functionality is particularly useful if it is needed to highlights particular parts of the structure or if it is necessary to integrate actions or media.
+
+### Predefined annotations
 
 Before working on the code, explore the point cloud in the viewer, activate the **[Point Measurement Tool](https://potree-templates.readthedocs.io/en/latest/pages/getting-started.html#measurements)** and double-click in correspondence of the point where you'd like to locate the annotation. Hence, explore the *Scene* section in the Potree Sidebar and select the point measurement element. In the lower part of the section now you see the details of the measurement as well as the clicked point coordinates. Click on the copy icon next to the coordinates values: you will need this data to position your new annotation.
 
 ![Point measurement coords](./assets/point-measurement-coords.gif)
 
-Then, it's time to open the [annotations.js](https://github.com/labmgf-polimi/ponti/blob/main/assets/js/annotations.js) file with a text editor to modify the position of the first default annotation. In order to do so, paste the copied coords within the squared brackets after ***position:*** in the code snippet below:
+Then, it's time to open the [predefined-annotations.js](js/predefined-annotations.js) file with a text editor to modify the position of the first default annotation. In order to do so, paste the copied coords within the squared brackets after ***position:*** in the code snippet below:
 
 If you'd like to change the name or the description of the annotation, insert the desired texts according to the comment in the code.
 
@@ -308,6 +351,10 @@ Hence, to complete the procedure, you need to define the camera view to be set w
 If you'd like to define another annotation, copy the entire code block of the first annotation and paste it right in first row below it in the js script. Then modify it according to your need.
 
 N.B.: Variable names should be unique!
+
+### Database connected annotations
+
+[TESTO]
 
  ## **Extra** 🌟
 
