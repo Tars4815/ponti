@@ -382,7 +382,7 @@ CREATE TABLE IF NOT EXISTS public.annotations
 
 ```
 
-Such table will contain all the needed information to define an annotation in a Potree scene. In particular:
+Such table will contains all the needed information to define an annotation in a Potree scene. In particular:
 * *title*
 * *position*
 * *camera position*
@@ -396,6 +396,102 @@ Such fields of the table will be filled, read, edited or deleted according to an
 * [Deleting annotations](#deleting-annotations), focused on aligning removal of annotations in the viewer with deletion of records in the database
 
 #### Loading existing annotations
+
+A first operation that does not require any user interactions in PONTI but that is needed to establish the connection with the database is the loading of the annotations information that already populate the *annotations* table.
+
+For this reason it is needed to first define a JS function in the dedicated *[annotations.js](js/annotations.js)* file.
+
+```
+
+/**
+ * Create and add a Potree annotation to the scene with the provided information.
+ *
+ * @param {number} id - Unique identifier for the annotation.
+ * @param {object} scene - The Potree scene in which the annotation will be added.
+ * @param {string} titleText - Text for the title of the annotation.
+ * @param {number[]} position - Array containing x, y, z coordinates of the annotation position.
+ * @param {number[]} cameraPosition - Array containing x, y, z coordinates of the camera position.
+ * @param {number[]} cameraTarget - Array containing x, y, z coordinates of the camera target.
+ * @param {string} descriptionText - Text for the description of the annotation.
+ * @throws {Error} Will throw an error if there's an issue creating or adding the annotation to the scene.
+ */
+function createAnnotation(
+  id,
+  scene,
+  titleText,
+  position,
+  cameraPosition,
+  cameraTarget,
+  descriptionText,
+  annotationType
+) {
+  // Create title and description elements
+  let titleElement = $(`<span>${titleText}</span>`);
+  // Create Potree.Annotation instance
+  let annotation = new Potree.Annotation({
+    position: position,
+    title: titleElement,
+    cameraPosition: cameraPosition,
+    cameraTarget: cameraTarget,
+    description: descriptionText,
+  });
+  // Assigning unique ID from database
+  annotation.customId = id;
+  // Set the annotation type-specific styles
+  setAnnotationStyles(annotation, annotationType);
+  // Set the annotation to be visible
+  annotation.visible = true;
+  // Add the annotation to the scene
+  scene.annotations.add(annotation);
+  // Override toString method for the title element
+  titleElement.toString = () => titleText;
+}
+
+```
+
+Such function is used everytime an annotation object, for any reasons, need to be initialised and visualised in the scene. In this particular case, it is called in cascade using the response of a query on the all the records present in the *annotations* table. In order to do so, it is needed to set properly the *[load_annotations.php](database/load_annotations.php)* file. In particular, this script fetches annotations from a PostgreSQL database, processes the data, and returns the result as a JSON-encoded response. Depending on your local/server setup hosting the db with the *annotations* table, you need to edit to your needs the following part of the code:
+
+```
+...
+$connection = pg_connect("host=yourhost port=yourport dbname=yourdbname user=username password=yourpassword);
+...
+```
+
+[TEST]
+
+```
+
+// Load existing annotations from the server
+$.ajax({
+  type: "GET",
+  url: "database/load_annotations.php", // Adjust the URL based on your file structure
+  dataType: "json",
+  success: function (existingAnnotations) {
+    // Assuming bridgescene is available globally, adjust if needed
+    let scene = bridgescene;
+
+    // Create Potree annotations for each existing record
+    existingAnnotations.forEach((annotation) => {
+      createAnnotation(
+        annotation.id,
+        scene,
+        annotation.title,
+        [annotation.pos_x, annotation.pos_y, annotation.pos_z],
+        [annotation.campos_x, annotation.campos_y, annotation.campos_z],
+        [annotation.tarpos_x, annotation.tarpos_y, annotation.tarpos_z],
+        annotation.description,
+        annotation.typology
+      );
+    });
+  },
+  error: function (error) {
+    console.error("Error loading existing annotations:", error);
+  },
+});
+
+```
+
+
 
 [TESTO]
 
