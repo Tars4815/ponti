@@ -457,7 +457,42 @@ $connection = pg_connect("host=yourhost port=yourport dbname=yourdbname user=use
 ...
 ```
 
-[TEST]
+Then, after checking a successful connection with the provided credentials, a query for obtaining all the records that populates the *annotations* table in your database. The result of that is subsequently stored in the response and numerical values of different columns are properly interpreted as float values.
+
+```
+...
+if (!$connection) {
+    echo "An error occurred.<br>";
+    exit;
+}
+
+// Fetch existing annotations from the database
+$query = "SELECT * FROM annotations ORDER BY id";
+$result = pg_query($connection, $query);
+
+$annotations = array();
+while ($row = pg_fetch_assoc($result)) {
+    $row['pos_x'] = floatval($row['pos_x']);
+    $row['pos_y'] = floatval($row['pos_y']);
+    $row['pos_z'] = floatval($row['pos_z']);
+    $row['campos_x'] = floatval($row['campos_x']);
+    $row['campos_y'] = floatval($row['campos_y']);
+    $row['campos_z'] = floatval($row['campos_z']);
+    $row['tarpos_x'] = floatval($row['tarpos_x']);
+    $row['tarpos_y'] = floatval($row['tarpos_y']);
+    $row['tarpos_z'] = floatval($row['tarpos_z']);
+    $annotations[] = $row;
+}
+
+// Close the database connection
+pg_close($connection);
+
+// Return the annotations as JSON
+echo json_encode($annotations);
+?>
+```
+
+The successfull response is dealt in the [annotation.js](js/annotations.js) file a set of operations for getting needed records from the *annotations* table in the database. The different column values of the results are then used as arguments for creating annotation objects in the scene through the *createAnnotation()* function.
 
 ```
 
