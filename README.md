@@ -1026,7 +1026,108 @@ function showEditForm(annotation) {
 }
 ```
 
-[TESTO]
+The _removeAnnotationFromScene()_ is simply defined as follows:
+
+```
+/**
+ * Remove an annotation from the Potree scene.
+ *
+ * @param {object} annotation - The annotation object to be removed from the scene.
+ * @throws {Error} Will throw an error if there's an issue removing the annotation from the scene.
+ */
+function removeAnnotationFromScene(annotation) {
+  // Code to remove the annotation from the Potree scene
+  viewer.scene.annotations.remove(annotation);
+}
+```
+
+While the _updateAnnotationInDatabase()_ executes the following operations passing the parameters to the database:
+
+```
+function updateAnnotationInDatabase(
+  id,
+  newTitle,
+  newDescription,
+  newPositionArray,
+  camPositionArray,
+  camTargetArray,
+  annotationType
+) {
+  // Use AJAX to send data to the PHP script for updating
+  $.ajax({
+    type: "POST",
+    url: "database/update_annotation.php",
+    data: {
+      id: id,
+      newTitle: newTitle,
+      newDescription: newDescription,
+      newPositionArray: newPositionArray.join(","),
+      camPositionArray: camPositionArray.join(","),
+      camTargetArray: camTargetArray.join(","),
+      typology: annotationType,
+    },
+    success: function (response) {
+      console.log("Annotation id: ", id);
+      console.log("Annotation updated in the database");
+      // Use the returned ID to create the annotation
+      createAnnotation(
+        id,
+        bridgescene, // Assuming bridgescene is accessible globally
+        newTitle,
+        newPositionArray,
+        camPositionArray,
+        camTargetArray,
+        newDescription,
+        annotationType
+      );
+    },
+    error: function (error) {
+      console.error("Error updating annotation in the database:", error);
+    },
+  });
+}
+```
+
+The [update_annotation.php](database/update_annotation.php) file deals with the updated annotation parameters and, identifying the record to be modified through the annotation id, save the new values in the database.
+
+```
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = $_POST["id"];
+    $newTitle = $_POST["newTitle"];
+    $newDescription = $_POST["newDescription"];
+    $newPosition = $_POST["newPositionArray"];
+    $camPosition = $_POST["camPositionArray"];
+    $camTarget = $_POST["camTargetArray"]; 
+    $typology = $_POST["typology"];
+
+    // Update data in the annotations table
+    $query = "UPDATE annotations SET 
+    title = '$newTitle', 
+    description = '$newDescription', 
+    pos_x = " . explode(',', $newPosition)[0] . ",
+    pos_y = " . explode(',', $newPosition)[1] . ",
+    pos_z = " . explode(',', $newPosition)[2] . ",
+    campos_x = " . explode(',', $camPosition)[0] . ",
+    campos_y = " . explode(',', $camPosition)[1] . ",
+    campos_z = " . explode(',', $camPosition)[2] . ",
+    tarpos_x = " . explode(',', $camTarget)[0] . ",
+    tarpos_y = " . explode(',', $camTarget)[1] . ",
+    tarpos_z = " . explode(',', $camTarget)[2] . ",
+    typology = '$typology'
+    WHERE id = $id";
+
+    $result = pg_query($connection, $query);
+
+    if (!$result) {
+        echo "Error inserting data: " . pg_last_error($connection);
+    } else {
+        // Fetch the inserted ID and echo it in the response
+        $insertedRow = pg_fetch_assoc($result);
+        $insertedId = $insertedRow['id'];
+        echo $insertedId;
+    }
+}
+```
 
 #### Deleting annotations
 
@@ -1034,7 +1135,7 @@ function showEditForm(annotation) {
 
 ## **Extra** 🌟
 
-Features currently under development:
+Features currently under development/improvement:
 
 - [x] Database connection
 - [x] DB sync of new annotations
