@@ -836,6 +836,15 @@ This template and its functionalities are the results of the research activities
 
 ## **References**
 
+### **Publications**
+
 - [Potree: Rendering Large Point Clouds in Web Browsers](https://www.cg.tuwien.ac.at/research/publications/2016/SCHUETZ-2016-POT/SCHUETZ-2016-POT-thesis.pdf) (2016)
 - [Fast Out-of-Core Octree Generation for Massive Point Clouds](https://www.cg.tuwien.ac.at/research/publications/2020/SCHUETZ-2020-MPC/) (2020)
-- Gaspari, F., Barbieri, F., Duque, J. P., Fascia, R., Ioli, F., Zani, G., Carrion, D., and Pinto, L.: A GEO-DATABASE FOR 3D-AIDED MULTI-EPOCH DOCUMENTATION OF BRIDGE INSPECTIONS, _Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci._, XLVIII-1/W2-2023, 299–306, https://doi.org/10.5194/isprs-archives-XLVIII-1-W2-2023-299-2023, 2023
+- Gaspari, F., Barbieri, F., Duque, J. P., Fascia, R., Ioli, F., Zani, G., Carrion, D., and Pinto, L.: **A GEO-DATABASE FOR 3D-AIDED MULTI-EPOCH DOCUMENTATION OF BRIDGE INSPECTIONS**, _Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci._, XLVIII-1/W2-2023, 299–306, https://doi.org/10.5194/isprs-archives-XLVIII-1-W2-2023-299-2023, 2023
+- Fascia, R., Barbieri, F., Gaspari, F., Ioli, L., Pinto, L.: **PONTI: an open WebGL-based tool in support to defect analysis and 3D visualisation of bridges**, _Structure and Infrastructure Engineering - Maintenance, Management, Life-Cycle Design & Performance_, to be published in June 2024
+
+### **Presentations**
+
+- **GeoDaysIT 2023** Bari, June 16th 2023 - [Potree platform for infrastructure inspection: una soluzione WebGL open-source a supporto del rilievo e dell’analisi difettologica di ponti e viadotti](https://talks.osgeo.org/foss4g-it-2023/talk/YFKDDS/), *Gaspari, F., Fascia, R.*
+- **SIFET Congress 2023** Arezzo, September 28th 2023 - Potree platform for infrastructure inspection: una soluzione WebGL open-source a supporto del rilievo e dell’analisi difettologica di ponti e viadotti, *Gaspari, F.*
+- **IABMAS 2024** Copenhaghen, June 2024 - PONTI: an open WebGL-based tool in support to defect analysis and 3D visualisation of bridges
