@@ -810,6 +810,28 @@ The newly created annotation is now included in the database as well as in the s
 
 #### Updating existing annotations
 
+Another useful operation for annotations is the UPDATE one. In order to do so, first an *Edit button* (as well as a *Delete button* that will be explained in the next DELETE annotation section) has been added in the Potree annotation constructor in [potree.js](libs/potree/potree.js) when the structure for the *annotation-description* is defined:
+
+```
+// Create Edit & Delete buttons
+			this.domElement = $(`
+			<div class="annotation" oncontextmenu="return false;">
+				<div class="annotation-titlebar">
+					<span class="annotation-label"></span>
+				</div>
+				<div class="annotation-description">
+					<span class="annotation-description-close">
+						<img src="${iconClose}" width="16px">
+			
+					</span>
+					<span class="annotation-description-content">${this._description}</span><br>
+					<button class="annotation-edit-button">Edit</button>
+					<button class="annotation-delete-button">Delete</button>
+				</div>
+			</div>
+		`);
+```
+
 [TESTO]
 
 #### Deleting annotations
