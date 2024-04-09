@@ -575,6 +575,44 @@ At the end of the form two types of buttons are present:
 * **Submit**: it will be shown when a CREATE annotation operation is triggered;
 * **Edit**: its visibility will be activated for UPDATE annotation operations (that will be described later).
 
+Now, let's define the functions associated to the *addAnnotationBtn* as well as for *submitTypeBtn*, *pickPointButton* and *submitAnnotation* inside the form.
+In [annotations.js](js/annotations.js) the following code snippet is responsible for handling click events on the *addAnnotationBtn* and changing the visibility and style of form panel:
+
+```
+//CODE FOR CUSTOM FORM//
+$(document).ready(function () {
+  // Add a click event handler to the #addAnnotationBtn button
+  $("#addAnnotationBtn").click(function () {
+    // Display the type selection panel
+    typeSelectionPanel = document.getElementById("annotationTypeSelection");
+    typeSelectionPanel.style.display = "flex";
+
+    // Add a click event handler to the #submitTypeBtn button
+    $("#submitTypeBtn").click(function () {
+      // Get the selected annotation type
+      const selectedType = $("#annotationTypeDropdown").val();
+
+      // Hide the type selection panel
+      typeSelectionPanel.style.display = "none";
+
+      // Display the custom form panel
+      annoForm = document.getElementById("customAnnotationForm");
+      annoForm.style.display = "flex";
+
+      // Set the selected type in a hidden field or variable for later use
+      // You can use this information when creating the annotation
+      selectedAnnotationType = selectedType;
+
+      // Display the submit button
+      submitButton = document.getElementById("submitAnnotation");
+      submitButton.style.display = "flex";
+    });
+  });
+});
+```
+
+
+
 [TESTO]
 
 #### Updating existing annotations
