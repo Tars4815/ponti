@@ -581,6 +581,59 @@ At the end of the form two types of buttons are present:
 - **Submit**: it will be shown when a CREATE annotation operation is triggered;
 - **Edit**: its visibility will be activated for UPDATE annotation operations (that will be described later).
 
+Let's now define the appearance and the style of the Edit (and Delete too) buttons in [style.css](css/style.css):
+
+```
+/* Styling custom form for new annotation */
+.custom-form {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    margin: 0;
+    width: 300px;
+    height: 400px;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    right: 0%;
+    bottom: 1.2em;
+}
+
+/* Style for the Submit button */
+#submitAnnotation {
+    background-color: green;
+    color: white;
+    border: 1px solid white; /* Border color when not hovered */
+    padding: 5px 10px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+    display: none;
+}
+
+/* Hover effect for the Submit button */
+#submitAnnotation:hover {
+    border: 2px solid yellow; /* Border color on hover */
+}
+
+/* Style for the Submit button */
+#editAnnotation {
+    background-color: blue;
+    color: white;
+    border: 1px solid white; /* Border color when not hovered */
+    padding: 5px 10px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+    display: none;
+}
+
+/* Hover effect for the Submit button */
+#editAnnotation:hover {
+    border: 2px solid yellow; /* Border color on hover */
+}
+```
+
 Now, let's define the functions associated to the _addAnnotationBtn_ as well as for _submitTypeBtn_, _pickPointButton_ and _submitAnnotation_ inside the form.
 In [annotations.js](js/annotations.js) the following code snippet is responsible for handling click events on the _addAnnotationBtn_ and changing the visibility and style of form panel:
 
@@ -830,6 +883,147 @@ Another useful operation for annotations is the UPDATE one. In order to do so, f
 				</div>
 			</div>
 		`);
+    // Find the button after the element has been added to the DOM
+			let editButton = this.domElement.find('.annotation-edit-button');
+			editButton.click(() => showEditForm(this));
+			// Find the button after the element has been added to the DOM
+			let deleteButton = this.domElement.find('.annotation-delete-button');
+			deleteButton.click(() => deleteAnnotation(this));
+```
+
+Let's now define the appearance and the style of the Edit (and Delete too) buttons in [style.css](css/style.css):
+
+```
+/* Style for the Edit button */
+.annotation-edit-button {
+    background-color: black;
+    color: white;
+    border: 1px solid white; /* Border color when not hovered */
+    padding: 5px 10px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+}
+
+/* Hover effect for the Edit button */
+.annotation-edit-button:hover {
+    border: 1px solid yellow; /* Border color on hover */
+}
+
+/* Style for the Edit button */
+.annotation-delete-button {
+    background-color: red;
+    color: white;
+    border: 1px solid white; /* Border color when not hovered */
+    padding: 5px 10px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+}
+
+/* Hover effect for the Edit button */
+.annotation-delete-button:hover {
+    border: 1px solid yellow; /* Border color on hover */
+}
+```
+
+Then, let's define the set of functions needed when the annotation-edit button is clicked. The needed step for a proper UPDATE operation now are:
+1. Open the Edit form and populate each input boxes with the current paramters values;
+2. Remove from the scene the old annotation object and pass the new parameters to the database in order to update the annotation record in the corresponding table (_removeAnnotationFromScene()_ and _updateAnnotationInDatabase()_).
+
+First, *showEditForm()*, defined in [annotations.js](js/annotations.js):
+
+```
+function showEditForm(annotation) {
+  // Populate the custom form fields with existing annotation data
+  document.getElementById("title").value = annotation.title;
+  document.getElementById("description").value = annotation.description;
+  document.getElementById("position").value = annotation.position
+    .toArray()
+    .join(", ");
+  // Display the type selection panel
+  typeSelectionPanel = document.getElementById("annotationTypeSelection");
+  typeSelectionPanel.style.display = "flex";
+   // Add a click event handler to the #submitTypeBtn button
+   $("#submitTypeBtn").click(function () {
+    // Get the selected annotation type
+    const selectedType = $("#annotationTypeDropdown").val();
+
+    // Hide the type selection panel
+    typeSelectionPanel.style.display = "none";
+
+    // Display the custom form panel
+    annoForm = document.getElementById("customAnnotationForm");
+    annoForm.style.display = "flex";
+
+    // Set the selected type in a hidden field or variable for later use
+    // You can use this information when creating the annotation
+    selectedAnnotationType = selectedType;
+    // Show edit button
+    editButton = document.getElementById("editAnnotation");
+    editButton.style.display = "flex";
+    // Attach an event listener to the edit button
+    document.getElementById("editAnnotation")
+    .addEventListener("click", function () {
+      // Retrieve values from the form
+      let newTitle = document.getElementById("title").value;
+      let newDescription = document.getElementById("description").value;
+      let newPositionInput = $("#position").val();
+
+      // Split position input into an array
+      let positionArray = newPositionInput
+        .split(",")
+        .map((value) => parseFloat(value.trim()));
+      console.log(positionArray);
+
+      // Update the annotation in the scene
+      annotation.title.text(newTitle);
+      annotation.description = newDescription;
+
+      // Retrieve camera positions and targets
+      let camPositionArray;
+      let camTargetArray;
+
+      // Check if window.viewer is defined before attempting to access the camera position
+      if (
+        window.viewer &&
+        window.viewer.scene &&
+        window.viewer.scene.getActiveCamera
+      ) {
+        try {
+          camPositionArray = window.viewer.scene
+            .getActiveCamera()
+            .position.toArray();
+          console.log("Camera Position:", camPositionArray);
+          camTargetArray = window.viewer.scene.view.getPivot().toArray();
+          console.log("Target Position:", camTargetArray);
+        } catch (error) {
+          console.error("Error getting camera position:", error);
+          console.error("Error getting target position:", error);
+        }
+      } else {
+        console.error(
+          "Viewer not properly initialized. Make sure 'window.viewer' is defined."
+        );
+      }
+
+      // Remove the existing annotation from the scene
+      removeAnnotationFromScene(annotation);
+
+      // Update the annotation in the database
+      updateAnnotationInDatabase(
+        annotation.customId,
+        newTitle,
+        newDescription,
+        positionArray,
+        camPositionArray,
+        camTargetArray,
+        selectedAnnotationType
+      );
+
+      // Hide the custom form after submission
+      document.getElementById("customAnnotationForm").style.display = "none";
+    });
+  });
+}
 ```
 
 [TESTO]
