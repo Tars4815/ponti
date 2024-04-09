@@ -525,12 +525,55 @@ $.ajax({
 });
 
 ```
-
-
-
-[TESTO]
-
 #### Creating new annotations
+
+Users working on the PONTI interface might need to add new annotations, possibly referring to structural elements, defects or general comments. In order to save user interactions of this type, it is needed to include in the code CREATE functions able to store in the connected database the parameters associated to annotation objects newly created in the Potree scene.
+
+First, it is needed to define a custom form in the main GUI, allowing users to choose within possible annotation types to be added and then to define annotation parameters (title, position, camera settings, description). A new button for this purpose is created in [index.php](index.php).
+
+```
+<img id="addAnnotationBtn" src="libs\potree\resources\icons\new-annotation.svg" style="filter: invert(0);"
+		title="Add a new annotation" alt="Add a new annotation">
+
+```
+
+When clicked, it will show a 2-sections form structured as follow (always in index.php) inside the *potree_container* div:
+
+```
+<!-- Custom form panel -->
+		<!--Annotation type selection-->
+		<div id="annotationTypeSelection" class="custom-form">
+			<div><b>Select Annotation Type</b></div>
+			<label for="annotationTypeDropdown">Choose type:</label>
+			<select id="annotationTypeDropdown">
+				<option value="comments">Comments</option>
+				<option value="structural element">Structural Element</option>
+				<option value="defect">Defect</option>
+			</select>
+			<button id="submitTypeBtn">Next</button>
+		</div>
+		<div id="customAnnotationForm" class="custom-form">
+			<div><b>Create/Edit annotation</b></div>
+			<!--Annotation details-->
+			<label for="title">Title:</label>
+			<input type="text" id="title" name="title">
+
+			<label for="description">Description:</label>
+			<textarea id="description" name="description"></textarea>
+
+			<label for="position">Position (format: x, y, z):</label>
+			<div class="position-input-container">
+				<input type="text" id="position" name="position">
+				<button id="pickPointButton">Pick point</button>
+			</div>
+
+			<button id="submitAnnotation">Submit</button>
+			<button id="editAnnotation">Edit</button>
+		</div>
+```
+At the end of the form two types of buttons are present:
+* **Submit**: it will be shown when a CREATE annotation operation is triggered;
+* **Edit**: its visibility will be activated for UPDATE annotation operations (that will be described later).
 
 [TESTO]
 
