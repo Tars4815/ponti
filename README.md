@@ -1131,6 +1131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 #### Deleting annotations
 
+The last operation to deal with for saving user interactions on annotations is 
 [TESTO]
 
 ## **Extra** 🌟
@@ -1164,4 +1165,5 @@ This template and its functionalities are the results of the research activities
 
 - **GeoDaysIT 2023** Bari, June 16th 2023 - [Potree platform for infrastructure inspection: una soluzione WebGL open-source a supporto del rilievo e dell’analisi difettologica di ponti e viadotti](https://talks.osgeo.org/foss4g-it-2023/talk/YFKDDS/), *Gaspari, F., Fascia, R.*
 - **SIFET Congress 2023** Arezzo, September 28th 2023 - Potree platform for infrastructure inspection: una soluzione WebGL open-source a supporto del rilievo e dell’analisi difettologica di ponti e viadotti, *Gaspari, F.*
+- **3DMetrica Live Series** [ITA] -  [Web 3D Open Source per la geomatica - Rilievo e Monitoraggio](https://www.youtube.com/watch?v=bmTWKltLXgw&t=297s) live talk by Federica Gaspari on Paolo Corradeghini's YouTube channel in collaboration with SIFET.
 - **IABMAS 2024** Copenhaghen, June 2024 - PONTI: an open WebGL-based tool in support to defect analysis and 3D visualisation of bridges
