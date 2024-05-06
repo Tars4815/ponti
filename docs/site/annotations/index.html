@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Annotations integration - PONTI | Documentation</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">PONTI | Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../about.md" class="nav-link">About</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#annotations-integration" class="nav-link">Annotations integration</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#predefined-annotations" class="nav-link">Predefined annotations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#database-connected-annotations" class="nav-link">Database-connected annotations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="annotations-integration">Annotations integration</h1>
+<p>Once loaded the point cloud in the Web Viewer as described <a href="#pointcloud-integration">here</a>, it is possible to add custom annotations with simple tricks from the Potree sidebar. This functionality is particularly useful if it is needed to highlights particular parts of the structure or if it is necessary to integrate actions or media.</p>
+<h2 id="predefined-annotations">Predefined annotations</h2>
+<p>Before working on the code, explore the point cloud in the viewer, activate the <strong><a href="https://potree-templates.readthedocs.io/en/latest/pages/getting-started.html#measurements">Point Measurement Tool</a></strong> and double-click in correspondence of the point where you'd like to locate the annotation. Hence, explore the <em>Scene</em> section in the Potree Sidebar and select the point measurement element. In the lower part of the section now you see the details of the measurement as well as the clicked point coordinates. Click on the copy icon next to the coordinates values: you will need this data to position your new annotation.</p>
+<p><img alt="Point measurement coords" src="../img/point-measurement-coords.gif" /></p>
+<p>Then, it's time to open the <a href="https://github.com/Tars4815/ponti/blob/main/js/predefined-annotations.js">predefined-annotations.js</a> file with a text editor to modify the position of the first default annotation. In order to do so, paste the copied coords within the squared brackets after <strong><em>position:</em></strong> in the code snippet below:</p>
+<p>If you'd like to change the name or the description of the annotation, insert the desired texts according to the comment in the code.</p>
+<p>Hence, to complete the procedure, you need to define the camera view to be set when the annotation is clicked in Potree. In order to do this, rotate and move the model view and look for the desired perspective. Then, in the <em>scene</em> section of the sidebar, click on <strong>Camera</strong>: you will make visible a new Properties panel in which the coordinates linked to the camera <em>position</em> and camera <em>target</em> location that defines the actual view in the scene will be displayed. Copy and paste these values in the code according to the comment.</p>
+<p><img alt="Camera view coordinates" src="/img/ponti-camera-view.jpg" title="Camera view coordinates" /></p>
+<pre><code>/* Annotations definition */
+{// Annotation 1
+    let Title01 = $(`
+                &lt;span&gt;
+                    Annotation 1
+                &lt;/span&gt;
+                `); //Substitute &quot;Annotation 1&quot; with the desired Title text for your annotation
+    let annotation01 = new Potree.Annotation({
+        position: [593673.870, 5089120.772, 910.538],
+        title: Title01,
+        cameraPosition: [593661.279, 5089117.043, 907.581], //Substitute these values with the position ones obtained by clicking on the camera object in the scene sidebar section
+        cameraTarget: [593673.870, 5089120.772, 910.538], //Substitute these values with the target ones obtained by clicking on the camera object in the scene sidebar section
+        description: 'INSERT DESCRIPTION HERE' //Change the content of this according to the desired description
+    })
+    annotation01.visible = true; // Change this to false if you want to hide the annotations at first loading
+    bridgescene.annotations.add(annotation01);
+    Title01.toString = () =&gt; &quot;Annotation 1&quot;; //Substitute &quot;Annotation 1&quot; with the desired Title text for your annotation: this will be shown in the scene sidebar section
+}
+...
+</code></pre>
+<p>If you'd like to define another annotation, copy the entire code block of the first annotation and paste it right in first row below it in the js script. Then modify it according to your need.</p>
+<p>N.B.: Variable names should be unique!</p>
+<h2 id="database-connected-annotations">Database-connected annotations</h2>
+<p>The workflow described in the previous section describes in details how to implement <em>a-priori</em> annotations but limits the possibility of updating the viewer with users-provided information. Indeed, with such a setting, it is not possible to consistently store, update or delete existing annotations, as ny user interactions is resetted when a new web session in the web viewer is initialised.</p>
+<p>In order to have <em>dynamic</em> annotations that can be easily created, edited and delated by any user and whose modification are "remembered" by the viewer, it is needed to introduce a connection to a database. For this application, it has been used <em>PostgreSQL</em>. In particular, an <em>annotations</em> table has to be defined inside the database schema having the following minimal structure made with SQL language:</p>
+<pre><code>
+-- Table: public.annotations
+
+CREATE TABLE IF NOT EXISTS public.annotations
+(
+    id integer NOT NULL DEFAULT nextval('annotations_id_seq'::regclass),
+    title character varying(100) COLLATE pg_catalog.&quot;default&quot; NOT NULL,
+    pos_x numeric,
+    pos_y numeric,
+    pos_z numeric,
+    campos_x numeric,
+    campos_y numeric,
+    campos_z numeric,
+    tarpos_x numeric,
+    tarpos_y numeric,
+    tarpos_z numeric,
+    description character varying(255) COLLATE pg_catalog.&quot;default&quot;,
+    typology character varying(50) COLLATE pg_catalog.&quot;default&quot;,
+    CONSTRAINT annotations_pkey PRIMARY KEY (id)
+)
+
+</code></pre>
+<p>Such table will contains all the needed information to define an annotation in a Potree scene. In particular:</p>
+<ul>
+<li><em>title</em></li>
+<li><em>position</em></li>
+<li><em>camera position</em></li>
+<li><em>target position</em></li>
+<li><em>description</em></li>
+</ul>
+<p>Such fields of the table will be filled, read, edited or deleted according to any operations conducted on annotations by any users of P.O.N.T.I.. In particular, specific routine operation are linked to annotation objects:</p>
+<ul>
+<li><a href="#loading-existing-annotations">Loading existing annotations</a>, dedicated to first look for existing records in the <em>annotations</em> table and then loading of record found in the PONTI scene</li>
+<li><a href="#creating-new-annotations">Creating new annotations</a> to insert a new annotation object in the scene as well as on the dedicated table of the database</li>
+<li><a href="#updating-existing-annotations">Updating existing annotations</a> for updating annotations in the PONTI viewer and saving user edits in the database</li>
+<li><a href="#deleting-annotations">Deleting annotations</a>, focused on aligning removal of annotations in the viewer with deletion of records in the database</li>
+</ul>
+<h3 id="loading-existing-annotations">Loading existing annotations</h3>
+<p>A first operation that does not require any user interactions in PONTI but that is needed to establish the connection with the database is the loading of the annotations information that already populate the <em>annotations</em> table.</p>
+<p>For this reason it is needed to first define a JS function in the dedicated <em><a href="https://github.com/Tars4815/ponti/blob/main/js/annotations.js">annotations.js</a></em> file.</p>
+<pre><code>
+/**
+ * Create and add a Potree annotation to the scene with the provided information.
+ *
+ * @param {number} id - Unique identifier for the annotation.
+ * @param {object} scene - The Potree scene in which the annotation will be added.
+ * @param {string} titleText - Text for the title of the annotation.
+ * @param {number[]} position - Array containing x, y, z coordinates of the annotation position.
+ * @param {number[]} cameraPosition - Array containing x, y, z coordinates of the camera position.
+ * @param {number[]} cameraTarget - Array containing x, y, z coordinates of the camera target.
+ * @param {string} descriptionText - Text for the description of the annotation.
+ * @throws {Error} Will throw an error if there's an issue creating or adding the annotation to the scene.
+ */
+function createAnnotation(
+  id,
+  scene,
+  titleText,
+  position,
+  cameraPosition,
+  cameraTarget,
+  descriptionText,
+  annotationType
+) {
+  // Create title and description elements
+  let titleElement = $(`&lt;span&gt;${titleText}&lt;/span&gt;`);
+  // Create Potree.Annotation instance
+  let annotation = new Potree.Annotation({
+    position: position,
+    title: titleElement,
+    cameraPosition: cameraPosition,
+    cameraTarget: cameraTarget,
+    description: descriptionText,
+  });
+  // Assigning unique ID from database
+  annotation.customId = id;
+  // Set the annotation type-specific styles
+  setAnnotationStyles(annotation, annotationType);
+  // Set the annotation to be visible
+  annotation.visible = true;
+  // Add the annotation to the scene
+  scene.annotations.add(annotation);
+  // Override toString method for the title element
+  titleElement.toString = () =&gt; titleText;
+}
+
+</code></pre>
+<p>Such function is used everytime an annotation object, for any reasons, need to be initialised and visualised in the scene. In this particular case, it is called in cascade using the response of a query on the all the records present in the <em>annotations</em> table. In order to do so, it is needed to set properly the <em><a href="https://github.com/Tars4815/ponti/blob/main/database/load_annotations.php">load_annotations.php</a></em> file. In particular, this script fetches annotations from a PostgreSQL database, processes the data, and returns the result as a JSON-encoded response. Depending on your local/server setup hosting the db with the <em>annotations</em> table, you need to edit to your needs the following part of the code:</p>
+<pre><code>...
+$connection = pg_connect(&quot;host=yourhost port=yourport dbname=yourdbname user=username password=yourpassword);
+...
+</code></pre>
+<p>Then, after checking a successful connection with the provided credentials, a query for obtaining all the records that populates the <em>annotations</em> table in your database. The result of that is subsequently stored in the response and numerical values of different columns are properly interpreted as float values.</p>
+<pre><code>...
+if (!$connection) {
+    echo &quot;An error occurred.&lt;br&gt;&quot;;
+    exit;
+}
+
+// Fetch existing annotations from the database
+$query = &quot;SELECT * FROM annotations ORDER BY id&quot;;
+$result = pg_query($connection, $query);
+
+$annotations = array();
+while ($row = pg_fetch_assoc($result)) {
+    $row['pos_x'] = floatval($row['pos_x']);
+    $row['pos_y'] = floatval($row['pos_y']);
+    $row['pos_z'] = floatval($row['pos_z']);
+    $row['campos_x'] = floatval($row['campos_x']);
+    $row['campos_y'] = floatval($row['campos_y']);
+    $row['campos_z'] = floatval($row['campos_z']);
+    $row['tarpos_x'] = floatval($row['tarpos_x']);
+    $row['tarpos_y'] = floatval($row['tarpos_y']);
+    $row['tarpos_z'] = floatval($row['tarpos_z']);
+    $annotations[] = $row;
+}
+
+// Close the database connection
+pg_close($connection);
+
+// Return the annotations as JSON
+echo json_encode($annotations);
+?&gt;
+</code></pre>
+<p>The successfull response is dealt in the <a href="js/annotations.js">annotation.js</a> file a set of operations for getting needed records from the <em>annotations</em> table in the database. The different column values of the results are then used as arguments for creating annotation objects in the scene through the <em>createAnnotation()</em> function.</p>
+<pre><code>
+// Load existing annotations from the server
+$.ajax({
+  type: &quot;GET&quot;,
+  url: &quot;database/load_annotations.php&quot;, // Adjust the URL based on your file structure
+  dataType: &quot;json&quot;,
+  success: function (existingAnnotations) {
+    // Assuming bridgescene is available globally, adjust if needed
+    let scene = bridgescene;
+
+    // Create Potree annotations for each existing record
+    existingAnnotations.forEach((annotation) =&gt; {
+      createAnnotation(
+        annotation.id,
+        scene,
+        annotation.title,
+        [annotation.pos_x, annotation.pos_y, annotation.pos_z],
+        [annotation.campos_x, annotation.campos_y, annotation.campos_z],
+        [annotation.tarpos_x, annotation.tarpos_y, annotation.tarpos_z],
+        annotation.description,
+        annotation.typology
+      );
+    });
+  },
+  error: function (error) {
+    console.error(&quot;Error loading existing annotations:&quot;, error);
+  },
+});
+
+</code></pre>
+<h3 id="creating-new-annotations">Creating new annotations</h3>
+<p>Users working on the PONTI interface might need to add new annotations, possibly referring to structural elements, defects or general comments. In order to save user interactions of this type, it is needed to include in the code CREATE functions able to store in the connected database the parameters associated to annotation objects newly created in the Potree scene.</p>
+<p>First, it is needed to define a custom form in the main GUI, allowing users to choose within possible annotation types to be added and then to define annotation parameters (title, position, camera settings, description). A new button for this purpose is created in <a href="https://github.com/Tars4815/ponti/blob/main/index.php">index.php</a>.</p>
+<pre><code>&lt;img id=&quot;addAnnotationBtn&quot; src=&quot;libs\potree\resources\icons\new-annotation.svg&quot; style=&quot;filter: invert(0);&quot;
+        title=&quot;Add a new annotation&quot; alt=&quot;Add a new annotation&quot;&gt;
+
+</code></pre>
+<p>When clicked, it will show a 2-sections form structured as follow (always in index.php) inside the <em>potree_container</em> div:</p>
+<pre><code>&lt;!-- Custom form panel --&gt;
+        &lt;!--Annotation type selection--&gt;
+        &lt;div id=&quot;annotationTypeSelection&quot; class=&quot;custom-form&quot;&gt;
+            &lt;div&gt;&lt;b&gt;Select Annotation Type&lt;/b&gt;&lt;/div&gt;
+            &lt;label for=&quot;annotationTypeDropdown&quot;&gt;Choose type:&lt;/label&gt;
+            &lt;select id=&quot;annotationTypeDropdown&quot;&gt;
+                &lt;option value=&quot;comments&quot;&gt;Comments&lt;/option&gt;
+                &lt;option value=&quot;structural element&quot;&gt;Structural Element&lt;/option&gt;
+                &lt;option value=&quot;defect&quot;&gt;Defect&lt;/option&gt;
+            &lt;/select&gt;
+            &lt;button id=&quot;submitTypeBtn&quot;&gt;Next&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;customAnnotationForm&quot; class=&quot;custom-form&quot;&gt;
+            &lt;div&gt;&lt;b&gt;Create/Edit annotation&lt;/b&gt;&lt;/div&gt;
+            &lt;!--Annotation details--&gt;
+            &lt;label for=&quot;title&quot;&gt;Title:&lt;/label&gt;
+            &lt;input type=&quot;text&quot; id=&quot;title&quot; name=&quot;title&quot;&gt;
+
+            &lt;label for=&quot;description&quot;&gt;Description:&lt;/label&gt;
+            &lt;textarea id=&quot;description&quot; name=&quot;description&quot;&gt;&lt;/textarea&gt;
+
+            &lt;label for=&quot;position&quot;&gt;Position (format: x, y, z):&lt;/label&gt;
+            &lt;div class=&quot;position-input-container&quot;&gt;
+                &lt;input type=&quot;text&quot; id=&quot;position&quot; name=&quot;position&quot;&gt;
+                &lt;button id=&quot;pickPointButton&quot;&gt;Pick point&lt;/button&gt;
+            &lt;/div&gt;
+
+            &lt;button id=&quot;submitAnnotation&quot;&gt;Submit&lt;/button&gt;
+            &lt;button id=&quot;editAnnotation&quot;&gt;Edit&lt;/button&gt;
+        &lt;/div&gt;
+</code></pre>
+<p>At the end of the form two types of buttons are present:</p>
+<ul>
+<li><strong>Submit</strong>: it will be shown when a CREATE annotation operation is triggered;</li>
+<li><strong>Edit</strong>: its visibility will be activated for UPDATE annotation operations (that will be described later).</li>
+</ul>
+<p>Let's now define the appearance and the style of the Edit (and Delete too) buttons in <a href="https://github.com/Tars4815/ponti/blob/main/css/style.css">style.css</a>:</p>
+<pre><code>/* Styling custom form for new annotation */
+.custom-form {
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    margin: 0;
+    width: 300px;
+    height: 400px;
+    cursor: pointer;
+    background-color: #FFFFFF;
+    right: 0%;
+    bottom: 1.2em;
+}
+
+/* Style for the Submit button */
+#submitAnnotation {
+    background-color: green;
+    color: white;
+    border: 1px solid white; /* Border color when not hovered */
+    padding: 5px 10px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+    display: none;
+}
+
+/* Hover effect for the Submit button */
+#submitAnnotation:hover {
+    border: 2px solid yellow; /* Border color on hover */
+}
+
+/* Style for the Submit button */
+#editAnnotation {
+    background-color: blue;
+    color: white;
+    border: 1px solid white; /* Border color when not hovered */
+    padding: 5px 10px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+    display: none;
+}
+
+/* Hover effect for the Submit button */
+#editAnnotation:hover {
+    border: 2px solid yellow; /* Border color on hover */
+}
+</code></pre>
+<p>Now, let's define the functions associated to the <em>addAnnotationBtn</em> as well as for <em>submitTypeBtn</em>, <em>pickPointButton</em> and <em>submitAnnotation</em> inside the form.
+In <a href="js/annotations.js">annotations.js</a> the following code snippet is responsible for handling click events on the <em>addAnnotationBtn</em> and changing the visibility and style of form panel:</p>
+<pre><code>//CODE FOR CUSTOM FORM//
+$(document).ready(function () {
+  // Add a click event handler to the #addAnnotationBtn button
+  $(&quot;#addAnnotationBtn&quot;).click(function () {
+    // Display the type selection panel
+    typeSelectionPanel = document.getElementById(&quot;annotationTypeSelection&quot;);
+    typeSelectionPanel.style.display = &quot;flex&quot;;
+
+    // Add a click event handler to the #submitTypeBtn button
+    $(&quot;#submitTypeBtn&quot;).click(function () {
+      // Get the selected annotation type
+      const selectedType = $(&quot;#annotationTypeDropdown&quot;).val();
+
+      // Hide the type selection panel
+      typeSelectionPanel.style.display = &quot;none&quot;;
+
+      // Display the custom form panel
+      annoForm = document.getElementById(&quot;customAnnotationForm&quot;);
+      annoForm.style.display = &quot;flex&quot;;
+
+      // Set the selected type in a hidden field or variable for later use
+      // You can use this information when creating the annotation
+      selectedAnnotationType = selectedType;
+
+      // Display the submit button
+      submitButton = document.getElementById(&quot;submitAnnotation&quot;);
+      submitButton.style.display = &quot;flex&quot;;
+    });
+  });
+});
+</code></pre>
+<p>Hence, the function to be triggered when <em>pickPointButton</em> is clicked is defined. The handler initiates the measuring tool to pick a single point and updates the input box with the selected point's coordinates.</p>
+<pre><code>$(&quot;#pickPointButton&quot;).click(function () {
+  const measurement = viewer.measuringTool.startInsertion({
+    showDistances: false,
+    showAngles: false,
+    showCoordinates: true,
+    showArea: false,
+    closed: true,
+    maxMarkers: 1,
+    name: &quot;Point&quot;,
+  });
+  // Listen for the marker_dropped event
+  measurement.addEventListener(&quot;marker_dropped&quot;, (e) =&gt; {
+    // Get the coordinates of the picked point
+    const coordinates = e.measurement.points[0].position.toArray();
+
+    // Format the coordinates as a string (format: x, y, z)
+    const selectedPoint = coordinates.join(&quot;, &quot;);
+
+    // Update the input box for the position with the selected point
+    $(&quot;#position&quot;).val(selectedPoint);
+
+    // Remove the measurement from the scene
+    viewer.scene.removeMeasurement(measurement);
+  });
+});
+</code></pre>
+<p>Then, the <em>submitAnnotation</em> button click event handler is coded as follows:</p>
+<pre><code>// Add a click event handler to the #submitAnnotation button
+$(&quot;#submitAnnotation&quot;).click(function () {
+  // Get values from the form fields
+  let title = $(&quot;#title&quot;).val();
+  let description = $(&quot;#description&quot;).val();
+  let positionInput = $(&quot;#position&quot;).val();
+  let selectedType = $(&quot;#annotationTypeDropdown&quot;).val();
+
+  // Split position input into an array
+  let positionArray = positionInput
+    .split(&quot;,&quot;)
+    .map((value) =&gt; parseFloat(value.trim()));
+  console.log(positionArray);
+
+  let camPositionArray;
+
+  // Check if window.viewer is defined before attempting to access the camera position
+  if (
+    window.viewer &amp;&amp;
+    window.viewer.scene &amp;&amp;
+    window.viewer.scene.getActiveCamera
+  ) {
+    try {
+      camPositionArray = window.viewer.scene
+        .getActiveCamera()
+        .position.toArray();
+      console.log(&quot;Camera Position:&quot;, camPositionArray);
+      camTargetArray = window.viewer.scene.view.getPivot().toArray();
+      console.log(&quot;Target Position:&quot;, camTargetArray);
+    } catch (error) {
+      console.error(&quot;Error getting camera position:&quot;, error);
+      console.error(&quot;Error getting target position:&quot;, error);
+    }
+  } else {
+    console.error(
+      &quot;Viewer not properly initialized. Make sure 'window.viewer' is defined.&quot;
+    );
+  }
+
+  // Save the annotation with the values from the form
+  saveAnnotation(
+    title,
+    description,
+    positionArray,
+    camPositionArray,
+    camTargetArray,
+    selectedType
+  );
+
+  // Hide the custom form panel
+  annoForm = document.getElementById(&quot;customAnnotationForm&quot;);
+  annoForm.style.display = &quot;none&quot;;
+  submitButton = document.getElementById(&quot;submitAnnotation&quot;);
+  submitButton.style.display = &quot;none&quot;;
+});
+</code></pre>
+<p>Such click event triggers a <em>saveAnnotation</em> function that save the new object in the database and create a corresponding annotation in the scene.</p>
+<pre><code>function saveAnnotation(
+  title,
+  description,
+  positionArray,
+  camPositionArray,
+  camTargetArray,
+  annotationType
+) {
+  // Use AJAX to send data to the PHP script for insertion
+  $.ajax({
+    type: &quot;POST&quot;,
+    url: &quot;database/insert_annotation.php&quot;, // Adjust the URL based on your file structure
+    data: {
+      title: title,
+      description: description,
+      pos_x: positionArray[0],
+      pos_y: positionArray[1],
+      pos_z: positionArray[2],
+      campos_x: camPositionArray[0],
+      campos_y: camPositionArray[1],
+      campos_z: camPositionArray[2],
+      tarpos_x: camTargetArray[0],
+      tarpos_y: camTargetArray[1],
+      tarpos_z: camTargetArray[2],
+      typology: annotationType,
+      // Add additional parameters as needed
+    },
+    success: function (id) {
+      // Use the returned ID to create the annotation
+      createAnnotation(
+        id,
+        bridgescene, // Assuming bridgescene is accessible globally
+        title,
+        positionArray,
+        camPositionArray,
+        camTargetArray, // You can set camera target to camera position or adjust as needed
+        description,
+        annotationType
+      );
+    },
+    error: function (error) {
+      console.error(&quot;Error saving annotation:&quot;, error);
+    },
+  });
+
+  console.log(&quot;Annotation created&quot;);
+}
+</code></pre>
+<p>Inside the function, a POST operation is triggered, recalling the <a href="https://github.com/Tars4815/ponti/blob/main/database/insert_annotation.php">insert_annotation.php</a> file that, connecting to the PostgreSQL database with the given credentials, store each defined annotation parameters in the corresponding table columns. As a result, it also echoes the newly created annotation id that will be used to univocally associated a new annotation in the Potree to its table rows in the database.</p>
+<pre><code>&lt;?php
+$connection = pg_connect(&quot;host=yourhost port=yourport dbname=yourdbname user=username password=yourpassword&quot;);
+
+if (!$connection) {
+    echo &quot;An error occurred.&lt;br&gt;&quot;;
+    exit;
+}
+
+if ($_SERVER[&quot;REQUEST_METHOD&quot;] == &quot;POST&quot;) {
+    $title = pg_escape_string($_POST[&quot;title&quot;]);
+    $description = pg_escape_string($_POST[&quot;description&quot;]);
+    $pos_x = (float)$_POST[&quot;pos_x&quot;];
+    $pos_y = (float)$_POST[&quot;pos_y&quot;];
+    $pos_z = (float)$_POST[&quot;pos_z&quot;];
+    $campos_x = (float)$_POST[&quot;campos_x&quot;];
+    $campos_y = (float)$_POST[&quot;campos_y&quot;];
+    $campos_z = (float)$_POST[&quot;campos_z&quot;];
+    $tarpos_x = (float)$_POST[&quot;tarpos_x&quot;];
+    $tarpos_y = (float)$_POST[&quot;tarpos_y&quot;];
+    $tarpos_z = (float)$_POST[&quot;tarpos_z&quot;];
+    $typology = pg_escape_string($_POST[&quot;typology&quot;]);
+
+    // Use prepared statements to prevent SQL injection
+    $query = &quot;INSERT INTO annotations (title, description, pos_x, pos_y, pos_z, campos_x, campos_y, campos_z, tarpos_x, tarpos_y, tarpos_z, typology) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id&quot;;
+    $result = pg_query_params($connection, $query, array(
+        $title, $description, $pos_x, $pos_y, $pos_z,
+        $campos_x, $campos_y, $campos_z, $tarpos_x, $tarpos_y, $tarpos_z, $typology
+    ));
+
+    if (!$result) {
+        echo &quot;Error inserting data: &quot; . pg_last_error($connection);
+    } else {
+        // Fetch the inserted ID and echo it in the response
+        $insertedRow = pg_fetch_assoc($result);
+        $insertedId = $insertedRow['id'];
+        echo $insertedId;
+    }
+}
+
+pg_close($connection);
+?&gt;
+
+</code></pre>
+<p>The newly created annotation is now included in the database as well as in the scene, even after page refresh.</p>
+<h3 id="updating-existing-annotations">Updating existing annotations</h3>
+<p>Another useful operation for annotations is the UPDATE one. In order to do so, first an <em>Edit button</em> (as well as a <em>Delete button</em> that will be explained in the next DELETE annotation section) has been added in the Potree annotation constructor in <a href="https://github.com/Tars4815/ponti/blob/main/libs/potree/potree.js">potree.js</a> when the structure for the <em>annotation-description</em> is defined:</p>
+<pre><code>// Create Edit &amp; Delete buttons
+            this.domElement = $(`
+            &lt;div class=&quot;annotation&quot; oncontextmenu=&quot;return false;&quot;&gt;
+                &lt;div class=&quot;annotation-titlebar&quot;&gt;
+                    &lt;span class=&quot;annotation-label&quot;&gt;&lt;/span&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;annotation-description&quot;&gt;
+                    &lt;span class=&quot;annotation-description-close&quot;&gt;
+                        &lt;img src=&quot;${iconClose}&quot; width=&quot;16px&quot;&gt;
+
+                    &lt;/span&gt;
+                    &lt;span class=&quot;annotation-description-content&quot;&gt;${this._description}&lt;/span&gt;&lt;br&gt;
+                    &lt;button class=&quot;annotation-edit-button&quot;&gt;Edit&lt;/button&gt;
+                    &lt;button class=&quot;annotation-delete-button&quot;&gt;Delete&lt;/button&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        `);
+    // Find the button after the element has been added to the DOM
+            let editButton = this.domElement.find('.annotation-edit-button');
+            editButton.click(() =&gt; showEditForm(this));
+            // Find the button after the element has been added to the DOM
+            let deleteButton = this.domElement.find('.annotation-delete-button');
+            deleteButton.click(() =&gt; deleteAnnotation(this));
+</code></pre>
+<p>Let's now define the appearance and the style of the Edit (and Delete too) buttons in <a href="https://github.com/Tars4815/ponti/blob/main/css/style.css">style.css</a>:</p>
+<pre><code>/* Style for the Edit button */
+.annotation-edit-button {
+    background-color: black;
+    color: white;
+    border: 1px solid white; /* Border color when not hovered */
+    padding: 5px 10px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+}
+
+/* Hover effect for the Edit button */
+.annotation-edit-button:hover {
+    border: 1px solid yellow; /* Border color on hover */
+}
+
+/* Style for the Edit button */
+.annotation-delete-button {
+    background-color: red;
+    color: white;
+    border: 1px solid white; /* Border color when not hovered */
+    padding: 5px 10px; /* Adjust padding as needed */
+    cursor: pointer;
+    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+}
+
+/* Hover effect for the Edit button */
+.annotation-delete-button:hover {
+    border: 1px solid yellow; /* Border color on hover */
+}
+</code></pre>
+<p>Then, let's define the set of functions needed when the annotation-edit button is clicked. The needed step for a proper UPDATE operation now are:
+1. Open the Edit form and populate each input boxes with the current paramters values;
+2. Remove from the scene the old annotation object and pass the new parameters to the database in order to update the annotation record in the corresponding table (<em>removeAnnotationFromScene()</em> and <em>updateAnnotationInDatabase()</em>).</p>
+<p>First, <em>showEditForm()</em>, defined in <a href="js/annotations.js">annotations.js</a>:</p>
+<pre><code>function showEditForm(annotation) {
+  // Populate the custom form fields with existing annotation data
+  document.getElementById(&quot;title&quot;).value = annotation.title;
+  document.getElementById(&quot;description&quot;).value = annotation.description;
+  document.getElementById(&quot;position&quot;).value = annotation.position
+    .toArray()
+    .join(&quot;, &quot;);
+  // Display the type selection panel
+  typeSelectionPanel = document.getElementById(&quot;annotationTypeSelection&quot;);
+  typeSelectionPanel.style.display = &quot;flex&quot;;
+   // Add a click event handler to the #submitTypeBtn button
+   $(&quot;#submitTypeBtn&quot;).click(function () {
+    // Get the selected annotation type
+    const selectedType = $(&quot;#annotationTypeDropdown&quot;).val();
+
+    // Hide the type selection panel
+    typeSelectionPanel.style.display = &quot;none&quot;;
+
+    // Display the custom form panel
+    annoForm = document.getElementById(&quot;customAnnotationForm&quot;);
+    annoForm.style.display = &quot;flex&quot;;
+
+    // Set the selected type in a hidden field or variable for later use
+    // You can use this information when creating the annotation
+    selectedAnnotationType = selectedType;
+    // Show edit button
+    editButton = document.getElementById(&quot;editAnnotation&quot;);
+    editButton.style.display = &quot;flex&quot;;
+    // Attach an event listener to the edit button
+    document.getElementById(&quot;editAnnotation&quot;)
+    .addEventListener(&quot;click&quot;, function () {
+      // Retrieve values from the form
+      let newTitle = document.getElementById(&quot;title&quot;).value;
+      let newDescription = document.getElementById(&quot;description&quot;).value;
+      let newPositionInput = $(&quot;#position&quot;).val();
+
+      // Split position input into an array
+      let positionArray = newPositionInput
+        .split(&quot;,&quot;)
+        .map((value) =&gt; parseFloat(value.trim()));
+      console.log(positionArray);
+
+      // Update the annotation in the scene
+      annotation.title.text(newTitle);
+      annotation.description = newDescription;
+
+      // Retrieve camera positions and targets
+      let camPositionArray;
+      let camTargetArray;
+
+      // Check if window.viewer is defined before attempting to access the camera position
+      if (
+        window.viewer &amp;&amp;
+        window.viewer.scene &amp;&amp;
+        window.viewer.scene.getActiveCamera
+      ) {
+        try {
+          camPositionArray = window.viewer.scene
+            .getActiveCamera()
+            .position.toArray();
+          console.log(&quot;Camera Position:&quot;, camPositionArray);
+          camTargetArray = window.viewer.scene.view.getPivot().toArray();
+          console.log(&quot;Target Position:&quot;, camTargetArray);
+        } catch (error) {
+          console.error(&quot;Error getting camera position:&quot;, error);
+          console.error(&quot;Error getting target position:&quot;, error);
+        }
+      } else {
+        console.error(
+          &quot;Viewer not properly initialized. Make sure 'window.viewer' is defined.&quot;
+        );
+      }
+
+      // Remove the existing annotation from the scene
+      removeAnnotationFromScene(annotation);
+
+      // Update the annotation in the database
+      updateAnnotationInDatabase(
+        annotation.customId,
+        newTitle,
+        newDescription,
+        positionArray,
+        camPositionArray,
+        camTargetArray,
+        selectedAnnotationType
+      );
+
+      // Hide the custom form after submission
+      document.getElementById(&quot;customAnnotationForm&quot;).style.display = &quot;none&quot;;
+    });
+  });
+}
+</code></pre>
+<p>The <em>removeAnnotationFromScene()</em> is simply defined as follows:</p>
+<pre><code>/**
+ * Remove an annotation from the Potree scene.
+ *
+ * @param {object} annotation - The annotation object to be removed from the scene.
+ * @throws {Error} Will throw an error if there's an issue removing the annotation from the scene.
+ */
+function removeAnnotationFromScene(annotation) {
+  // Code to remove the annotation from the Potree scene
+  viewer.scene.annotations.remove(annotation);
+}
+</code></pre>
+<p>While the <em>updateAnnotationInDatabase()</em> executes the following operations passing the parameters to the database:</p>
+<pre><code>function updateAnnotationInDatabase(
+  id,
+  newTitle,
+  newDescription,
+  newPositionArray,
+  camPositionArray,
+  camTargetArray,
+  annotationType
+) {
+  // Use AJAX to send data to the PHP script for updating
+  $.ajax({
+    type: &quot;POST&quot;,
+    url: &quot;database/update_annotation.php&quot;,
+    data: {
+      id: id,
+      newTitle: newTitle,
+      newDescription: newDescription,
+      newPositionArray: newPositionArray.join(&quot;,&quot;),
+      camPositionArray: camPositionArray.join(&quot;,&quot;),
+      camTargetArray: camTargetArray.join(&quot;,&quot;),
+      typology: annotationType,
+    },
+    success: function (response) {
+      console.log(&quot;Annotation id: &quot;, id);
+      console.log(&quot;Annotation updated in the database&quot;);
+      // Use the returned ID to create the annotation
+      createAnnotation(
+        id,
+        bridgescene, // Assuming bridgescene is accessible globally
+        newTitle,
+        newPositionArray,
+        camPositionArray,
+        camTargetArray,
+        newDescription,
+        annotationType
+      );
+    },
+    error: function (error) {
+      console.error(&quot;Error updating annotation in the database:&quot;, error);
+    },
+  });
+}
+</code></pre>
+<p>The <a href="https://github.com/Tars4815/ponti/blob/main/database/update_annotation.php">update_annotation.php</a> file deals with the updated annotation parameters and, identifying the record to be modified through the annotation id, save the new values in the database.</p>
+<pre><code>if ($_SERVER[&quot;REQUEST_METHOD&quot;] == &quot;POST&quot;) {
+    $id = $_POST[&quot;id&quot;];
+    $newTitle = $_POST[&quot;newTitle&quot;];
+    $newDescription = $_POST[&quot;newDescription&quot;];
+    $newPosition = $_POST[&quot;newPositionArray&quot;];
+    $camPosition = $_POST[&quot;camPositionArray&quot;];
+    $camTarget = $_POST[&quot;camTargetArray&quot;]; 
+    $typology = $_POST[&quot;typology&quot;];
+
+    // Update data in the annotations table
+    $query = &quot;UPDATE annotations SET 
+    title = '$newTitle', 
+    description = '$newDescription', 
+    pos_x = &quot; . explode(',', $newPosition)[0] . &quot;,
+    pos_y = &quot; . explode(',', $newPosition)[1] . &quot;,
+    pos_z = &quot; . explode(',', $newPosition)[2] . &quot;,
+    campos_x = &quot; . explode(',', $camPosition)[0] . &quot;,
+    campos_y = &quot; . explode(',', $camPosition)[1] . &quot;,
+    campos_z = &quot; . explode(',', $camPosition)[2] . &quot;,
+    tarpos_x = &quot; . explode(',', $camTarget)[0] . &quot;,
+    tarpos_y = &quot; . explode(',', $camTarget)[1] . &quot;,
+    tarpos_z = &quot; . explode(',', $camTarget)[2] . &quot;,
+    typology = '$typology'
+    WHERE id = $id&quot;;
+
+    $result = pg_query($connection, $query);
+
+    if (!$result) {
+        echo &quot;Error inserting data: &quot; . pg_last_error($connection);
+    } else {
+        // Fetch the inserted ID and echo it in the response
+        $insertedRow = pg_fetch_assoc($result);
+        $insertedId = $insertedRow['id'];
+        echo $insertedId;
+    }
+}
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

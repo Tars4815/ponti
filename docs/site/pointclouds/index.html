@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Pointclouds integration - PONTI | Documentation</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="../js/jquery-1.10.2.min.js" defer></script>
+        <script src="../js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">PONTI | Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="../about.md" class="nav-link">About</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#pointclouds-integration" class="nav-link">Pointclouds integration</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="pointclouds-integration">Pointclouds integration</h1>
+<p>Before proceeding with this step, make sure you have finished the reconstruction processing of the 3D model of the bridge and obtained a point cloud of the structure in .las format. Once this product is obtained, you could convert the .las cloud using one of the method described in <a href="https://potree-templates.readthedocs.io/en/latest/pages/potree.html#pointcloud-conversion">this documentation of Potree</a>.</p>
+<p>As a result, at the end of the procedure you will obtain a folder with the following structure:</p>
+<pre><code>converted_pointcloud_folder
+|
+│   hierarchy.bin
+│   metadata.json
+|   octree.bin    
+
+</code></pre>
+<p>Copy the whole folder and paste it inside the <em>pointclouds</em> folder. Then, open the <a href="https://github.com/labmgf-polimi/ponti/blob/main/assets/js/pointcloud.js">pointcloud.js</a> file with a text editor.</p>
+<p>Now you need to refer to the newly converted file in this js code file, enabling its correct visualization in the Potree Viewer. In order to do so, look for the <em>Loading point cloud data and its setting for rendering in Potree Viewer</em> comment section in the script.
+This part of the file load the pointcloud in json format through the <strong><em>loadPointCloud</em></strong> function. In order to correctly refer to the newly converted cloud and visualise it in RGB mode, modify the code as below:</p>
+<pre><code>
+Potree.loadPointCloud(&quot;./pointclouds/converted_pointcloud_folder/metadata.json&quot;, &quot;Bridge cloud&quot;, e =&gt; {
+    let pointcloud = e.pointcloud;
+    let material = pointcloud.material;
+    material.size = 0.6;
+    material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+    material.shape = Potree.PointShape.CIRCLE;
+    material.activeAttributeName = &quot;rgba&quot;; // change this value to &quot;classification&quot; and uncomment the next 2 lines if you desire to show the classified point cloud
+    // material.intensityRange = [1, 100];
+    // material.gradient = Potree.Gradients.RAINBOW;
+    bridgescene.addPointCloud(pointcloud);
+    viewer.setFrontView();
+});
+
+</code></pre>
+<p>In this way the cloud will be correctly loaded. Change "<em>Bridge cloud</em>" to a name of your choice if you'd like to change its name as visualised in the sidebar scene section.</p>
+<p>Additionally, in the pointcloud.js file, in the following section update the <em>INSERT TEXT HERE</em> content if you're interested in mentioning author(s) of the point cloud survey and/or data processing in a dedicated <em>Credits</em> section in the sidebar.</p>
+<pre><code>viewer.loadGUI(() =&gt; {
+    viewer.setLanguage('en');
+    viewer.toggleSidebar();
+    $(&quot;#menu_appearance&quot;).next().show();
+    $(&quot;#menu_tools&quot;).next().show();
+    /* Creating a new sidebar section for credits */
+    let section = $(`&lt;h3 id=&quot;menu_meta&quot; class=&quot;accordion-header ui-widget&quot;&gt;&lt;span&gt;Credits&lt;/span&gt;&lt;/h3&gt;&lt;div class=&quot;accordion-content ui-widget pv-menu-list&quot;&gt;&lt;/div&gt;`);
+    let content = section.last();
+    content.html(`
+    &lt;div class=&quot;pv-menu-list&quot;&gt;
+        &lt;li&gt;INSERT TEXT HERE&lt;/li&gt;
+    &lt;/div&gt;
+    `);
+    content.hide();
+    section.first().click(() =&gt; content.slideToggle());
+    section.insertBefore($('#menu_appearance'));
+});
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js" defer></script>
+        <script src="../search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

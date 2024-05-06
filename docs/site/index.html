@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>PONTI | Documentation</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css">
+
+        <script src="js/jquery-1.10.2.min.js" defer></script>
+        <script src="js/bootstrap.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">PONTI | Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem active">
+                                <a href="." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="about.md" class="nav-link">About</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#potree-platform-for-infrastructure-inspection-ponti" class="nav-link">Potree platfOrm for iNfrastructure Inspection (PONTI)</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#about" class="nav-link">About</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#getting-started" class="nav-link">Getting started</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#gui-definition" class="nav-link">GUI definition 💻</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="potree-platform-for-infrastructure-inspection-ponti">Potree platfOrm for iNfrastructure Inspection (PONTI)</h1>
+<p><em>Potree platfOrm for iNfrasTructure Inspection</em> (PONTI) is a custom Potree template for sharing survey products of provincial bridges.</p>
+<p>The template is based on the open-source JavaScript library Potree by Markus Schütz.</p>
+<h2 id="about">About</h2>
+<p>This template aims to simplify the procedure for building Potree-based platform for bridge survey data sharing.</p>
+<p>The repository and template has been defined for implementing the following core features:</p>
+<ul>
+<li><strong>Pointcloud visualisation</strong> with both RGB and classification appearance;</li>
+<li><strong>Oriented images on the model</strong> for direct exploration of drone images used for the reconstruction;</li>
+<li><strong>Annotations definition</strong> to highlight specific bridge elements, possibly embedding multimedia or actions in their descriptions.</li>
+<li><strong>Database integration</strong> in a fully open source framework</li>
+</ul>
+<h2 id="getting-started">Getting started</h2>
+<p>To start, <a href="https://github.com/login/">sign in GitHub</a> and navigate to the <a href="https://github.com/labmgf-polimi/ponti"><strong>PONTI GitHub template</strong></a>, where you will see a green Use this template button. Click it to open a new page that will ask you for some details:</p>
+<ul>
+<li>Introduce an appropriate "Repository name".</li>
+<li>Make sure the project is "Public", rather than "Private".</li>
+</ul>
+<p>After that, click on the green Create repository from template button, which will generate a new repository on your personal account (or the one of your choosing).</p>
+<p>To work locally on the project before loading it to a server, instead click on the Code button and then select the Download ZIP option. After unzipping the downloaded folder, copy everything in the htdocs folder of the xampp directory of your device for working in your local development environment.</p>
+<p>This repository is structured as follows:</p>
+<pre><code>ponti
+|
+│   assets
+    |   [images and samples for README]
+    css
+    |   style.css
+    database
+    |   delete_annotation.php
+    |   insert_annotation.php
+    |   load_annotations.php
+    |   update_annotation.php
+│   img_selected
+    |   chunk1
+        |   camera_parameters.xml
+        |   oientedimages.txt
+        chunk2
+        |   camera_P1.txt
+        |   camera_P1.xml
+    js
+    |   annotation.js
+    |   orientedcameras.js
+    |   pointcloud.js
+    libs
+    |   [dependencies' libs for Potree]
+    licenses
+    |   license_brotli.txt
+    |   license_json.txt
+    |   license_laszip.txt
+    |   license_potree_converter.txt
+    poinclouds (files not included in GitHub. Folder that needs to be filled with output of pointcloud conversion as follows)
+    |   hierarchy.bin
+    |   metadata.json
+    |   octree.bin
+|   index.php
+|   LICENSE
+|   README.md
+
+</code></pre>
+<p>Important files:</p>
+<p><strong><em>README.md</em></strong></p>
+<p>Basic description of the repository with instructions on how to replicate the PONTI template.</p>
+<p><strong><em><a href="https://github.com/Tars4815/ponti/blob/main/index.php">index.php</a></em></strong></p>
+<p>This will be the homepage of the PONTI viewer. It contains the basic settings for the GUI and includes the paths to all the style and js files.</p>
+<ul>
+<li>
+<p><em>CSS</em> with the stylesheet in CSS language defined for including in the GUI a header with a description and/or logo.</p>
+</li>
+<li>
+<p><em>JS</em> that includes JavaScript files for loading 3D products in the viewer.</p>
+</li>
+</ul>
+<p><strong><em>img_selected</em></strong></p>
+<p>This folder is used to store and collect the oriented images that the viewer developer is willing to integrate on the platform. Together with the picture files, camera certificates and images orientation parameters are saved in this space.</p>
+<p><strong><em>libs</em></strong></p>
+<p>All libraries' dependencies for making functionable the viewer are saved in the sub-folders.</p>
+<p><strong><em>licenses</em></strong></p>
+<p>License specifications for the used libraries are descripted here.</p>
+<p><strong><em>pointclouds</em></strong></p>
+<p>Converted point clouds and ancillary files should be saved in this folder to preserve the template structure.</p>
+<p><strong><em>database</em></strong>
+It contains .php files that allow for the interaction between the platform and a PostgreSQL database. In particular, saving annotations</p>
+<h2 id="gui-definition"><strong>GUI definition</strong> 💻</h2>
+<p>The <a href="https://github.com/labmgf-polimi/ponti/blob/main/index.html">index.html</a> file includes the main settings for the web page that contains the custom Potree viewer. For example, information contained in this file defines the <strong>title</strong> that will appear on the browser window when the page is loaded as well as other important <strong>metadata</strong> regarding the content and/or the author(s) of the page. These settings are defined in the first lines in the <em>head</em> element:</p>
+<pre><code>...
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;meta name=&quot;description&quot; content=&quot;Bridge digital twin&quot;&gt;
+    &lt;meta name=&quot;author&quot; content=&quot;Federica Gaspari&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0, user-scalable=no&quot;&gt;
+    &lt;title&gt;Bridge name&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./libs/potree/potree.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./libs/jquery-ui/jquery-ui.min.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./libs/openlayers3/ol.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./libs/spectrum/spectrum.css&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;./libs/jstree/themes/mixed/style.css&quot;&gt;
+&lt;/head&gt;
+...
+</code></pre>
+<p>When creating a new custom Potree viewer, change the content description according to your need as well as the content author. Then, change the text between the <em>title</em> tag by putting the name and/or location of the surveyed bridge. Leave everything else unchanges.</p>
+<p>An additional decoration of the main page consist in a banner on the upper part of the window with a custom text and, optionally, a logo. This element require a simple addition to the HTML and CSS page codes to define its content and appearance.</p>
+<p><img alt="PONTI banner example" src="img/ponti-banner-example.jpg" title="PONTI banner example" /></p>
+<p>To style the header banner, in the <a href="https://github.com/labmgf-polimi/ponti/blob/main/assets/css/style.css">assets/css/style.css</a> file the following CSS code is defined:</p>
+<pre><code>#header_panel {
+    width: 100%;
+    height: 5%;
+    background-color: #19282C;
+}
+
+#header_title {
+    color: #FFFFFF;
+    font-size: 80%;
+    font-weight: bold;
+    position: relative;
+    left: 100px;
+    Top: 20px;
+    font-family: Georgia, &quot;Times New Roman&quot;, Times, serif;
+}
+</code></pre>
+<p>The <em>#</em> simbol before each name allows to define a specific style for specific div elements (through the so called <em>id</em>) in the viewer page definition. In particular:</p>
+<ul>
+<li>
+<p><strong>header_panel</strong> is set by default as a dark blue-grey (<em>background-color</em>) banner whose <em>width</em> is always equal to the entire width of a web page in which the viewer is loaded, while its <em>height</em> correspond to the 5% of the web page height.</p>
+</li>
+<li>
+<p><strong>header_title</strong> is by default defining a white bold Georgia text (<em>color</em>, <em>font-weight</em>, <em>font-family</em>) whose position always refers to the div element in which it is contained. </p>
+</li>
+</ul>
+<p>In the <a href="https://github.com/labmgf-polimi/ponti/blob/main/index.php">index.html</a> file the previously styled header banner is defined in the body section. To change the title to be displayed on the top of the page, simply change the text included within the div <em>header_title</em> element. </p>
+<pre><code>&lt;!-- Defining header with title --&gt;
+    &lt;div id=&quot;header_panel&quot;&gt;
+        &lt;div id=&quot;header_title&quot;&gt;
+            Ponti Template - Example of a Bridge 3D data exploration
+        &lt;/div&gt;
+    &lt;/div&gt;
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js" defer></script>
+        <script src="search/main.js" defer></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.4.2
+Build Date UTC : 2024-05-06 10:51:31.187997+00:00
+-->
