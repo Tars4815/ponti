@@ -103,3 +103,65 @@ Converted point clouds and ancillary files should be saved in this folder to pre
 
 **_database_**
 It contains .php files that allow for the interaction between the platform and a PostgreSQL database. In particular, saving annotations
+
+## **GUI definition** 💻
+
+The [index.html](https://github.com/labmgf-polimi/ponti/blob/main/index.html) file includes the main settings for the web page that contains the custom Potree viewer. For example, information contained in this file defines the **title** that will appear on the browser window when the page is loaded as well as other important **metadata** regarding the content and/or the author(s) of the page. These settings are defined in the first lines in the *head* element:
+
+```
+...
+<head>
+	<meta charset="utf-8">
+	<meta name="description" content="Bridge digital twin">
+	<meta name="author" content="Federica Gaspari">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<title>Bridge name</title>
+	<link rel="stylesheet" type="text/css" href="./libs/potree/potree.css">
+	<link rel="stylesheet" type="text/css" href="./libs/jquery-ui/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="./libs/openlayers3/ol.css">
+	<link rel="stylesheet" type="text/css" href="./libs/spectrum/spectrum.css">
+	<link rel="stylesheet" type="text/css" href="./libs/jstree/themes/mixed/style.css">
+</head>
+...
+```
+When creating a new custom Potree viewer, change the content description according to your need as well as the content author. Then, change the text between the *title* tag by putting the name and/or location of the surveyed bridge. Leave everything else unchanges.
+
+An additional decoration of the main page consist in a banner on the upper part of the window with a custom text and, optionally, a logo. This element require a simple addition to the HTML and CSS page codes to define its content and appearance.
+
+![PONTI banner example](img/ponti-banner-example.jpg "PONTI banner example")
+
+To style the header banner, in the [assets/css/style.css](https://github.com/labmgf-polimi/ponti/blob/main/assets/css/style.css) file the following CSS code is defined:
+
+```
+#header_panel {
+    width: 100%;
+    height: 5%;
+    background-color: #19282C;
+}
+
+#header_title {
+    color: #FFFFFF;
+    font-size: 80%;
+    font-weight: bold;
+    position: relative;
+    left: 100px;
+    Top: 20px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+```
+The *#* simbol before each name allows to define a specific style for specific div elements (through the so called *id*) in the viewer page definition. In particular:
+
+* **header_panel** is set by default as a dark blue-grey (*background-color*) banner whose *width* is always equal to the entire width of a web page in which the viewer is loaded, while its *height* correspond to the 5% of the web page height.
+
+* **header_title** is by default defining a white bold Georgia text (*color*, *font-weight*, *font-family*) whose position always refers to the div element in which it is contained. 
+
+In the [index.html](https://github.com/labmgf-polimi/ponti/blob/main/index.php) file the previously styled header banner is defined in the body section. To change the title to be displayed on the top of the page, simply change the text included within the div *header_title* element. 
+
+```
+<!-- Defining header with title -->
+	<div id="header_panel">
+		<div id="header_title">
+			Ponti Template - Example of a Bridge 3D data exploration
+		</div>
+	</div>
+```
