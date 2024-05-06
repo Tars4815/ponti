@@ -4,8 +4,6 @@
 
 The template is based on the open-source JavaScript library Potree by Markus Schütz.
 
-
-
 ## About
 
 This template aims to simplify the procedure for building Potree-based platform for bridge survey data sharing.
