@@ -1,126 +1,136 @@
 #header_panel {
-    width: 100%;
-    height: 5%;
-    background-color: #19282C;
+  width: 100%;
+  height: 5%;
+  background-color: #19282c;
 }
 
 #header_title {
-    color: #FFFFFF;
-    font-size: 80%;
-    font-weight: bold;
-    position: relative;
-    left: 100px;
-    Top: 20px;
-    font-family: Georgia, "Times New Roman", Times, serif;
+  color: #ffffff;
+  font-size: 80%;
+  font-weight: bold;
+  position: relative;
+  left: 100px;
+  top: 20px;
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 
 #camera_icon {
-    /*display: none;*/
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 15px;
-    right: 235px;
-    cursor: pointer;
-    max-height: 70px !important;
-    max-width: 70px !important;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 35px;
-    filter: invert(1);
+  /*display: none;*/
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 15px;
+  right: 235px;
+  cursor: pointer;
+  max-height: 70px !important;
+  max-width: 70px !important;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 35px;
+  filter: invert(1);
 }
 
 #addAnnotationBtn {
-    position: fixed;
-    bottom: 1.2em;
-    right: 25px;
-    z-index: 1000;
-    margin: 0;
-    background: none;
-    width: 2em;
-    height: 2em;
-    cursor: pointer;
-    margin: 4px;
-    filter: invert(1);
-    background-color: #FFFFFF;
+  position: fixed;
+  bottom: 1.2em;
+  right: 25px;
+  z-index: 1000;
+  margin: 0;
+  background: none;
+  width: 2em;
+  height: 2em;
+  cursor: pointer;
+  margin: 4px;
+  filter: invert(1);
+  background-color: #ffffff;
 }
 
 /* Style for the Edit button */
 .annotation-edit-button {
-    background-color: black;
-    color: white;
-    border: 1px solid white; /* Border color when not hovered */
-    padding: 5px 10px; /* Adjust padding as needed */
-    cursor: pointer;
-    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+  background-color: black;
+  color: white;
+  border: 1px solid white; /* Border color when not hovered */
+  padding: 5px 10px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: border 0.3s ease-in-out; /* Transition effect on hover */
 }
 
 /* Hover effect for the Edit button */
 .annotation-edit-button:hover {
-    border: 1px solid yellow; /* Border color on hover */
+  border: 1px solid yellow; /* Border color on hover */
 }
 
 /* Style for the Edit button */
 .annotation-delete-button {
-    background-color: red;
-    color: white;
-    border: 1px solid white; /* Border color when not hovered */
-    padding: 5px 10px; /* Adjust padding as needed */
-    cursor: pointer;
-    transition: border 0.3s ease-in-out; /* Transition effect on hover */
+  background-color: red;
+  color: white;
+  border: 1px solid white; /* Border color when not hovered */
+  padding: 5px 10px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: border 0.3s ease-in-out; /* Transition effect on hover */
 }
 
 /* Hover effect for the Edit button */
 .annotation-delete-button:hover {
-    border: 1px solid yellow; /* Border color on hover */
+  border: 1px solid yellow; /* Border color on hover */
 }
 
 /* Styling custom form for new annotation */
 .custom-form {
-    position: absolute;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    margin: 0;
-    width: 300px;
-    height: 400px;
-    cursor: pointer;
-    background-color: #FFFFFF;
-    right: 0%;
-    bottom: 1.2em;
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  margin: 0;
+  width: 300px;
+  height: 400px;
+  cursor: pointer;
+  background-color: black;
+  opacity: 0.8;
+  padding: 5px;
+  border-radius: 10px;
+  border-color: #ffffff;
+  color: #ffffff;
+  font-size: 1em;
+  border: solid;
+  right: 0%;
+  bottom: 1.2em;
 }
 
 /* Style for the Submit button */
 #submitAnnotation {
-    background-color: green;
-    color: white;
-    border: 1px solid white; /* Border color when not hovered */
-    padding: 5px 10px; /* Adjust padding as needed */
-    cursor: pointer;
-    transition: border 0.3s ease-in-out; /* Transition effect on hover */
-    display: none;
+  background-color: green;
+  color: white;
+  border: 1px solid white; /* Border color when not hovered */
+  padding: 5px 10px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: border 0.3s ease-in-out; /* Transition effect on hover */
+  display: none;
 }
 
 /* Hover effect for the Submit button */
 #submitAnnotation:hover {
-    border: 2px solid yellow; /* Border color on hover */
+  border: 2px solid yellow; /* Border color on hover */
 }
 
 /* Style for the Submit button */
 #editAnnotation {
-    background-color: blue;
-    color: white;
-    border: 1px solid white; /* Border color when not hovered */
-    padding: 5px 10px; /* Adjust padding as needed */
-    cursor: pointer;
-    transition: border 0.3s ease-in-out; /* Transition effect on hover */
-    display: none;
+  background-color: blue;
+  color: white;
+  border: 1px solid white; /* Border color when not hovered */
+  padding: 5px 10px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: border 0.3s ease-in-out; /* Transition effect on hover */
+  display: none;
 }
 
 /* Hover effect for the Submit button */
 #editAnnotation:hover {
-    border: 2px solid yellow; /* Border color on hover */
+  border: 2px solid yellow; /* Border color on hover */
 }
 
+.hidden {
+    display: none;
+}

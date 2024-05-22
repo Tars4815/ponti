@@ -12,6 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="./libs/openlayers3/ol.css">
 	<link rel="stylesheet" type="text/css" href="./libs/spectrum/spectrum.css">
 	<link rel="stylesheet" type="text/css" href="./libs/jstree/themes/mixed/style.css">
+	<link rel="stylesheet" type="text/css" href="./libs/Cesium/Widgets/CesiumWidget/CesiumWidget.css">
 </head>
 
 <body>
@@ -27,10 +28,17 @@
 	<script src="./libs/jstree/jstree.js"></script>
 	<script src="./libs/potree/potree.js"></script>
 	<script src="./libs/plasio/js/laslaz.js"></script>
+	<script src="./libs/Cesium/Cesium.js"></script>
 	<!-- INCLUDE ADDITIONAL DEPENDENCIES HERE -->
 	<!-- Custom styles for this template -->
 	<link rel="stylesheet" type="text/css" href="./css/style.css">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<!-- Import POINTCLOUD-->
+	<script type="module" src="js/pointcloud.js"></script>
+	<!-- Import ANNOTATIONS-->
+	<script src="js/annotations.js"></script>
+	<!--Import ORIENTED IMAGES-->
+	<!--<script src="js/orientedcameras.js"></script>-->
 	<!-- Defining header with title -->
 	<div id="header_panel">
 		<div id="header_title">
@@ -40,6 +48,8 @@
 	<!--Loading settings for Potree viewer-->
 	<div class="potree_container" style="position: relative; height:100%; width: 100%;">
 		<div id="potree_render_area">
+			<div id="cesiumContainer" style="position: absolute; width: 100%; height: 100%; background-color:black">
+			</div>
 		</div>
 		<div id="potree_sidebar_container" style="width: 50%; height: 100%;"> </div>
 		<!-- Custom form panel -->
@@ -68,6 +78,30 @@
 				<input type="text" id="position" name="position">
 				<button id="pickPointButton">Pick point</button>
 			</div>
+			<!-- Defect type dropdown (initially hidden) -->
+			<div id="defectTypeContainer" class="hidden">
+				<label for="defectTypeDropdown">Choose defect type:</label>
+				<select id="defectTypeDropdown">
+					<option value="crack">Crack</option>
+					<option value="corrosion">Corrosion</option>
+					<option value="spalling">Spalling</option>
+					<option value="deformation">Deformation</option>
+					<option value="stains">Stains</option>
+					<option value="other">Other</option>
+				</select>
+			</div>
+			<!-- Defect severity dropdown (initially hidden) -->
+			<div id="defectSeverityContainer" class="hidden">
+				<label for="defectSeverityDropdown">Select severity level:</label>
+				<select id="defectSeverityDropdown">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="ND">ND</option>
+				</select>
+			</div>
 
 			<button id="submitAnnotation">Submit</button>
 			<button id="editAnnotation">Edit</button>
@@ -85,12 +119,7 @@
 	pg_close($connection);
 
 	?>
-	<!-- Import POINTCLOUD-->
-	<script src="js/pointcloud.js"></script>
-	<!-- Import ANNOTATIONS-->
-	<script src="js/annotations.js"></script>
-	<!--Import ORIENTED IMAGES-->
-	<!--<script src="js/orientedcameras.js"></script>-->
+	
 	<img id="addAnnotationBtn" src="libs\potree\resources\icons\new-annotation.svg" style="filter: invert(0);"
 		title="Add a new annotation" alt="Add a new annotation">
 

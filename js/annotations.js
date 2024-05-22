@@ -47,35 +47,35 @@ function setAnnotationStyles(annotation, annotationType) {
   let styles = {};
 
   switch (annotationType) {
-    case 'comments':
+    case "comments":
       styles = {
-        backgroundColor: 'lightblue',
-        titleColor: 'blue',
+        backgroundColor: "lightblue",
+        titleColor: "blue",
       };
       break;
-    case 'structural element':
+    case "structural element":
       styles = {
-        backgroundColor: 'lightgreen',
-        titleColor: 'green',
+        backgroundColor: "lightgreen",
+        titleColor: "green",
       };
       break;
-    case 'defect':
+    case "defect":
       styles = {
-        backgroundColor: 'lightcoral',
-        titleColor: 'red',
+        backgroundColor: "lightcoral",
+        titleColor: "red",
       };
       break;
     default:
       // Default styles for unknown types
       styles = {
-        backgroundColor: 'lightgray',
-        titleColor: 'black',
+        backgroundColor: "lightgray",
+        titleColor: "black",
       };
   }
 
   // Apply styles to the annotation
-  annotation.title.css('background-color', styles.backgroundColor);
-  annotation.title.css('color', styles.titleColor);
+  annotation.title.css("background-color", styles.backgroundColor);
+  annotation.title.css("color", styles.titleColor);
 }
 
 /**
@@ -119,7 +119,7 @@ function saveAnnotation(
       // Use the returned ID to create the annotation
       createAnnotation(
         id,
-        bridgescene, // Assuming bridgescene is accessible globally
+        scene, // Assuming scene is accessible globally
         title,
         positionArray,
         camPositionArray,
@@ -134,7 +134,7 @@ function saveAnnotation(
   });
 
   console.log("Annotation created");
-} 
+}
 
 /**
  * Display the custom form for editing an existing annotation and update the annotation in the scene and database.
@@ -152,8 +152,8 @@ function showEditForm(annotation) {
   // Display the type selection panel
   typeSelectionPanel = document.getElementById("annotationTypeSelection");
   typeSelectionPanel.style.display = "flex";
-   // Add a click event handler to the #submitTypeBtn button
-   $("#submitTypeBtn").click(function () {
+  // Add a click event handler to the #submitTypeBtn button
+  $("#submitTypeBtn").click(function () {
     // Get the selected annotation type
     const selectedType = $("#annotationTypeDropdown").val();
 
@@ -171,67 +171,68 @@ function showEditForm(annotation) {
     editButton = document.getElementById("editAnnotation");
     editButton.style.display = "flex";
     // Attach an event listener to the edit button
-    document.getElementById("editAnnotation")
-    .addEventListener("click", function () {
-      // Retrieve values from the form
-      let newTitle = document.getElementById("title").value;
-      let newDescription = document.getElementById("description").value;
-      let newPositionInput = $("#position").val();
+    document
+      .getElementById("editAnnotation")
+      .addEventListener("click", function () {
+        // Retrieve values from the form
+        let newTitle = document.getElementById("title").value;
+        let newDescription = document.getElementById("description").value;
+        let newPositionInput = $("#position").val();
 
-      // Split position input into an array
-      let positionArray = newPositionInput
-        .split(",")
-        .map((value) => parseFloat(value.trim()));
-      console.log(positionArray);
+        // Split position input into an array
+        let positionArray = newPositionInput
+          .split(",")
+          .map((value) => parseFloat(value.trim()));
+        console.log(positionArray);
 
-      // Update the annotation in the scene
-      annotation.title.text(newTitle);
-      annotation.description = newDescription;
+        // Update the annotation in the scene
+        annotation.title.text(newTitle);
+        annotation.description = newDescription;
 
-      // Retrieve camera positions and targets
-      let camPositionArray;
-      let camTargetArray;
+        // Retrieve camera positions and targets
+        let camPositionArray;
+        let camTargetArray;
 
-      // Check if window.viewer is defined before attempting to access the camera position
-      if (
-        window.viewer &&
-        window.viewer.scene &&
-        window.viewer.scene.getActiveCamera
-      ) {
-        try {
-          camPositionArray = window.viewer.scene
-            .getActiveCamera()
-            .position.toArray();
-          console.log("Camera Position:", camPositionArray);
-          camTargetArray = window.viewer.scene.view.getPivot().toArray();
-          console.log("Target Position:", camTargetArray);
-        } catch (error) {
-          console.error("Error getting camera position:", error);
-          console.error("Error getting target position:", error);
+        // Check if window.viewer is defined before attempting to access the camera position
+        if (
+          window.viewer &&
+          window.viewer.scene &&
+          window.viewer.scene.getActiveCamera
+        ) {
+          try {
+            camPositionArray = window.viewer.scene
+              .getActiveCamera()
+              .position.toArray();
+            console.log("Camera Position:", camPositionArray);
+            camTargetArray = window.viewer.scene.view.getPivot().toArray();
+            console.log("Target Position:", camTargetArray);
+          } catch (error) {
+            console.error("Error getting camera position:", error);
+            console.error("Error getting target position:", error);
+          }
+        } else {
+          console.error(
+            "Viewer not properly initialized. Make sure 'window.viewer' is defined."
+          );
         }
-      } else {
-        console.error(
-          "Viewer not properly initialized. Make sure 'window.viewer' is defined."
+
+        // Remove the existing annotation from the scene
+        removeAnnotationFromScene(annotation);
+
+        // Update the annotation in the database
+        updateAnnotationInDatabase(
+          annotation.customId,
+          newTitle,
+          newDescription,
+          positionArray,
+          camPositionArray,
+          camTargetArray,
+          selectedAnnotationType
         );
-      }
 
-      // Remove the existing annotation from the scene
-      removeAnnotationFromScene(annotation);
-
-      // Update the annotation in the database
-      updateAnnotationInDatabase(
-        annotation.customId,
-        newTitle,
-        newDescription,
-        positionArray,
-        camPositionArray,
-        camTargetArray,
-        selectedAnnotationType
-      );
-
-      // Hide the custom form after submission
-      document.getElementById("customAnnotationForm").style.display = "none";
-    });
+        // Hide the custom form after submission
+        document.getElementById("customAnnotationForm").style.display = "none";
+      });
   });
 }
 
@@ -274,7 +275,7 @@ function updateAnnotationInDatabase(
       // Use the returned ID to create the annotation
       createAnnotation(
         id,
-        bridgescene, // Assuming bridgescene is accessible globally
+        viewer.scene, // Assuming scene is accessible globally
         newTitle,
         newPositionArray,
         camPositionArray,
@@ -349,8 +350,8 @@ $.ajax({
   url: "database/load_annotations.php", // Adjust the URL based on your file structure
   dataType: "json",
   success: function (existingAnnotations) {
-    // Assuming bridgescene is available globally, adjust if needed
-    let scene = bridgescene;
+    // Assuming scene is available globally, adjust if needed
+    let scene = viewer.scene;
 
     // Create Potree annotations for each existing record
     existingAnnotations.forEach((annotation) => {
@@ -377,28 +378,41 @@ $(document).ready(function () {
   $("#addAnnotationBtn").click(function () {
     // Display the type selection panel
     typeSelectionPanel = document.getElementById("annotationTypeSelection");
-    typeSelectionPanel.style.display = "flex";
-
-    // Add a click event handler to the #submitTypeBtn button
-    $("#submitTypeBtn").click(function () {
-      // Get the selected annotation type
-      const selectedType = $("#annotationTypeDropdown").val();
-
-      // Hide the type selection panel
+    // Check if the panel is currently open in the viewer
+    if (typeSelectionPanel.style.display === "flex") {
+      // Hide the panel
       typeSelectionPanel.style.display = "none";
-
-      // Display the custom form panel
+    } else {
+      // Make the panel visible
+      typeSelectionPanel.style.display = "flex";
       annoForm = document.getElementById("customAnnotationForm");
-      annoForm.style.display = "flex";
-
-      // Set the selected type in a hidden field or variable for later use
-      // You can use this information when creating the annotation
-      selectedAnnotationType = selectedType;
-
-      // Display the submit button
-      submitButton = document.getElementById("submitAnnotation");
-      submitButton.style.display = "flex";
-    });
+      annoForm.style.display = "none";
+      // Add a click event handler to the #submitTypeBtn button
+      $("#submitTypeBtn").click(function () {
+        // Get the selected annotation type
+        const selectedType = $("#annotationTypeDropdown").val();
+        // Hide the type selection panel
+        typeSelectionPanel.style.display = "none";
+        // Display the custom form panel
+        annoForm.style.display = "flex";
+        // Set the selected type in a hidden field or variable for later use
+        // You can use this information when creating the annotation
+        selectedAnnotationType = selectedType;
+        // Show or hide the defect type and severity dropdowns based on the selected annotation type
+        const defectTypeContainer = document.getElementById("defectTypeContainer");
+        const defectSeverityContainer = document.getElementById("defectSeverityContainer");
+        if (selectedAnnotationType === "defect") {
+          defectTypeContainer.style.display = "block";
+          defectSeverityContainer.style.display = "block";
+        } else {
+          defectTypeContainer.style.display = "none";
+          defectSeverityContainer.style.display = "none";
+        }
+        // Display the submit button
+        submitButton = document.getElementById("submitAnnotation");
+        submitButton.style.display = "flex";
+      });
+    }
   });
 });
 
