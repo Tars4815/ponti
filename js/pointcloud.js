@@ -50,7 +50,7 @@ window.viewer = new Potree.Viewer(
 viewer.setEDLEnabled(true); // Enabling Eye-Dome-Lighting option
 viewer.setFOV(60); // Defining Field of view
 viewer.setPointBudget(3_000_000); // Defining point budget
-viewer.setDescription("PONTI 3D interactive Potree-based viewer."); // Setting a description to be shown on top of viewer
+viewer.setDescription(""); // Setting a description to be shown on top of viewer
 viewer.setMinNodeSize(50);
 viewer.loadSettingsFromURL();
 viewer.setBackground(null);
