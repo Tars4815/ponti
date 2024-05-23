@@ -31,18 +31,15 @@
 }
 
 #addAnnotationBtn {
+  width: 10vw;
+  height: 10vh;
   position: fixed;
-  bottom: 1.2em;
-  right: 25px;
+  bottom: 2vh;
+  right: 2vw; 
   z-index: 1000;
-  margin: 0;
-  background: none;
-  width: 2em;
-  height: 2em;
   cursor: pointer;
-  margin: 4px;
-  filter: invert(1);
-  background-color: #ffffff;
+  max-height: 50px !important;
+  max-width: 50px !important;
 }
 
 /* Style for the Edit button */

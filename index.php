@@ -33,18 +33,14 @@
 	<!-- Custom styles for this template -->
 	<link rel="stylesheet" type="text/css" href="./css/style.css">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<!-- Import main functions-->
+	<script src="js/main.js"></script>
 	<!-- Import POINTCLOUD-->
 	<script type="module" src="js/pointcloud.js"></script>
 	<!-- Import ANNOTATIONS-->
 	<script src="js/annotations.js"></script>
 	<!--Import ORIENTED IMAGES-->
 	<!--<script src="js/orientedcameras.js"></script>-->
-	<!-- Defining header with title -->
-	<div id="header_panel">
-		<div id="header_title">
-			Protree Template - Example of a Bridge 3D data exploration
-		</div>
-	</div>
 	<!--Loading settings for Potree viewer-->
 	<div class="potree_container" style="position: relative; height:100%; width: 100%;">
 		<div id="potree_render_area">
@@ -80,7 +76,7 @@
 			</div>
 			<!-- Defect type dropdown (initially hidden) -->
 			<div id="defectTypeContainer" class="hidden">
-				<label for="defectTypeDropdown">Choose defect type:</label>
+				<label for="defectTypeDropdown">Defect type:</label>
 				<select id="defectTypeDropdown">
 					<option value="crack">Crack</option>
 					<option value="corrosion">Corrosion</option>
@@ -92,7 +88,7 @@
 			</div>
 			<!-- Defect severity dropdown (initially hidden) -->
 			<div id="defectSeverityContainer" class="hidden">
-				<label for="defectSeverityDropdown">Select severity level:</label>
+				<label for="defectSeverityDropdown">Severity level:</label>
 				<select id="defectSeverityDropdown">
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -119,8 +115,16 @@
 	pg_close($connection);
 
 	?>
-	
-	<img id="addAnnotationBtn" src="libs\potree\resources\icons\new-annotation.svg" style="filter: invert(0);"
+	<!--GUI Buttons-->
+	<!-- Full screen mode -->
+	<img id="fullscreen_icon" onclick="toggleFullScreen()" src="./assets/icons/fullscreen.svg" title="Fullscreen" />
+	<!-- Navigation help -->
+	<img id="question_icon" src="./assets/icons/question.svg" title="Tutorial" />
+	<div id="question_panel" class="hidden">
+		<!-- Content for the panel goes here -->
+		<img id="nav_instructions" src="./assets/icons/navigation3d.png" alt="">
+	</div>
+	<img id="addAnnotationBtn" src="./assets/icons/annotation-form.svg" style="filter: invert(0);"
 		title="Add a new annotation" alt="Add a new annotation">
 
 
