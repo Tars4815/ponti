@@ -32,6 +32,8 @@ function createAnnotation(
   });
   // Assigning unique ID from database
   annotation.customId = id;
+  // Classifying annotation based on assigned type
+  annotation.typology = annotationType;
   // Set the annotation type-specific styles
   setAnnotationStyles(annotation, annotationType);
   // Set the annotation to be visible
@@ -119,7 +121,7 @@ function saveAnnotation(
       // Use the returned ID to create the annotation
       createAnnotation(
         id,
-        scene, // Assuming scene is accessible globally
+        viewer.scene, // Assuming scene is accessible globally
         title,
         positionArray,
         camPositionArray,
@@ -375,7 +377,6 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-
 //CODE FOR CUSTOM FORM//
 $(document).ready(function () {
   // Add a click event handler to the #addAnnotationBtn button
@@ -403,8 +404,12 @@ $(document).ready(function () {
         // You can use this information when creating the annotation
         selectedAnnotationType = selectedType;
         // Show or hide the defect type and severity dropdowns based on the selected annotation type
-        const defectTypeContainer = document.getElementById("defectTypeContainer");
-        const defectSeverityContainer = document.getElementById("defectSeverityContainer");
+        const defectTypeContainer = document.getElementById(
+          "defectTypeContainer"
+        );
+        const defectSeverityContainer = document.getElementById(
+          "defectSeverityContainer"
+        );
         if (selectedAnnotationType === "defect") {
           defectTypeContainer.style.display = "block";
           defectSeverityContainer.style.display = "block";
@@ -421,59 +426,62 @@ $(document).ready(function () {
 });
 
 // Add a click event handler to the #submitAnnotation button
-$("#submitAnnotation").click(function () {
-  // Get values from the form fields
-  let title = $("#title").val();
-  let description = $("#description").val();
-  let positionInput = $("#position").val();
-  let selectedType = $("#annotationTypeDropdown").val();
+// Wait for the viewer to be ready
+document.addEventListener("DOMContentLoaded", function () {
+  $("#submitAnnotation").click(function () {
+    // Get values from the form fields
+    let title = $("#title").val();
+    let description = $("#description").val();
+    let positionInput = $("#position").val();
+    let selectedType = $("#annotationTypeDropdown").val();
 
-  // Split position input into an array
-  let positionArray = positionInput
-    .split(",")
-    .map((value) => parseFloat(value.trim()));
-  console.log(positionArray);
+    // Split position input into an array
+    let positionArray = positionInput
+      .split(",")
+      .map((value) => parseFloat(value.trim()));
+    console.log(positionArray);
 
-  let camPositionArray;
+    let camPositionArray;
 
-  // Check if window.viewer is defined before attempting to access the camera position
-  if (
-    window.viewer &&
-    window.viewer.scene &&
-    window.viewer.scene.getActiveCamera
-  ) {
-    try {
-      camPositionArray = window.viewer.scene
-        .getActiveCamera()
-        .position.toArray();
-      console.log("Camera Position:", camPositionArray);
-      camTargetArray = window.viewer.scene.view.getPivot().toArray();
-      console.log("Target Position:", camTargetArray);
-    } catch (error) {
-      console.error("Error getting camera position:", error);
-      console.error("Error getting target position:", error);
+    // Check if window.viewer is defined before attempting to access the camera position
+    if (
+      window.viewer &&
+      window.viewer.scene &&
+      window.viewer.scene.getActiveCamera
+    ) {
+      try {
+        camPositionArray = window.viewer.scene
+          .getActiveCamera()
+          .position.toArray();
+        console.log("Camera Position:", camPositionArray);
+        camTargetArray = window.viewer.scene.view.getPivot().toArray();
+        console.log("Target Position:", camTargetArray);
+      } catch (error) {
+        console.error("Error getting camera position:", error);
+        console.error("Error getting target position:", error);
+      }
+    } else {
+      console.error(
+        "Viewer not properly initialized. Make sure 'window.viewer' is defined."
+      );
     }
-  } else {
-    console.error(
-      "Viewer not properly initialized. Make sure 'window.viewer' is defined."
+
+    // Save the annotation with the values from the form
+    saveAnnotation(
+      title,
+      description,
+      positionArray,
+      camPositionArray,
+      camTargetArray,
+      selectedType
     );
-  }
 
-  // Save the annotation with the values from the form
-  saveAnnotation(
-    title,
-    description,
-    positionArray,
-    camPositionArray,
-    camTargetArray,
-    selectedType
-  );
-
-  // Hide the custom form panel
-  annoForm = document.getElementById("customAnnotationForm");
-  annoForm.style.display = "none";
-  submitButton = document.getElementById("submitAnnotation");
-  submitButton.style.display = "none";
+    // Hide the custom form panel
+    annoForm = document.getElementById("customAnnotationForm");
+    annoForm.style.display = "none";
+    submitButton = document.getElementById("submitAnnotation");
+    submitButton.style.display = "none";
+  });
 });
 
 /**
@@ -484,28 +492,30 @@ $("#submitAnnotation").click(function () {
  * @listens click
  * @throws {Error} Will throw an error if there's an issue initiating the measuring tool or updating the input box.
  */
-$("#pickPointButton").click(function () {
-  const measurement = viewer.measuringTool.startInsertion({
-    showDistances: false,
-    showAngles: false,
-    showCoordinates: true,
-    showArea: false,
-    closed: true,
-    maxMarkers: 1,
-    name: "Point",
-  });
-  // Listen for the marker_dropped event
-  measurement.addEventListener("marker_dropped", (e) => {
-    // Get the coordinates of the picked point
-    const coordinates = e.measurement.points[0].position.toArray();
+document.addEventListener("DOMContentLoaded", function () {
+  $("#pickPointButton").click(function () {
+    const measurement = window.viewer.measuringTool.startInsertion({
+      showDistances: false,
+      showAngles: false,
+      showCoordinates: true,
+      showArea: false,
+      closed: true,
+      maxMarkers: 1,
+      name: "Point",
+    });
+    // Listen for the marker_dropped event
+    measurement.addEventListener("marker_dropped", (e) => {
+      // Get the coordinates of the picked point
+      const coordinates = e.measurement.points[0].position.toArray();
 
-    // Format the coordinates as a string (format: x, y, z)
-    const selectedPoint = coordinates.join(", ");
+      // Format the coordinates as a string (format: x, y, z)
+      const selectedPoint = coordinates.join(", ");
 
-    // Update the input box for the position with the selected point
-    $("#position").val(selectedPoint);
+      // Update the input box for the position with the selected point
+      $("#position").val(selectedPoint);
 
-    // Remove the measurement from the scene
-    viewer.scene.removeMeasurement(measurement);
+      // Remove the measurement from the scene
+      viewer.scene.removeMeasurement(measurement);
+    });
   });
 });

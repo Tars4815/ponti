@@ -126,6 +126,22 @@
 	</div>
 	<img id="addAnnotationBtn" src="./assets/icons/annotation-form.svg" style="filter: invert(0);"
 		title="Add a new annotation" alt="Add a new annotation">
+	<!-- Layers filter list -->
+	<img id="layers_icon" src="./assets/icons/layers.svg" title="Layers" />
+	<div id="layers_panel" style="display: none;">
+		<ul>
+			<b>Annotations</b>
+			<li>
+				<div id="legend-structel" style="color:green;">Structural Elements</div>
+			</li>
+			<li>
+				<div id="legend-defects" style="color: red;">Defects</div>
+			</li>
+			<li>
+				<div id="legend-comments" style="color: cyan;">Comments</div>
+			</li>
+		</ul>
+	</div>
 
 
 </body>
