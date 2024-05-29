@@ -195,21 +195,21 @@ a:hover, a:visited, a:link, a:active{
 .annotation{
 	position:		absolute;
 	padding:		10px;
-	opacity:		0.5;
+	opacity:		1;
 	transform:		translate(-50%, -30px);
 	will-change:	left, top;
 }
 
 .annotation-titlebar{
 	color:			black;
-	background-color:	grey;
-	border-radius:	1.5em;
-	border:			1px solid rgba(255, 255, 255, 0.7);
+	background-color: none;
+	/*border-radius:	1.5em;*/
+	/*border:			1px solid rgba(255, 255, 255, 0.7);*/
 	font-size:		1em;
 	opacity:		1;
 	margin:			auto;
 	display:		table;
-	padding:		1px 8px;
+	/*padding:		1px 8px;*/
 	cursor: 		pointer;
 }
 
@@ -241,8 +241,8 @@ a:hover, a:visited, a:link, a:active{
 
 .annotation-item {
 	color:			white;
-	background-color: 	grey;
-	opacity:		0.5;
+	background-color: 	black;
+	opacity:		0.7;
 	border-radius:	1.5em;
 	font-size:		1em;
 	line-height:	1.5em;
@@ -280,13 +280,13 @@ a:hover, a:visited, a:link, a:active{
 .annotation-description{
 	position:		relative;
 	color:			white;
-	background-color:	grey;
+	background-color:	black;
 	padding:		10px;
 	margin:			5px 0px 0px 0px;
 	border-radius:	4px;
 	display:		none;
-	max-width:		500px;
-	width:			500px;
+	max-width:		300px;
+	width:			300px;
 }
 
 .annotation-description-close{

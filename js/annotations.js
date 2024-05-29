@@ -52,19 +52,28 @@ function setAnnotationStyles(annotation, annotationType) {
     case "comments":
       styles = {
         backgroundColor: "lightblue",
-        titleColor: "blue",
+        titleColor: "white",
+        padding: "5px",
+        borderRadius: "5px",
+        opacity: "1",
       };
       break;
     case "structural element":
       styles = {
         backgroundColor: "lightgreen",
-        titleColor: "green",
+        titleColor: "white",
+        padding: "5px",
+        borderRadius: "5px",
+        opacity: "1",
       };
       break;
     case "defect":
       styles = {
         backgroundColor: "lightcoral",
-        titleColor: "red",
+        titleColor: "white",
+        padding: "5px",
+        borderRadius: "5px",
+        opacity: "1",
       };
       break;
     default:
@@ -78,6 +87,9 @@ function setAnnotationStyles(annotation, annotationType) {
   // Apply styles to the annotation
   annotation.title.css("background-color", styles.backgroundColor);
   annotation.title.css("color", styles.titleColor);
+  annotation.title.css("padding", styles.padding);
+  annotation.title.css("border-radius", styles.borderRadius);
+  annotation.title.css("opacity", styles.opacity)
 }
 
 /**
