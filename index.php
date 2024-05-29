@@ -38,7 +38,7 @@
 	<!-- Import POINTCLOUD-->
 	<script type="module" src="js/pointcloud.js"></script>
 	<!-- Import ANNOTATIONS-->
-	<script src="js/annotations.js"></script>
+	<script src="js/annotations-mod.js"></script>
 	<!--Import ORIENTED IMAGES-->
 	<script src="js/orientedcameras.js"></script>
 	<!--Loading settings for Potree viewer-->
