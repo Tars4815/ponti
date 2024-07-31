@@ -4,7 +4,7 @@
 
 The template is based on the open-source JavaScript library [Potree](https://github.com/potree/potree) by Markus Schütz.
 
-![Ponti example](./assets/PONTI-cover-image.jpg "PONTI example")
+![Ponti example](./assets/ponti-cover-image.png "PONTI example")
 
 ## **About** ℹ
 

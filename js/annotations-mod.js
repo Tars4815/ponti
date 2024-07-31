@@ -18,7 +18,9 @@ function createAnnotation(
   cameraPosition,
   cameraTarget,
   descriptionText,
-  annotationType
+  annotationType,
+  defecttype,
+  severitylevel
 ) {
   // Create title and description elements
   let titleElement = $(`<span>${titleText}</span>`);
@@ -32,6 +34,11 @@ function createAnnotation(
   });
   // Assigning unique ID from database
   annotation.customId = id;
+  // Checking if annotation is a defect
+  if (annotationType == "defect") {
+    annotation.defecttype = defecttype;
+    annotation.severitylevel = severitylevel;
+  }
   // Classifying annotation based on assigned type
   annotation.typology = annotationType;
   // Set the annotation type-specific styles
@@ -89,7 +96,7 @@ function setAnnotationStyles(annotation, annotationType) {
   annotation.title.css("color", styles.titleColor);
   annotation.title.css("padding", styles.padding);
   annotation.title.css("border-radius", styles.borderRadius);
-  annotation.title.css("opacity", styles.opacity)
+  annotation.title.css("opacity", styles.opacity);
 }
 
 /**
@@ -100,6 +107,9 @@ function setAnnotationStyles(annotation, annotationType) {
  * @param {number[]} positionArray - Array containing x, y, z coordinates of the annotation position.
  * @param {number[]} camPositionArray - Array containing x, y, z coordinates of the camera position.
  * @param {number[]} camTargetArray - Array containing x, y, z coordinates of the camera target.
+ * @param {string} annotationType - Type of the annotation (e.g., "comments", "defect").
+ * @param {string} defectType - Type of the defect (e.g., "crack", "corrosion").
+ * @param {string} severityLev - Level of severity of the defect.
  * @throws {Error} Will throw an error if there's an issue saving the annotation.
  */
 function saveAnnotation(
@@ -108,46 +118,63 @@ function saveAnnotation(
   positionArray,
   camPositionArray,
   camTargetArray,
-  annotationType
+  annotationType,
+  defectType,
+  severityLev
 ) {
-  // Use AJAX to send data to the PHP script for insertion
-  $.ajax({
-    type: "POST",
-    url: "database/insert_annotation.php", // Adjust the URL based on your file structure
-    data: {
+  let url;
+  let data;
+
+  if (annotationType === "comments") {
+    url = "database/insert_comment.php";
+    data = {
       title: title,
       description: description,
       pos_x: positionArray[0],
       pos_y: positionArray[1],
       pos_z: positionArray[2],
-      campos_x: camPositionArray[0],
-      campos_y: camPositionArray[1],
-      campos_z: camPositionArray[2],
-      tarpos_x: camTargetArray[0],
-      tarpos_y: camTargetArray[1],
-      tarpos_z: camTargetArray[2],
-      typology: annotationType,
-      // Add additional parameters as needed
-    },
+    };
+  } else if (annotationType === "defect") {
+    url = "database/insert_defect.php";
+    data = {
+      title: title,
+      description: description,
+      pos_x: positionArray[0],
+      pos_y: positionArray[1],
+      pos_z: positionArray[2],
+      defectType: defectType,
+      severityLev: severityLev,
+    };
+  } else {
+    console.error("Unknown annotation type:", annotationType);
+    return;
+  }
+
+  // Use AJAX to send data to the PHP script for insertion
+  $.ajax({
+    type: "POST",
+    url: url,
+    data: data,
     success: function (id) {
       // Use the returned ID to create the annotation
       createAnnotation(
         id,
-        viewer.scene, // Assuming scene is accessible globally
+        viewer.scene,
         title,
         positionArray,
         camPositionArray,
-        camTargetArray, // You can set camera target to camera position or adjust as needed
+        camTargetArray,
         description,
-        annotationType
+        annotationType,
+        defectType,
+        severityLev
       );
+      console.log(`${annotationType} annotation created with ID: ${id}`);
     },
     error: function (error) {
-      console.error("Error saving annotation:", error);
+      console.error(`Error saving ${annotationType} annotation:`, error);
     },
   });
-
-  console.log("Annotation created");
 }
 
 /**
@@ -157,81 +184,47 @@ function saveAnnotation(
  * @throws {Error} Will throw an error if there's an issue updating the annotation in the scene or database.
  */
 function showEditForm(annotation) {
-  // Populate the custom form fields with existing annotation data
-  document.getElementById("title").value = annotation.title;
-  document.getElementById("description").value = annotation.description;
-  document.getElementById("position").value = annotation.position
-    .toArray()
-    .join(", ");
-  // Display the type selection panel
-  typeSelectionPanel = document.getElementById("annotationTypeSelection");
-  typeSelectionPanel.style.display = "flex";
-  // Add a click event handler to the #submitTypeBtn button
-  $("#submitTypeBtn").click(function () {
-    // Get the selected annotation type
-    const selectedType = $("#annotationTypeDropdown").val();
+  try {
+    // Populate the custom form fields with existing annotation data
+    document.getElementById("title").value = annotation.title;
+    document.getElementById("description").value = annotation.description;
+    document.getElementById("position").value = annotation.position
+      .toArray()
+      .join(", ");
 
-    // Hide the type selection panel
-    typeSelectionPanel.style.display = "none";
-
-    // Display the custom form panel
-    annoForm = document.getElementById("customAnnotationForm");
+    // Display the annotation panel
+    const annoForm = document.getElementById("customAnnotationForm");
     annoForm.style.display = "flex";
-
-    // Set the selected type in a hidden field or variable for later use
-    // You can use this information when creating the annotation
-    selectedAnnotationType = selectedType;
     // Show edit button
-    editButton = document.getElementById("editAnnotation");
-    editButton.style.display = "flex";
+    document.getElementById("editAnnotation").style.display = "flex";
+    // Check if annotation to be updated is a defect
+    if (annotation.typology === "defect") {
+      document.getElementById("defectTypeContainer").style.display = "flex";
+      document.getElementById("defectSeverityContainer").style.display = "flex";
+      // Populate fields for defect typology and severity level
+      document.getElementById("defectTypeDropdown").value =
+        annotation.defecttype;
+      document.getElementById("defectSeverityDropdown").value =
+        annotation.severitylevel;
+    }
+
     // Attach an event listener to the edit button
     document
       .getElementById("editAnnotation")
       .addEventListener("click", function () {
         // Retrieve values from the form
-        let newTitle = document.getElementById("title").value;
-        let newDescription = document.getElementById("description").value;
-        let newPositionInput = $("#position").val();
+        const newTitle = document.getElementById("title").value;
+        const newDescription = document.getElementById("description").value;
+        const newPositionInput = $("#position").val();
 
         // Split position input into an array
-        let positionArray = newPositionInput
+        const positionArray = newPositionInput
           .split(",")
           .map((value) => parseFloat(value.trim()));
-        console.log(positionArray);
 
         // Update the annotation in the scene
         annotation.title.text(newTitle);
         annotation.description = newDescription;
-
-        // Retrieve camera positions and targets
-        let camPositionArray;
-        let camTargetArray;
-
-        // Check if window.viewer is defined before attempting to access the camera position
-        if (
-          window.viewer &&
-          window.viewer.scene &&
-          window.viewer.scene.getActiveCamera
-        ) {
-          try {
-            camPositionArray = window.viewer.scene
-              .getActiveCamera()
-              .position.toArray();
-            console.log("Camera Position:", camPositionArray);
-            camTargetArray = window.viewer.scene.view.getPivot().toArray();
-            console.log("Target Position:", camTargetArray);
-          } catch (error) {
-            console.error("Error getting camera position:", error);
-            console.error("Error getting target position:", error);
-          }
-        } else {
-          console.error(
-            "Viewer not properly initialized. Make sure 'window.viewer' is defined."
-          );
-        }
-
-        // Remove the existing annotation from the scene
-        removeAnnotationFromScene(annotation);
 
         // Update the annotation in the database
         updateAnnotationInDatabase(
@@ -239,15 +232,22 @@ function showEditForm(annotation) {
           newTitle,
           newDescription,
           positionArray,
-          camPositionArray,
-          camTargetArray,
-          selectedAnnotationType
+          annotation.camPositionArray, // Assuming these arrays are available
+          annotation.camTargetArray, // Assuming these arrays are available
+          annotation.typology,
+          document.getElementById("defectTypeDropdown").value,
+          document.getElementById("defectSeverityDropdown").value
         );
 
         // Hide the custom form after submission
-        document.getElementById("customAnnotationForm").style.display = "none";
+        annoForm.style.display = "none";
+        document.getElementById("defectTypeContainer").style.display = "none";
+        document.getElementById("defectSeverityContainer").style.display =
+          "none";
       });
-  });
+  } catch (error) {
+    throw new Error("Error displaying edit form: " + error.message);
+  }
 }
 
 /**
@@ -268,40 +268,79 @@ function updateAnnotationInDatabase(
   newPositionArray,
   camPositionArray,
   camTargetArray,
-  annotationType
+  annotationType,
+  defectType,
+  defectSeverity
 ) {
-  // Use AJAX to send data to the PHP script for updating
-  $.ajax({
-    type: "POST",
-    url: "database/update_annotation.php",
-    data: {
-      id: id,
-      newTitle: newTitle,
-      newDescription: newDescription,
-      newPositionArray: newPositionArray.join(","),
-      camPositionArray: camPositionArray.join(","),
-      camTargetArray: camTargetArray.join(","),
-      typology: annotationType,
-    },
-    success: function (response) {
-      console.log("Annotation id: ", id);
-      console.log("Annotation updated in the database");
-      // Use the returned ID to create the annotation
-      createAnnotation(
-        id,
-        viewer.scene, // Assuming scene is accessible globally
-        newTitle,
-        newPositionArray,
-        camPositionArray,
-        camTargetArray,
-        newDescription,
-        annotationType
-      );
-    },
-    error: function (error) {
-      console.error("Error updating annotation in the database:", error);
-    },
-  });
+  if (annotationType === "defect") {
+    console.log("Tabella difetti");
+    // Use AJAX to send data to the PHP script for updating
+    $.ajax({
+      type: "POST",
+      url: "database/update_defect.php",
+      data: {
+        id: id,
+        newTitle: newTitle,
+        newDescription: newDescription,
+        newPositionArray: newPositionArray.join(","),
+        defectType: defectType,
+        defectSeverity: defectSeverity,
+      },
+      success: function (response) {
+        console.log("Annotation id: ", id);
+        console.log("Annotation updated in the database");
+        // Use the returned ID to create the annotation
+        createAnnotation(
+          id,
+          viewer.scene, // Assuming scene is accessible globally
+          newTitle,
+          newPositionArray,
+          [],
+          [],
+          newDescription,
+          annotationType,
+          defectType,
+          defectSeverity
+        );
+      },
+      error: function (error) {
+        console.error("Error updating annotation in the database:", error);
+      },
+    });
+  } else {
+    console.log("Tabella commenti");
+    // Use AJAX to send data to the PHP script for updating
+    $.ajax({
+      type: "POST",
+      url: "database/update_comment.php",
+      data: {
+        id: id,
+        newTitle: newTitle,
+        newDescription: newDescription,
+        newPositionArray: newPositionArray.join(","),
+      },
+      success: function (response) {
+        console.log("Annotation id: ", id);
+        console.log("Annotation updated in the database");
+        // Use the returned ID to create the annotation
+        createAnnotation(
+          id,
+          viewer.scene, // Assuming scene is accessible globally
+          newTitle,
+          newPositionArray,
+          [],
+          [],
+          newDescription,
+          annotationType,
+          [],
+          []
+        );
+      },
+      error: function (error) {
+        console.error("Error updating annotation in the database:", error);
+      },
+    });
+  }
 }
 
 /**
@@ -317,10 +356,12 @@ function deleteAnnotation(annotation) {
   if (confirmation) {
     // Assuming you have an 'id' property assigned to the annotation
     let annotationId = annotation.customId;
+    // Assuming you have an 'id' property assigned to the annotation
+    let annotationType = annotation.typology;
     // Call a function to remove the annotation from the scene
     removeAnnotationFromScene(annotation);
     // Call a function to delete the record from the database
-    deleteAnnotationFromDatabase(annotationId);
+    deleteAnnotationFromDatabase(annotationId, annotationType);
   }
 }
 
@@ -341,21 +382,38 @@ function removeAnnotationFromScene(annotation) {
  * @param {number} annotationId - The unique identifier of the annotation record to be deleted.
  * @throws {Error} Will throw an error if there's an issue deleting the annotation record from the database.
  */
-function deleteAnnotationFromDatabase(annotationId) {
-  // Use AJAX to send a request to delete the record from the database
-  $.ajax({
-    type: "POST",
-    url: "database/delete_annotation.php",
-    data: {
-      id: annotationId,
-    },
-    success: function (response) {
-      console.log("Annotation deleted from the database");
-    },
-    error: function (error) {
-      console.error("Error deleting annotation:", error);
-    },
-  });
+function deleteAnnotationFromDatabase(annotationId, annotationType) {
+  if (annotationType == "defect") {
+    // Deleting defect
+    $.ajax({
+      type: "POST",
+      url: "database/delete_defect.php",
+      data: {
+        id: annotationId,
+      },
+      success: function (response) {
+        console.log("Annotation deleted from the database");
+      },
+      error: function (error) {
+        console.error("Error deleting annotation:", error);
+      },
+    });
+  } else {
+    // Deleting comment
+    $.ajax({
+      type: "POST",
+      url: "database/delete_comment.php",
+      data: {
+        id: annotationId,
+      },
+      success: function (response) {
+        console.log("Annotation deleted from the database");
+      },
+      error: function (error) {
+        console.error("Error deleting annotation:", error);
+      },
+    });
+  }
 }
 
 // Wait for the viewer to be ready
@@ -363,28 +421,58 @@ document.addEventListener("DOMContentLoaded", function () {
   // Load existing annotations from the server
   $.ajax({
     type: "GET",
-    url: "database/load_annotations.php", // Adjust the URL based on your file structure
+    url: "database/load_comments.php", // Adjust the URL based on your file structure
     dataType: "json",
-    success: function (existingAnnotations) {
+    success: function (existingComments) {
       // Assuming scene is available globally, adjust if needed
       let scene = viewer.scene;
 
       // Create Potree annotations for each existing record
-      existingAnnotations.forEach((annotation) => {
+      existingComments.forEach((annotation) => {
         createAnnotation(
           annotation.id,
           scene,
           annotation.title,
-          [annotation.pos_x, annotation.pos_y, annotation.pos_z],
-          [annotation.campos_x, annotation.campos_y, annotation.campos_z],
-          [annotation.tarpos_x, annotation.tarpos_y, annotation.tarpos_z],
-          annotation.description,
-          annotation.typology
+          [annotation.x, annotation.y, annotation.z],
+          [],
+          [],
+          annotation.note,
+          "comments",
+          [],
+          []
         );
       });
     },
     error: function (error) {
-      console.error("Error loading existing annotations:", error);
+      console.error("Error loading existing comments:", error);
+    },
+  });
+  $.ajax({
+    type: "GET",
+    url: "database/load_defects.php", // Adjust the URL based on your file structure
+    dataType: "json",
+    success: function (existingDefects) {
+      // Assuming scene is available globally, adjust if needed
+      let scene = viewer.scene;
+
+      // Create Potree annotations for each existing record
+      existingDefects.forEach((annotation) => {
+        createAnnotation(
+          annotation.id,
+          scene,
+          annotation.title,
+          [annotation.x, annotation.y, annotation.z],
+          [],
+          [],
+          annotation.note,
+          "defect",
+          annotation.typology,
+          annotation.severity
+        );
+      });
+    },
+    error: function (error) {
+      console.error("Error loading existing defects:", error);
     },
   });
 });
@@ -446,6 +534,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let description = $("#description").val();
     let positionInput = $("#position").val();
     let selectedType = $("#annotationTypeDropdown").val();
+    let defectType = $("#defectTypeDropdown").val();
+    let severityLev = $("defectSeverityDropdown").val();
 
     // Split position input into an array
     let positionArray = positionInput
@@ -485,7 +575,9 @@ document.addEventListener("DOMContentLoaded", function () {
       positionArray,
       camPositionArray,
       camTargetArray,
-      selectedType
+      selectedType,
+      defectType,
+      severityLev
     );
 
     // Hide the custom form panel
