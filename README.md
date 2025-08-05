@@ -4,7 +4,10 @@
 
 The template is based on the open-source JavaScript library [Potree](https://github.com/potree/potree) by Markus Schütz.
 
-![Ponti example](./assets/ponti-cover-image.png "PONTI example")
+![Ponti example](app/viewer/assets/ponti-cover-image.jpg "PONTI example")
+
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Tars4815/ponti)
+
 
 ## **About** ℹ
 
