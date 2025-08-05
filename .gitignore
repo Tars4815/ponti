@@ -1,3 +1,10 @@
-pointclouds/hierarchy.bin
-pointclouds/metadata.json
-pointclouds/octree.bin
+# .gitignore
+# Ignore configuration files
+# that contain sensitive information
+app/viewer/database/config.php
+app/assets/php/config.php
+# Ignore pointcloud configuration files
+app/pointclouds/
+# Ignore oriented image files
+app/viewer/assets/oriented_images/
+app/viewer/img_selected/

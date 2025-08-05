@@ -1,0 +1,414 @@
+#header_panel {
+  width: 100%;
+  height: 5%;
+  background-color: #19282c;
+}
+
+#header_title {
+  color: #ffffff;
+  font-size: 80%;
+  font-weight: bold;
+  position: relative;
+  left: 100px;
+  top: 20px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+#camera_icon {
+  /*display: none;*/
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 15px;
+  right: 235px;
+  cursor: pointer;
+  max-height: 70px !important;
+  max-width: 70px !important;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 35px;
+  filter: invert(1);
+}
+
+#addAnnotationBtn {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  bottom: 2vh;
+  right: 2vw; 
+  z-index: 1000;
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  background-color: black;
+  border-radius: 50em;
+}
+
+#addElementBtn {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  bottom: 2vh;
+  right: 8vw; 
+  z-index: 1000;
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  background-color: white;
+  border-radius: 50em;
+}
+
+/* Style for the Edit button */
+.annotation-edit-button {
+  background-color: black;
+  color: white;
+  border: 1px solid white; /* Border color when not hovered */
+  padding: 5px 10px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: border 0.3s ease-in-out; /* Transition effect on hover */
+}
+
+/* Hover effect for the Edit button */
+.annotation-edit-button:hover {
+  border: 1px solid yellow; /* Border color on hover */
+}
+
+/* Style for the Edit button */
+.annotation-delete-button {
+  background-color: red;
+  color: white;
+  border: 1px solid white; /* Border color when not hovered */
+  padding: 5px 10px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: border 0.3s ease-in-out; /* Transition effect on hover */
+}
+
+/* Hover effect for the Edit button */
+.annotation-delete-button:hover {
+  border: 1px solid yellow; /* Border color on hover */
+}
+
+/* Styling custom form for new annotation */
+.custom-form {
+  position: absolute;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  margin: 0;
+  width: 300px;
+  height: 400px;
+  cursor: pointer;
+  background-color: black;
+  opacity: 0.8;
+  padding: 5px;
+  border-radius: 10px;
+  border-color: #ffffff;
+  color: #ffffff;
+  font-size: 1em;
+  border: solid;
+  right: 0%;
+  bottom: 1.2em;
+}
+
+/* Style for the Submit button */
+#submitAnnotation {
+  background-color: green;
+  color: white;
+  border: 1px solid white; /* Border color when not hovered */
+  padding: 5px 10px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: border 0.3s ease-in-out; /* Transition effect on hover */
+  display: none;
+}
+
+/* Hover effect for the Submit button */
+#submitAnnotation:hover {
+  border: 2px solid yellow; /* Border color on hover */
+}
+
+/* Style for the Submit button */
+#editAnnotation {
+  background-color: blue;
+  color: white;
+  border: 1px solid white; /* Border color when not hovered */
+  padding: 5px 10px; /* Adjust padding as needed */
+  cursor: pointer;
+  transition: border 0.3s ease-in-out; /* Transition effect on hover */
+  display: none;
+}
+
+/* Hover effect for the Submit button */
+#editAnnotation:hover {
+  border: 2px solid yellow; /* Border color on hover */
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+/* Full screen mode button style */
+/* Base icon style for reusability */
+.icon-base {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  top: 2vh;
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  z-index: 2;
+  background-color: black;
+  border-radius: 50em;
+}
+
+/* Filter icon style */
+#filter_icon {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  top: 2vh;
+  right: 260px; /* Positioned to the left of toggle_images_icon */
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  z-index: 2;
+  background-color: black;
+  border-radius: 50em;
+}
+
+/* Toggle images icon style */
+#toggle_images_icon {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  top: 2vh;
+  right: 200px; /* Positioned to the left of fullscreen_icon */
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  z-index: 2;
+  background-color: black;
+  border-radius: 50em;
+}
+
+/* Full screen mode button style (updated positioning) */
+/* Base icon style for reusability */
+.icon-base {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  top: 2vh;
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  z-index: 2;
+  background-color: black;
+  border-radius: 50em;
+}
+
+/* New toggle icons (the two circular black ones) */
+#filter_icon {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  top: 2vh;
+  right: 220px; /* Positioned to the left of your existing icons */
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  z-index: 2;
+  border-radius: 50em;
+}
+
+#toggle_images_icon {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  top: 2vh;
+  right: 160px; /* Positioned between toggle_icon_1 and existing icons */
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  z-index: 2;
+  border-radius: 50em;
+}
+
+/* Keep your original icons in their current positions */
+/* Full screen mode button style (original positioning) */
+#fullscreen_icon {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  top: 2vh;
+  right: 2vw; /* Original position */
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  z-index: 2;
+  background-color: black;
+  border-radius: 50em;
+}
+
+/* Navigation help button style (original positioning) */
+#question_icon {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  top: 2vh;
+  right: 100px; /* Original position */
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  z-index: 2;
+  background-color: black;
+  border-radius: 50em;
+}
+
+/* Hover effects for all icons */
+#filter_icon:hover,
+#toggle_images_icon:hover,
+#fullscreen_icon:hover,
+#question_icon:hover {
+  transform: scale(1.1);
+  transition: all 0.2s ease;
+}
+
+/* Additional hover effects for icons with black backgrounds */
+#fullscreen_icon:hover,
+#question_icon:hover {
+  background-color: #333;
+  transform: scale(1.1);
+}
+
+
+/*END OF MODIFIED /*
+
+/* Panel style */
+#question_panel {
+  width: 50vw; /* 80% of the viewport width */
+  height: 30vh; /* 60% of the viewport height */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: none;
+  z-index: 1000;
+  display: none; /* Initially hidden */
+  text-align: center;
+}
+
+/* Layers list button style */
+#layers_icon {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  top: 2vh; /* Same top margin as fullscreen icon */
+  right: 160px;
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  z-index: 2;
+  background-color: black;
+  border-radius: 50em;
+}
+
+#layers_icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures the aspect ratio of the image is maintained */
+  border-radius: 35px;
+}
+
+/*Style for layers panel*/
+#layers_panel {
+  position: absolute;
+  top: 10vh;
+  right: 2vw;
+  z-index: 1000;
+  display: none; /* Initially hidden */
+  text-align: left;
+  background-color: black;
+  opacity: 0.8;
+  padding: 5px;
+  border-radius: 10px;
+  border-color: #ffffff;
+  color: #ffffff;
+  font-size: 1em;
+  border: solid;
+}
+
+/* Elements list button style */
+#elements_icon {
+  width: 10vw;
+  height: 10vh;
+  position: fixed;
+  top: 2vh; /* Same top margin as fullscreen icon */
+  right: 220px;
+  cursor: pointer;
+  max-height: 50px !important;
+  max-width: 50px !important;
+  z-index: 2;
+  background-color: black;
+  border-radius: 50em;
+}
+
+#elements_icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Ensures the aspect ratio of the image is maintained */
+  border-radius: 35px;
+}
+
+/*Style for elements panel*/
+#elements_panel {
+  position: absolute;
+  top: 10vh;
+  right: 2vw;
+  z-index: 1000;
+  display: none; /* Initially hidden */
+  text-align: left;
+  background-color: black;
+  opacity: 0.8;
+  padding: 5px;
+  border-radius: 10px;
+  border-color: #ffffff;
+  color: #ffffff;
+  font-size: 1em;
+  border: solid;
+}
+
+
+/* Black text for dropdown options */
+#annotationTypeDropdown option,
+#defectTypeDropdown option,
+#defectSeverityDropdown option {
+    color: black !important;
+}
+
+/* Black text for input fields and textarea */
+#title,
+#description,
+#position {
+    color: black !important;
+}
+
+/* Black text for selected dropdown values */
+#annotationTypeDropdown,
+#defectTypeDropdown,
+#defectSeverityDropdown,
+#pickPointButton {
+    color: black !important;
+}
+
+/* Make sure placeholder text is visible but lighter */
+#title::placeholder,
+#description::placeholder,
+#position::placeholder {
+    color: #666 !important;
+}

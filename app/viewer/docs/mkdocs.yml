@@ -1,0 +1,7 @@
+site_name: PONTI | Documentation
+  
+nav:
+  - Home: index.md
+  - Pointclouds: pointclouds.md
+  - Oriented cameras: oriented-images.md
+  - Annotations: annotations.md

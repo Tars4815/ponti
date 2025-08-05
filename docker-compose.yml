@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  app: # Apache webserver service
+    container_name: pontiapp
+    build:
+      context: . # Dockerfile path
+      dockerfile: Dockerfile
+    depends_on:
+      - pontidb
+    ports: # Map port on the host to port on the container 
+      - 80:80
+  ponti-db:
+    ports:
+      - 5432:5432
+    environment:
+      - DBHOST=${DBHOST}
+      - DBNAME=${DBNAME}
+      - DBUSERNAME=${DBUSERNAME}
+      - DBPORT=${DBPORT}
+      - DBSSLMODE=${DBSSLMODE}
+      - DBPASSWORD=${DBPASSWORD}
