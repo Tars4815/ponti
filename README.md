@@ -6,7 +6,10 @@ The template is based on the open-source JavaScript library [Potree](https://git
 
 ![Ponti example](app/viewer/assets/ponti-cover-image.jpg "PONTI example")
 
+[![GitHub stars](https://img.shields.io/github/stars/Tars4815/ponti?style=social)](https://github.com/Tars4815/ponti/stargazers)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Tars4815/ponti)
+[![GitHub release](https://img.shields.io/github/v/release/Tars4815/ponti)](https://github.com/Tars4815/ponti/releases)
 
 
 ## **About** ℹ
