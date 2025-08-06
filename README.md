@@ -11,7 +11,6 @@ The template is based on the open-source JavaScript library [Potree](https://git
 [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/Tars4815/ponti)
 [![GitHub release](https://img.shields.io/github/v/release/Tars4815/ponti)](https://github.com/Tars4815/ponti/releases)
 
-
 ## **About** ℹ
 
 This template aims to simplify the procedure for building Potree-based platform for bridge survey data sharing.
