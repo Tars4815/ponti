@@ -531,3 +531,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
+
+// Adding time-series graph functionality
